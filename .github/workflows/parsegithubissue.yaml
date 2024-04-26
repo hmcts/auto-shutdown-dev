@@ -45,7 +45,7 @@ jobs:
     #End workflow if user is equal to requester
       - name: exit flow if approver == requester 
         if: contains(github.event.issue.labels.*.name, 'approved') && github.event.issue.user.login == github.actor || contains(github.event.issue.labels.*.name, 'auto-approved') && github.event.issue.user.login == github.actor
-        run: exit 0
+        run: exit 1
 
 
     #if denied label is applied, set approval environment variables appropriately 
@@ -173,7 +173,7 @@ jobs:
     #End workflow if approval state == denied
       - name: exit flow if denied
         if: env.APPROVAL_STATE == 'Denied'
-        run: exit 0
+        run: exit 1
     #Add output of cost calculator as a comment to user
       - name: Add cost details as a comment
         if: env.PROCESS_SUCCESS == 'true' && env.ERROR_IN_COSTS != 'true' && !contains(github.event.issue.labels.*.name, 'approved')
