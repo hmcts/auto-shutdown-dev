@@ -119,5 +119,23 @@
         "change_jira_id": "DTSPO-0004",
         "stay_on_late": "No",
         "issue_link": "https://github.com/hmcts/auto-shutdown-dev/issues/4"
+    },
+    {
+        "start_date": "01-07-2024",
+        "end_date": "30-07-2024",
+        "request_type": "stop",
+        "environment": [
+            "Sandbox",
+            " AAT / Staging",
+            " Preview / Dev",
+            " Test / Perftest",
+            " Demo",
+            " ITHC",
+            " PTL"
+        ],
+        "business_area": "cft",
+        "change_jira_id": "DTSPO-0003",
+        "stay_on_late": "Yes",
+        "issue_link": "https://github.com/hmcts/auto-shutdown-dev/issues/3"
     }
 ]
