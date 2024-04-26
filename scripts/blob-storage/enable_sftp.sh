@@ -15,7 +15,7 @@ jq -c '.[]' <<<$SUBSCRIPTIONS | while read subscription; do
 
 		if [[ $SKIP == "false" ]]; then
 			echo -e "${GREEN}Enabling SFTP on $name (rg:$rg) sub:$SUBSCRIPTION_NAME"
-			az storage account update -g $rg -n $name --enable-sftp=true || echo Ignoring errors Enabling $name
+			#az storage account update -g $rg -n $name --enable-sftp=true || echo Ignoring errors Enabling $name
 		fi
 	done
 done
