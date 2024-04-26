@@ -9,9 +9,6 @@ environment_field=$(echo "$ENVIRONMENT" | sed 's/\[//; s/\]//; s/"//g')
 slack_username=$(get_slack_displayname_from_github_username $REQUESTER)
 slack_reviewer=$(get_slack_displayname_from_github_username $REVIEWER)
 
-echo "slack_reviewer has been set to $slack_reviewer"
-
-
 # Check if the string contains the specific phrase
 if [[ $APPROVAL_COMMENT == *"Approved by"* || $APPROVAL_COMMENT == *"Denied by"* ]]; then
     status="$APPROVAL_COMMENT $slack_reviewer"
