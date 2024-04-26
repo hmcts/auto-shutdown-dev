@@ -107,5 +107,17 @@
         "change_jira_id": "https://tools.hmcts.net/jira/browse/PRL-5074",
         "stay_on_late": "Yes",
         "issue_link": "https://github.com/hmcts/auto-shutdown/issues/474"
+    },
+    {
+        "start_date": "05-05-2024",
+        "end_date": "05-05-2024",
+        "request_type": "stop",
+        "environment": [
+            "Sandbox"
+        ],
+        "business_area": "cross-cutting",
+        "change_jira_id": "DTSPO-0004",
+        "stay_on_late": "No",
+        "issue_link": "https://github.com/hmcts/auto-shutdown-dev/issues/4"
     }
 ]
