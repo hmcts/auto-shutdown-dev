@@ -30,7 +30,7 @@ jq --arg issue_url "$request_url_link" \
    --arg status "$status" \
    --arg raw_issue_url "$REQUEST_URL" \
    '.blocks[0].text.text |= $issue_title |
-    .blocks[1].text.text |= "*Justification:* $justification)" |  
+    .blocks[1].text.text |= "*Justification:* \($justification)" |  
     .blocks[2].fields[0].text |= "*Business Area:*\n\($business_area)" |
     .blocks[2].fields[1].text |= "*Environment:*\n\($environment)" |
     .blocks[2].fields[2].text |= "*Start Date:*\n\($start_date)" |
