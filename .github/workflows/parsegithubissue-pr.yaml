@@ -217,6 +217,7 @@ jobs:
           END_DATE: ${{ env.END_DATE }}
           COST_DETAILS_FORMATTED: ${{ env.COST_DETAILS_FORMATTED }}
           ENVIRONMENT: ${{ env.ENVIRONMENT }}
+          JUSTIFICATION: ${{ env.JUSTIFICATION }}
           REQUESTER: ${{ github.event.pull_request.user.login }}
           APPROVAL_COMMENT: ${{ env.APPROVAL_COMMENT }}
           REVIEWER: ${{ github.actor }}
@@ -354,6 +355,7 @@ jobs:
           END_DATE: ${{ env.END_DATE }}
           COST_DETAILS_FORMATTED: ${{ env.COST_DETAILS_FORMATTED }}
           ENVIRONMENT: ${{ env.ENVIRONMENT }}
+          JUSTIFICATION: ${{ env.JUSTIFICATION }}
           REQUESTER: ${{ github.event.pull_request.user.login }}
           APPROVAL_COMMENT: ${{ env.APPROVAL_COMMENT }}
           REVIEWER: ${{ github.actor }}
