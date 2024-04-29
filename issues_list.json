@@ -150,5 +150,18 @@
         "stay_on_late": "No",
         "justification": "I just really want this...",
         "issue_link": "https://github.com/hmcts/auto-shutdown-dev/issues/5"
+    },
+    {
+        "start_date": "06-05-2024",
+        "end_date": "06-05-2024",
+        "request_type": "stop",
+        "environment": [
+            "Demo"
+        ],
+        "business_area": "cft",
+        "change_jira_id": "DTSP-0000",
+        "stay_on_late": "No",
+        "justification": "Still really want this",
+        "issue_link": "https://github.com/hmcts/auto-shutdown-dev/issues/6"
     }
 ]
