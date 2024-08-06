@@ -41,3 +41,7 @@ jq -c '.[]' <<< $SUBSCRIPTIONS | while read subscription; do
     fi
   done
 done
+
+
+
+is_weekend_in_range "09/08/2024" "12/08/2024"

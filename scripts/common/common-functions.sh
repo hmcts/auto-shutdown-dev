@@ -100,6 +100,38 @@ function is_in_date_range() {
   fi
 }
 
+# Function to check if a date is a weekend
+function is_weekend_day() {
+    local date=$1
+    local day_of_week=$(date -d "$date" +%u)
+    if [[ $day_of_week -gt 5 ]]; then
+        return 0  # Weekend
+    else
+        return 1  # Weekday
+    fi
+}
+
+# Function to iterate through the date range and check for weekends
+function is_weekend_in_range() {
+    local start_date=$1
+    local end_date=$2
+    local current_date=$start_date
+    local weekend_in_range="false"
+
+    while [[ "$current_date" < "$end_date" || "$current_date" == "$end_date" ]]; do
+        if is_weekend_day "$current_date"; then
+            weekend_in_range="true"
+        fi
+        current_date=$(date -I -d "$current_date + 1 day")
+    done
+
+    if [[ $weekend_in_range == "true" ]]; then
+        ts_echo_color RED "dates include weekend"
+    else
+        ts_echo_color RED "Weekend not within dates"
+    fi
+}
+
 function should_skip_start_stop () {
   local env business_area issue
   env=$1
