@@ -27,6 +27,7 @@ jq -c '.[]' <<< $SUBSCRIPTIONS | while read subscription; do
 
     SKIP=$(should_skip_start_stop $cluster_env $cluster_business_area $MODE)
     ts_echo_color RED "SKIP var set to $SKIP"
+    ts_echo_color RED "stay on late var set to $stay_on_late"
 
     if [[ $SKIP == "false" ]]; then
       if [[ $DEV_ENV != "true" ]]; then

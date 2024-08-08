@@ -40,6 +40,7 @@ jq -c '.[]' <<< $SUBSCRIPTIONS | while read subscription; do
         # SKIP variable updated based on the output of the `should_skip_start_stop` function which calculates its value
         # based on the issues_list.json file which contains user requests to keep environments online after normal hours
         SKIP=$(should_skip_start_stop $application_gateway_env $application_gateway_business_area $MODE)
+        ts_echo_color RED "SKIP var set to $SKIP"
 
         # If SKIP is false then we progress with the action (stop/start) for the particular App Gateway in this loop run, if not skip and print message to the logs
         if [[ $SKIP == "false" ]]; then
