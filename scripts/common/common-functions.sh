@@ -128,7 +128,7 @@ function should_skip_start_stop () {
       elif [[ $(is_late_night_run) == "true" && $stay_on_late == "Yes" ]]; then
         echo "true"
       else
-        echo "false"
+        echo "false-1"
       fi
       return
     fi
