@@ -135,9 +135,8 @@ function should_skip_start_stop () {
   done < <(jq -c '.[]' issues_list.json)
 # If its onDemand and there are no issues matching above we should skip startup
   if [[ $STARTUP_MODE == "onDemand" && $mode == "start" ]]; then
-    echo "true"
-  else
-    echo "false-3"
+    echo "true-start-skip"
+    return
   fi
 }
 
