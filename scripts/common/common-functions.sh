@@ -100,6 +100,15 @@ function is_in_date_range() {
   fi
 }
 
+get_request_type() {
+  local issue=${1}
+  request_type=$(jq -r '."request_type"' <<< $issue | tr '[:upper:]' '[:lower:]')
+  # default to stop if not defined
+  if [[ -z $request_type || $request_type == "null" ]]; then
+    request_type="stop"
+  fi
+}
+
 function should_skip_start_stop () {
   local env business_area issue
   env=$1
@@ -137,15 +146,6 @@ function should_skip_start_stop () {
   if [[ $STARTUP_MODE == "onDemand" && $mode == "start" ]]; then
     echo "true-start-skip"
     return
-  fi
-}
-
-get_request_type() {
-  local issue=${1}
-  request_type=$(jq -r '."request_type"' <<< $issue | tr '[:upper:]' '[:lower:]')
-  # default to stop if not defined
-  if [[ -z $request_type || $request_type == "null" ]]; then
-    request_type="stop"
   fi
 }
 
