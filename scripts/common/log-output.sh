@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cat log.txt
+cat scripts/common/log.txt
