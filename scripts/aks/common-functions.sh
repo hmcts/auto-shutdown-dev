@@ -10,6 +10,8 @@ function get_cluster_details() {
     RESOURCE_GROUP=$(jq -r '.resourceGroup' <<< $cluster)
     CLUSTER_NAME=$(jq -r '.name' <<< $cluster)
     STARTUP_MODE=$(jq -r '.tags.startupMode' <<< $cluster)
+    log "===== Cluster details ====="
+    log "CLUSTER_NAME is $CLUSTER_NAME"
 }
 
 function check_cluster_status() {
