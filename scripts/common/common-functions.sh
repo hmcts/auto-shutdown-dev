@@ -126,18 +126,24 @@ function should_skip_start_stop() {
   fi
   while read issue; do
     local env_entry business_area_entry start_date end_date stay_on_late
+    log "while loop running for $env_entry, $business_area_entry, $start_date, $end_date, stay_on_late: $stay_on_late"
     env_entry=$(jq -r '."environment"' <<< $issue)
     business_area_entry=$(jq -r '."business_area"' <<< $issue)
     start_date=$(jq -r '."start_date"' <<< $issue)
     end_date=$(jq -r '."end_date"' <<< $issue)
     stay_on_late=$(jq -r '."stay_on_late"' <<< $issue)
-    #get_request_type "$issue"
-    request_type="stop"
+    get_request_type "$issue"
+    log "request_type var set to $request_type"
 
     if [[ $request_type != $mode ]]; then
       continue
     fi
     if [[ ($mode == "stop" || $mode == "deallocate") && $env_entry =~ $env && $business_area == $business_area_entry && $(is_in_date_range $start_date $end_date) == "true" ]]; then
+      log "Processing initial skip logic"
+      log "mode: $mode"
+      log "Checking if $env_entry matches $env"
+      log "Checking if $business_area_entry matches $business_area"
+      log "Checking date range for $start_date - $end_date"
       if [[ $(is_late_night_run) == "false" ]]; then
         echo "true"
       elif [[ $(is_late_night_run) == "true" && $stay_on_late == "Yes" ]]; then
