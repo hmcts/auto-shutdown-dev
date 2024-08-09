@@ -6,6 +6,12 @@ GREEN='\033[0;32m'
 source scripts/aks/common-functions.sh
 source scripts/common/common-functions.sh
 
+logtest="this is a test of the log file"
+
+log($logtest)
+log("manual test of log")
+
+
 MODE=${1:-start}
 SKIP="false"
 
