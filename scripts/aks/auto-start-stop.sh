@@ -6,15 +6,6 @@ GREEN='\033[0;32m'
 source scripts/aks/common-functions.sh
 source scripts/common/common-functions.sh
 
-logtest="this is a test of the log file"
-logtestTwo="false"
-
-log "$logtest"
-log "manual test of log"
-
-log "logtestTwo set to: $logtestTwo"
-
-
 MODE=${1:-start}
 SKIP="false"
 
