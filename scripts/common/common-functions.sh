@@ -80,7 +80,8 @@ function convert_date_to_timestamp() {
 }
 
 function is_late_night_run() {
-  if [[ $(get_current_hour) -gt 20 ]]; then
+  local current_hour=$(get_current_hour)
+  if [[ $current_hour -gt 20 ]]; then
     echo "true"
   else
     echo "false"
