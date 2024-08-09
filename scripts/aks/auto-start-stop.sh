@@ -8,7 +8,7 @@ source scripts/common/common-functions.sh
 
 logtest="this is a test of the log file"
 
-log $logtest
+log "$logtest"
 log "manual test of log"
 
 
