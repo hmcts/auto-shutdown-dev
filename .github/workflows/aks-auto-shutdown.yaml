@@ -29,3 +29,6 @@ jobs:
 
       - name: AKS Auto Shutdown status check
         run: ./scripts/aks/auto-shutdown-status.sh stop ${{ secrets.REGISTRYSLACKWEBHOOK }}
+
+      - name: Output log file
+        run: ./scripts/common/log-output.sh
