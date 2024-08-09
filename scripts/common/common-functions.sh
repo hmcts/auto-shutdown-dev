@@ -109,7 +109,7 @@ get_request_type() {
   fi
 }
 
-function should_skip_start_stop () {
+function should_skip_start_stop() {
   local env business_area issue
   env=$1
   business_area=$2
@@ -126,7 +126,8 @@ function should_skip_start_stop () {
     start_date=$(jq -r '."start_date"' <<< $issue)
     end_date=$(jq -r '."end_date"' <<< $issue)
     stay_on_late=$(jq -r '."stay_on_late"' <<< $issue)
-    get_request_type "$issue"
+    #get_request_type "$issue"
+    request_type="stop"
 
     if [[ $request_type != $mode ]]; then
       continue
