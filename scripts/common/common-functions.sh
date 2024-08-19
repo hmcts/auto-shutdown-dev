@@ -210,7 +210,7 @@ function should_skip_start_stop () {
         log "== 23:00 run =="
         log "skip set to 'true' as an exclusion request was found at 23:00 with 'stay_on_late' var set to $stay_on_late "
         echo "true"
-      elif [[ $(is_late_night_run) == "true" && $stay_on_late == "No" && $stay_on_late == "No" && $(is_weekend_in_range $start_date $end_date) == "true" && $(is_friday) == "true" ]]; then
+      elif [[ $(is_late_night_run) == "true" && $stay_on_late == "No" && $(is_weekend_in_range $start_date $end_date) == "true" && $(is_friday) == "true" ]]; then
         log "== 23:00 run =="
         log "skip set to 'true' as an exclusion request was found at 23:00 with 'stay_on_late' var set to $stay_on_late, however shutdown will still be skipped as this is running on a Friday evening and the environment is required over the weekend."
         echo "true"
