@@ -150,11 +150,11 @@ function is_weekend_in_range() {
     done
 
     if [[ $weekend_in_range == "true" ]]; then
-        log "Provides dates include a weekend within scope"
-        echo "Dates include weekend"
+        log "Provided dates include a weekend within scope"
+        echo "true"
     else
-        log "Provides dates do not include a weekend within scope"
-        echo "Weekend not within dates"
+        log "Provided dates do not include a weekend within scope"
+        echo "false"
     fi
 }
 
