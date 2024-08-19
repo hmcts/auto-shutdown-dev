@@ -86,6 +86,13 @@ function convert_date_to_timestamp() {
     echo "$timestamp"
 }
 
+function convert_date_to_uk() {
+    IFS='-' read -r day month year <<< "$1"
+    local valid_date="$year-$month-$day"
+    local timestamp=$($date_command -d "$valid_date")
+    echo "$timestamp"
+}
+
 function is_late_night_run() {
   local current_hour=$(get_current_hour)
 
@@ -115,7 +122,7 @@ function is_in_date_range() {
 # Function to check if a date is a weekend
 function is_weekend_day() {
     local current_date=$1
-    local day_of_week=$($date_command -d "@$current_date" +"%u")
+    local day_of_week=$($date_command -d "$current_date" +"%u")
     log "day_of_week var set to $day_of_week"
     if [[ $day_of_week -gt 5 ]]; then
         log "weekend day found, returning 0 from is_weekend_day()"
@@ -128,9 +135,9 @@ function is_weekend_day() {
 
 # Function to iterate through the date range and check for weekends
 function is_weekend_in_range() {
-    local start_date=$(convert_date_to_timestamp $1)
+    local start_date=$(convert_date_to_uk $1)
     log "start_date set to '$start_date'"
-    local end_date=$(convert_date_to_timestamp $2)
+    local end_date=$(convert_date_to_uk $2)
     log "end_date set to '$end_date'"
     local current_date=$start_date
     local weekend_in_range="false"
@@ -139,7 +146,7 @@ function is_weekend_in_range() {
         if is_weekend_day "$current_date"; then
             weekend_in_range="true"
         fi
-        current_date=$($date_command -I -d "@$current_date +1 day")
+        current_date=$($date_command -I -d "$current_date +1 day")
     done
 
     if [[ $weekend_in_range == "true" ]]; then
