@@ -86,10 +86,10 @@ function convert_date_to_timestamp() {
     echo "$timestamp"
 }
 
-function convert_date_to_uk() {
+function read_date() {
     IFS='-' read -r day month year <<< "$1"
     local valid_date="$year-$month-$day"
-    local timestamp=$($date_command -d "$valid_date")
+    local timestamp=$($date_command -d "$valid_date" +%Y-%m-%d)
     echo "$timestamp"
 }
 
@@ -135,9 +135,9 @@ function is_weekend_day() {
 
 # Function to iterate through the date range and check for weekends
 function is_weekend_in_range() {
-    local start_date=$(convert_date_to_uk $1)
+    local start_date=$(read_date $1)
     log "start_date set to '$start_date'"
-    local end_date=$(convert_date_to_uk $2)
+    local end_date=$(read_date $2)
     log "end_date set to '$end_date'"
     local current_date=$start_date
     local weekend_in_range="false"
