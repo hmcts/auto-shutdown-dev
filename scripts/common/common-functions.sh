@@ -115,7 +115,7 @@ function is_in_date_range() {
 # Function to check if a date is a weekend
 function is_weekend_day() {
     local current_date=$1
-    local day_of_week=$($date_command -d "$current_date" +"%u")
+    local day_of_week=$($date_command -d "@$current_date" +"%u")
     log "day_of_week var set to $day_of_week"
     if [[ $day_of_week -gt 5 ]]; then
         log "weekend day found, returning 0 from is_weekend_day()"
