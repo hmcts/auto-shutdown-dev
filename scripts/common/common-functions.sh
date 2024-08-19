@@ -112,6 +112,48 @@ function is_in_date_range() {
   fi
 }
 
+# Function to check if a date is a weekend
+function is_weekend_day() {
+    local current_date=$1
+    local day_of_week=$(date_command -d "$current_date" +%u)
+    log "day_of_week var set to $day_of_week"
+    if [[ $day_of_week -gt 5 ]]; then
+        log "weekend day found, returning 0 from is_weekend_day()"
+        return 0  # Weekend
+    else
+        log "weekend day not found, returning 1 from is_weekend_day()"
+        return 1  # Weekday
+    fi
+}
+
+# Function to iterate through the date range and check for weekends
+function is_weekend_in_range() {
+    local start_date=$(convert_date_to_timestamp $1)
+    log "start_date set to '$start_date'"
+    local end_date=$(convert_date_to_timestamp $2)
+    log "end_date set to '$end_date'"
+    local current_date=$start_date
+    local weekend_in_range="false"
+
+    while [[ "$current_date" < "$end_date" || "$current_date" == "$end_date" ]]; do
+        if is_weekend_day "$current_date"; then
+            weekend_in_range="true"
+        fi
+        current_date=$($(date_command -I -d "$current_date + 1 day"))
+    done
+
+    if [[ $weekend_in_range == "true" ]]; then
+        log "Provides dates include a weekend within scope"
+        echo "Dates include weekend"
+    else
+        log "Provides dates do not include a weekend within scope"
+        echo "Weekend not within dates"
+    fi
+}
+
+# Example usage with DD/MM/YYYY format
+is_weekend_in_range "09/08/2024" "12/08/2024"
+
 function should_skip_start_stop () {
   local env business_area issue
   env=$1
