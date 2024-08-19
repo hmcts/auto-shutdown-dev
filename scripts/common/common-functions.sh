@@ -158,9 +158,6 @@ function is_weekend_in_range() {
     fi
 }
 
-# Example usage with DD/MM/YYYY format
-is_weekend_in_range "09-08-2024" "12-08-2024"
-
 function should_skip_start_stop () {
   local env business_area issue
   env=$1
