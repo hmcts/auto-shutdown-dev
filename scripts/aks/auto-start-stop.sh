@@ -15,7 +15,7 @@ if [[ "$MODE" != "start" && "$MODE" != "stop" ]]; then
 fi
 
 # Example usage with DD/MM/YYYY format
-is_weekend_in_range "09-08-2024" "12-08-2024"
+is_weekend_in_range "12-08-2024" "16-08-2024"
 
 SUBSCRIPTIONS=$(az account list -o json)
 jq -c '.[]' <<< $SUBSCRIPTIONS | while read subscription; do
