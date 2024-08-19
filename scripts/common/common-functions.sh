@@ -139,7 +139,7 @@ function is_weekend_in_range() {
         if is_weekend_day "$current_date"; then
             weekend_in_range="true"
         fi
-        current_date=$($date_command -I -d "$current_date +1 day")
+        current_date=$($date_command -I -d "@$current_date +1 day")
     done
 
     if [[ $weekend_in_range == "true" ]]; then
