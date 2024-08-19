@@ -119,6 +119,21 @@ function is_in_date_range() {
   fi
 }
 
+function is_friday() {
+  local today=$(get_current_date)
+  local day_of_week=$($date_command -d "$today" +"%u")
+  log "day_of_week var set to $day_of_week"
+  if [[ $day_of_week -eq 5 ]]; then
+    log "Today is Friday"
+    log "day of week $day_of_week"
+    echo "true"
+  else
+    log "Today is not Friday"
+    log "day of week $day_of_week"
+    echo "false"
+  fi
+}
+
 # Function to check if a date is a weekend
 function is_weekend_day() {
     local current_date=$1
@@ -193,6 +208,10 @@ function should_skip_start_stop () {
       elif [[ $(is_late_night_run) == "true" && $stay_on_late == "Yes" ]]; then
         log "== 23:00 run =="
         log "skip set to 'true' as an exclusion request was found at 23:00 with 'stay_on_late' var set to $stay_on_late "
+        echo "true"
+      elif [[ $(is_late_night_run) == "true" && $stay_on_late == "No" && $stay_on_late == "No" && $(is_weekend_in_range $start_date $end_date) == "true" && $(is_friday) == "true" ]]; then
+        log "== 23:00 run =="
+        log "skip set to 'true' as an exclusion request was found at 23:00 with 'stay_on_late' var set to $stay_on_late, however shutdown will still be skipped as this is running on a Friday evening and the environment is required over the weekend."
         echo "true"
       else
         log "defaulting skip var to false"
