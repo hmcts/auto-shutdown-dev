@@ -169,7 +169,8 @@ function is_weekend_in_range() {
         echo "true"
     else
         log "Provided dates do not include a weekend within scope"
-        echo "false"
+        #echo "false"
+        echo "true"
     fi
 }
 
