@@ -20,6 +20,7 @@ fi
 
 # Find all subscriptions that are available to the credential used and saved to SUBSCRIPTIONS variable
 SUBSCRIPTIONS=$(az account list -o json)
+echo "$SUBSCRIPTIONS" | jq -r '.[] | .name'
 
 # For each subscription found, start the loop
 jq -c '.[]' <<< $SUBSCRIPTIONS | while read subscription
