@@ -44,6 +44,10 @@ jq -c '.[]' <<< $SUBSCRIPTIONS | while read subscription; do
 
         flexible_server_business_area=$BUSINESS_AREA
 
+        log "====================================================="
+        log "Processing Flexible Server: $SERVER_NAME"
+        log "====================================================="
+
         # SKIP variable updated based on the output of the `should_skip_start_stop` function which calculates its value
         # based on the issues_list.json file which contains user requests to keep environments online after normal hours
         SKIP=$(should_skip_start_stop $flexible_server_env $flexible_server_business_area $MODE)
