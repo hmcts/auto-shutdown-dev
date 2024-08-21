@@ -33,8 +33,15 @@ jq -c '.[]' <<< $SUBSCRIPTIONS | while read subscription; do
         # Function that returns the Resource Group, Id and Name of the Managed SQL Instances and its current state as variables
         get_sql_mi_server_details
 
-        # Set variables based on inputs which are used to decide when to SKIP an environment
-        managed_instance_env=${ENVIRONMENT/stg/Staging}
+       # Set variables based on inputs which are used to decide when to SKIP an environment
+        if [[  $ENVIRONMENT == "stg" ]]; then
+            managed_instance_env=${ENVIRONMENT/stg/Staging}
+        elif [[ $ENVIRONMENT == "sbox" ]]; then
+            managed_instance_env=${ENVIRONMENT/sbox/Sandbox}
+        else
+            managed_instance_env=$ENVIRONMENT
+        fi
+
         managed_instance_business_area=$BUSINESS_AREA
 
         # SKIP variable updated based on the output of the `should_skip_start_stop` function which calculates its value

@@ -123,7 +123,7 @@ function is_friday() {
   local today=$(get_current_date)
   local day_of_week=$($date_command -d "$today" +"%u")
   log "day_of_week var set to $day_of_week"
-  if [[ $day_of_week -eq 1 ]]; then
+  if [[ $day_of_week -eq 5 ]]; then
     log "Today is Friday"
     log "day of week $day_of_week"
     echo "true"
@@ -169,8 +169,7 @@ function is_weekend_in_range() {
         echo "true"
     else
         log "Provided dates do not include a weekend within scope"
-        #echo "false"
-        echo "true"
+        echo "false"
     fi
 }
 
