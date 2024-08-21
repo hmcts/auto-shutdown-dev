@@ -20,7 +20,6 @@ fi
 
 # Find all subscriptions that are available to the credential used and saved to SUBSCRIPTIONS variable
 SUBSCRIPTIONS=$(az account list -o json)
-echo "$SUBSCRIPTIONS" | jq -r '.[] | .name'
 
 # For each subscription found, start the loop
 jq -c '.[]' <<< $SUBSCRIPTIONS | while read subscription
@@ -60,8 +59,6 @@ do
         # SKIP variable updated based on the output of the `should_skip_start_stop` function which calculates its value based
         # on a tag named `startupMode` and the `issues_list.json` file which contains user requests to keep environments online after normal hours
         SKIP=$(should_skip_start_stop $ENV_SUFFIX $BUSINESS_AREA $MODE)
-
-        echo "Checking VM: $VM_NAME Skip: $SKIP"
 
         # Setup message output templates for later use
 		logMessage="VM: $VM_NAME in Subscription: $SUBSCRIPTION_NAME  ResourceGroup: $RESOURCE_GROUP is $VM_STATE state after $MODE action."
