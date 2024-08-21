@@ -135,9 +135,17 @@ function should_skip_start_stop () {
     stay_on_late=$(jq -r '."stay_on_late"' <<< $issue)
     get_request_type "$issue"
 
-    if [[ $request_type != $mode ]]; then
+    # determine if we should continue checking the resource for an exclusion
+    if [[ ($request_type == "stop" && $mode == "deallocate") || $request_type == $mode ]]; then
+      check_resource="true"
+    else
+      check_resource="false"
+    fi
+
+    if [[ $check_resource == "false" ]]; then
       continue
     fi
+
     if [[ ($mode == "stop" || $mode == "deallocate") && $env_entry =~ $env && $business_area == $business_area_entry && $(is_in_date_range $start_date $end_date) == "true" ]]; then
     log "Exclusion FOUND"
       if [[ $(is_late_night_run) == "false" ]]; then
