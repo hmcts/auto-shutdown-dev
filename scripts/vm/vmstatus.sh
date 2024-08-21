@@ -61,6 +61,8 @@ do
         # on a tag named `startupMode` and the `issues_list.json` file which contains user requests to keep environments online after normal hours
         SKIP=$(should_skip_start_stop $ENV_SUFFIX $BUSINESS_AREA $MODE)
 
+        echo "Checking VM: $VM_NAME Skip: $SKIP"
+
         # Setup message output templates for later use
 		logMessage="VM: $VM_NAME in Subscription: $SUBSCRIPTION_NAME  ResourceGroup: $RESOURCE_GROUP is $VM_STATE state after $MODE action."
 		slackMessage="VM: *$VM_NAME* in Subscription: *$SUBSCRIPTION_NAME*  ResourceGroup: *$RESOURCE_GROUP* is *$VM_STATE* state after *$MODE* action."
