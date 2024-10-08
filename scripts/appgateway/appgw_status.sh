@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+set -x
 shopt -s nocasematch
 
 # Source shared function scripts
