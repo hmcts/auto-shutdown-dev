@@ -73,6 +73,7 @@ function check_cluster_status() {
     ts_echo "Test that $APP works in $ENVIRONMENT after $CLUSTER_NAME start-up"
 
     statuscode=$(curl --max-time 30 --retry 20 --retry-delay 15 -s -o /dev/null -w "%{http_code}"  https://$APPLICATION.platform.hmcts.net)
+    ts_echo "$statuscode"
 
     if [[ ("$ENVIRONMENT" == "demo" || $statuscode -eq 200) ]]; then
         notification "#aks-monitor-$SLACK_CHANNEL_SUFFIX" "$APP works in $ENVIRONMENT after $CLUSTER_NAME start-up"
