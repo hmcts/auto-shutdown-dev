@@ -19,7 +19,6 @@ if [[ "$MODE" != "start" && "$MODE" != "stop" ]]; then
 fi
 
 FLEXIBLE_SERVERS=$(get_flexible_sql_servers)
-log "$FLEXIBLE_SERVERS"
 
 # For each Flexible SQL Server found in the function `get_subscription_flexible_sql_servers` start another loop
 jq -c '.data[]' <<<$FLEXIBLE_SERVERS | while read flexibleserver; do

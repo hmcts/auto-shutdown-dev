@@ -19,7 +19,6 @@ if [[ "$MODE" != "start" && "$MODE" != "stop" ]]; then
 fi
 
 MI_SQL_SERVERS=$(get_sql_mi_servers)
-log "$MI_SQL_SERVERS"
 
 # For each App Gateway found in the function `get_application_gateways` start another loop
 jq -c '.[]' <<<$MI_SQL_SERVERS | while read server; do
