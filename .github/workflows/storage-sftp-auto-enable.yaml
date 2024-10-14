@@ -54,7 +54,7 @@ jobs:
       - name: Wait for SFTP Servers to start
         if: env.DEV_ENV != 'true'
         run: sleep 300
-        
+
       - name: sftp status check
         if: env.DEV_ENV != 'true'
         run: ./scripts/blob-storage/sftp-check-status.sh start ${{ secrets.SHUTDOWN_NOTIFICATIONS_WEBHOOK }}

@@ -18,7 +18,7 @@ if [[ "$MODE" != "start" && "$MODE" != "stop" ]]; then
     exit 1
 fi
 
-APPLICATION_GATEWAYS=$(get_application_gateways "$2")
+APPLICATION_GATEWAYS=$(get_application_gateways)
 
 # For each App Gateway found in the function `get_application_gateways` start another loop
 jq -c '.data[]' <<<$APPLICATION_GATEWAYS | while read application_gateway; do
@@ -54,11 +54,15 @@ jq -c '.data[]' <<<$APPLICATION_GATEWAYS | while read application_gateway; do
         case "$APPLICATION_GATEWAY_STATE" in
         *"Running"*)
             ts_echo_color $([[ $MODE == "start" ]] && echo GREEN || echo RED) "$logMessage"
-            [[ $MODE == "stop" ]] && auto_shutdown_notification ":red_circle: $slackMessage"
+            if [[ $MODE == "stop" ]]; then
+                auto_shutdown_notification ":red_circle: $slackMessage"
+            fi
             ;;
         *"Stopped"*)
             ts_echo_color $([[ $MODE == "start" ]] && echo RED || echo GREEN) "$logMessage"
-            [[ $MODE == "start" ]] && auto_shutdown_notification ":red_circle: $slackMessage"
+            if [[ $MODE == "start" ]]; then
+                auto_shutdown_notification ":red_circle: $slackMessage"
+            fi
             ;;
         *)
             ts_echo_color AMBER "$logMessage"

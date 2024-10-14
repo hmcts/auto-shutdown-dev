@@ -20,6 +20,15 @@ fi
 
 MI_SQL_SERVERS=$(get_sql_mi_servers)
 
+mi_sql_server_count=$(jq -c -r '.count' <<< $MI_SQL_SERVERS)
+
+#Cancel check process if there are no auto-shutdown resources
+if [[ $mi_sql_server_count -eq 0 ]]; then
+    ts_echo_color RED "No SQL Managed Instances found, nothing to check"
+    exit 0
+fi
+
+
 # For each App Gateway found in the function `get_application_gateways` start another loop
 jq -c '.[]' <<<$MI_SQL_SERVERS | while read server; do
 
