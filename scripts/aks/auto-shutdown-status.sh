@@ -44,8 +44,8 @@ jq -c '.data[]' <<<$CLUSTERS | while read cluster; do
     SKIP=$(should_skip_start_stop $cluster_env $cluster_business_area $MODE)
 
     # Setup message output templates for later use
-    logMessage="Cluster: $CLUSTER_NAME in Subscription: $SUBSCRIPTION  ResourceGroup: $RESOURCE_GROUP is in $CLUSTER_STATUS state after $MODE action"
-    slackMessage="Cluster: *$CLUSTER_NAME* in Subscription: *$SUBSCRIPTION* is in *$CLUSTER_STATUS* state after *$MODE* action"
+    logMessage="SKIP was $SKIP on Cluster: $CLUSTER_NAME in Subscription: $SUBSCRIPTION  ResourceGroup: $RESOURCE_GROUP is in $CLUSTER_STATUS state after $MODE action"
+    slackMessage="SKIP was $SKIP on Cluster: *$CLUSTER_NAME* in Subscription: *$SUBSCRIPTION* is in *$CLUSTER_STATUS* state after *$MODE* action"
 
     # If SKIP is false then we progress with the status check for the particular Flexible server in this loop run, if SKIP is true then do nothing
     if [[ $SKIP == "false" ]]; then
