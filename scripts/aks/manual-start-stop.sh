@@ -22,7 +22,7 @@ if [[ -z "$SELECTED_ENV" || -z "$SELECTED_AREA" ]]; then
     exit 1
 fi
 
-# Map the environment name to a simpler form
+# Map the environment name to match Azure enviornment tag
 case "$SELECTED_ENV" in
     "AAT / Staging")
         cluster_env="staging"
