@@ -23,6 +23,8 @@ elif [[ $cluster_env == "PTL" ]]; then
 	cluster_env="production"
 elif [[ $cluster_env == "PTLSBOX" ]]; then
 	cluster_env="sandbox"
+else
+	cluster_env=$(to_lowercase $cluster_env)
 fi
 
 cluster_area=$SELECTED_AREA
@@ -31,7 +33,7 @@ if [[ $cluster_area == "SDS" ]]; then
 	cluster_area="Cross-Cutting"
 fi
 
-CLUSTERS=$(get_clusters to_lowercase($cluster_env) $cluster_area)
+CLUSTERS=$(get_clusters $cluster_env $cluster_area)
 ts_echo_color BLUE "Getting clusters in $cluster_env in $cluster_area"
 
 ts_echo_color GREEN "$CLUSTERS"
