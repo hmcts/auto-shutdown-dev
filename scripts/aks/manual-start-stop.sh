@@ -1,56 +1,81 @@
 #!/usr/bin/env bash
+
+# Source common functions
 source scripts/aks/common-functions.sh
 source scripts/common/common-functions.sh
 
+# Enable case-insensitive matching
 shopt -s nocasematch
 
+# Check and set default MODE if not provided
 MODE=${1:-start}
 
+# Ensure valid MODE
 if [[ "$MODE" != "start" && "$MODE" != "stop" ]]; then
-	echo "Invalid MODE. Please use 'start' or 'stop'."
-	exit 1
+    echo "Invalid MODE. Please use 'start' or 'stop'." >&2
+    exit 1
 fi
 
-cluster_env=$SELECTED_ENV
-
-if [[ $cluster_env == "AAT / Staging" ]]; then
-	cluster_env="staging"
-elif [[ $cluster_env == "Preview / Dev" ]]; then
-	cluster_env="development"
-elif [[ $cluster_env == "Test / Perftest" ]]; then
-	cluster_env="testing"
-elif [[ $cluster_env == "PTL" ]]; then
-	cluster_env="production"
-elif [[ $cluster_env == "PTLSBOX" ]]; then
-	cluster_env="sandbox"
-else
-	cluster_env=$(to_lowercase $cluster_env)
+# Ensure SELECTED_ENV and SELECTED_AREA are set
+if [[ -z "$SELECTED_ENV" || -z "$SELECTED_AREA" ]]; then
+    echo "Environment or Area not set. Please check your configuration." >&2
+    exit 1
 fi
 
-cluster_area=$SELECTED_AREA
+# Map the environment name to a simpler form
+case "$SELECTED_ENV" in
+    "AAT / Staging")
+        cluster_env="staging"
+        ;;
+    "Preview / Dev")
+        cluster_env="development"
+        ;;
+    "Test / Perftest")
+        cluster_env="testing"
+        ;;
+    "PTL")
+        cluster_env="production"
+        ;;
+    "PTLSBOX")
+        cluster_env="sandbox"
+        ;;
+    *)
+        cluster_env=$(to_lowercase "$SELECTED_ENV")
+        ;;
+esac
 
-if [[ $cluster_area == "SDS" ]]; then
-	cluster_area="Cross-Cutting"
+# Map the cluster area if necessary
+cluster_area="$SELECTED_AREA"
+if [[ "$cluster_area" == "SDS" ]]; then
+    cluster_area="Cross-Cutting"
 fi
 
-CLUSTERS=$(get_clusters $cluster_env $cluster_area)
-ts_echo_color BLUE "Getting clusters in $cluster_env in $cluster_area"
+# Retrieve clusters based on environment and area
+CLUSTERS=$(get_clusters "$cluster_env" "$cluster_area")
+clusters_count=$(jq -c -r '.count' <<<$CLUSTERS)
+if [[ $clusters_count -eq 0 ]]; then
+    echo "No clusters found for environment: $cluster_env and area: $cluster_area." >&2
+    exit 1
+fi
 
-ts_echo_color GREEN "$CLUSTERS"
+# Iterate over clusters
+jq -c '.data[]' <<< "$CLUSTERS" | while read -r cluster; do
+    get_cluster_details  # Assuming this function processes individual clusters
 
-jq -c '.data[]' <<<$CLUSTERS | while read cluster; do
-	get_cluster_details
+    ts_echo_color BLUE "Processing Cluster: $CLUSTER_NAME, RG: $RESOURCE_GROUP, SUB: $SUBSCRIPTION"
 
-	ts_echo_color BLUE "Processing Cluster: $CLUSTER_NAME, RG: $RESOURCE_GROUP, SUB: $SUBSCRIPTION"
-
-    if [[ $DEV_ENV != "true" ]]; then
-      aks_state_messages
-      az aks $MODE --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME --subscription $SUBSCRIPTION --no-wait || echo Ignoring any errors while $MODE operation on cluster
+    if [[ "$DEV_ENV" != "true" ]]; then
+        aks_state_messages  # Function for displaying state messages
+        # Perform the desired operation (start/stop) on the cluster
+        if ! az aks "$MODE" --resource-group "$RESOURCE_GROUP" --name "$CLUSTER_NAME" --subscription "$SUBSCRIPTION" --no-wait; then
+            echo "Ignoring any errors while performing $MODE operation on cluster: $CLUSTER_NAME" >&2
+        fi
     else
-      ts_echo_color BLUE "Development Env: simulating state commands only."
-      aks_state_messages
+        ts_echo_color BLUE "Development Env: simulating state commands only."
+        aks_state_messages
     fi
 
-	RESULT=$(az aks show --name $CLUSTER_NAME -g $RESOURCE_GROUP --subscription $SUBSCRIPTION | jq -r .powerState.code)
-	ts_echo "${RESULT}"
+    # Get the cluster power state after the operation
+    RESULT=$(az aks show --name "$CLUSTER_NAME" -g "$RESOURCE_GROUP" --subscription "$SUBSCRIPTION" | jq -r .powerState.code)
+    ts_echo "Cluster $CLUSTER_NAME is in state: $RESULT"
 done
