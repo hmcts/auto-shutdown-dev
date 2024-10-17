@@ -1,4 +1,6 @@
 #!/bin/bash
+shopt -s nocasematch
+
 function get_clusters() {
     #MS az graph query to find and return a list of all AKS tagged to be included in the auto-shutdown process.
     log "----------------------------------------------"
