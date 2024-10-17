@@ -32,6 +32,7 @@ if [[ $cluster_area == "SDS" ]]; then
 fi
 
 CLUSTERS=$(get_clusters $cluster_env $cluster_area)
+ts_echo_color BLUE "Getting clisters in $cluster_env in $cluster_area"
 
 jq -c '.data[]' <<<$CLUSTERS | while read cluster; do
 	get_cluster_details
