@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+source scripts/aks/common-functions.sh
+source scripts/common/common-functions.sh
+
 shopt -s nocasematch
 
 MODE=${1:-start}
