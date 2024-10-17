@@ -32,10 +32,12 @@ if [[ $cluster_area == "SDS" ]]; then
 fi
 
 CLUSTERS=$(get_clusters $cluster_env $cluster_area)
-ts_echo_color BLUE "Getting clisters in $cluster_env in $cluster_area"
+ts_echo_color BLUE "Getting clusters in $cluster_env in $cluster_area"
 
 jq -c '.data[]' <<<$CLUSTERS | while read cluster; do
 	get_cluster_details
+
+	ts_echo_color BLUE "Processing Cluster: $CLUSTER_NAME, RG: $RESOURCE_GROUP, SUB: $SUBSCRIPTION"
 
     if [[ $DEV_ENV != "true" ]]; then
       aks_state_messages
