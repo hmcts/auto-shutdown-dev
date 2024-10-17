@@ -12,11 +12,18 @@ function get_clusters() {
         env_selector="| where tags.environment == '$1'"
     fi
 
+    if [ -z $2 ]; then
+        area_selector=""
+    else
+        area_selector="| where tags.BusinessArea == '$2'"
+    fi
+
     az graph query -q "
     resources
     | where type =~ 'Microsoft.ContainerService/managedClusters'
     | where tags.autoShutdown == 'true'
     $env_selector
+    $area_selector
     | project name, resourceGroup, subscriptionId, ['tags'], properties, ['id']
     " --first 1000 -o json
 

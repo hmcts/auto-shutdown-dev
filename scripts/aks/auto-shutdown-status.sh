@@ -43,13 +43,12 @@ jq -c '.data[]' <<<$CLUSTERS | while read cluster; do
     # SKIP variable updated based on the output of the `should_skip_start_stop` function which calculates its value
     # based on the issues_list.json file which contains user requests to keep environments online after normal hours
     SKIP=$(should_skip_start_stop $cluster_env $cluster_business_area $MODE)
-    ts_echo_color BLUE "$CLUSTER_NAME skip was set to $SKIP"
 
     # Setup message output templates for later use
     logMessage="SKIP was $SKIP on Cluster: $CLUSTER_NAME in Subscription: $SUBSCRIPTION  ResourceGroup: $RESOURCE_GROUP is in $CLUSTER_STATUS state after $MODE action"
     slackMessage="SKIP was $SKIP on Cluster: *$CLUSTER_NAME* in Subscription: *$SUBSCRIPTION* is in *$CLUSTER_STATUS* state after *$MODE* action"
 
-    # If SKIP is false then we progress with the status check for the particular Flexible server in this loop run, if SKIP is true then do nothing
+    # If SKIP is false then we progress with the status check for the particular AKS Cluster in this loop run, if SKIP is true then do nothing
     if [[ $SKIP == "false" ]]; then
         # Check state of the AKS Cluster and print output as required
         # Depending on the value of MODE a notification will also be sent
@@ -75,6 +74,6 @@ jq -c '.data[]' <<<$CLUSTERS | while read cluster; do
             ;;
         esac
     else
-        ts_echo_color AMBER "Cluster: $SERVER_NAME in ResourceGroup: $RESOURCE_GROUP has been skipped from today's $MODE operation schedule"
+        ts_echo_color AMBER "Cluster: $CLUSTER_NAME in ResourceGroup: $RESOURCE_GROUP has been skipped from today's $MODE operation schedule"
     fi
 done
