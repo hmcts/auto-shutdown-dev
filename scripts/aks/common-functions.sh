@@ -1,6 +1,13 @@
 #!/bin/bash
 shopt -s nocasematch
 
+# Function to convert a string to lowercase
+to_lowercase() {
+    local input="$1"          
+    local lowercase="${input,,}"  # Convert to lowercase using parameter expansion
+    echo "$lowercase"
+}
+
 function get_clusters() {
     #MS az graph query to find and return a list of all AKS tagged to be included in the auto-shutdown process.
     log "----------------------------------------------"

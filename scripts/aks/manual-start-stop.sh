@@ -31,7 +31,7 @@ if [[ $cluster_area == "SDS" ]]; then
 	cluster_area="Cross-Cutting"
 fi
 
-CLUSTERS=$(get_clusters $cluster_env $cluster_area)
+CLUSTERS=$(get_clusters to_lowercase($cluster_env) $cluster_area)
 ts_echo_color BLUE "Getting clusters in $cluster_env in $cluster_area"
 
 ts_echo_color GREEN "$CLUSTERS"
