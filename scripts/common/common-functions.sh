@@ -36,6 +36,13 @@ function ts_echo_color() {
     printf "%s $(printf "${color_code}%s\033[0m"  "$@")\n" "$(get_current_time)"
 }
 
+# Function to convert a string to lowercase
+to_lowercase() {
+    local input="$1"          
+    local lowercase="${input,,}"  # Convert to lowercase using parameter expansion
+    echo "$lowercase"
+}
+
 #Outputs text to scripts/common/log.txt
 #log contents output to pipeline via ./scripts/common/log-output.sh
 #Usage: log "message to log, including $vars"
