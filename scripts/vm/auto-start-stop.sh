@@ -31,9 +31,25 @@ jq -c '.data[]' <<<$VMS | while read vm; do
     log "Processing Virtual Machine: $VM_NAME in Resource Group: $RESOURCE_GROUP"
     log "====================================================="
 
+    # Map the environment name to match Azure enviornment tag
+    case "$ENVIRONMENT" in
+    "development")
+        VM_ENV="Preview / Dev"
+        ;;
+    "test")
+        VM_ENV="Test / Perftest"
+        ;;
+    "testing")
+        VM_ENV="Test / Perftest"
+        ;;
+    *)
+        VM_ENV=$(to_lowercase "$SELECTED_ENV")
+        ;;
+    esac
+
     # SKIP variable updated based on the output of the `should_skip_start_stop` function which calculates its value based
     # on a tag named `startupMode` and the `issues_list.json` file which contains user requests to keep environments online after normal hours
-    log "checking skip logic for env: $ENV_SUFFIX, business_area: $BUSINESS_AREA, mode: $MODE"
+    log "checking skip logic for env: $VM_ENV, business_area: $BUSINESS_AREA, mode: $MODE"
     SKIP=$(should_skip_start_stop $ENV_SUFFIX $BUSINESS_AREA $MODE)
     log "SKIP evalulated to $SKIP"
 
