@@ -21,10 +21,11 @@ vm_count=$(jq -c -r '.count' <<<$VMS)
 log "$vm_count VM's found"
 log "----------------------------------------------"
 # Re-order list of VM's placing "HMCTS-HUB-NONPROD-INTSVC / fb084706-583f-4c9a-bdab-949aac66ba5c" last in VM's list.
-VMS=$(jq -r '.data[
-    ( .[] | select(.subscriptionId != "fb084706-583f-4c9a-bdab-949aac66ba5c" )),
-    ( .[] | select(.subscriptionId == "fb084706-583f-4c9a-bdab-949aac66ba5c" ))
-]' <<<$VMS_UNSORTED)
+VMS=$(jq -r '[
+    .data[] | select(.subscriptionId != "fb084706-583f-4c9a-bdab-949aac66ba5c"),
+    .data[] | select(.subscriptionId == "fb084706-583f-4c9a-bdab-949aac66ba5c")
+]' <<< "$VMS_UNSORTED")
+
 
 # For each VM found in the function `get_vms` start another loop
 jq -c '.data[]' <<<$VMS | while read vm; do
