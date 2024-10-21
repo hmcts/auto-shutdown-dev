@@ -62,13 +62,13 @@ jq -c '.data[]' <<<$VMS | while read vm; do
 		#    - If MODE = deallocate then a running VM is incorrect and we should notify
 		#    - If neither Running or Stopped is found then something else is going on and we should notify
             case "$VM_STATE" in
-                *"running"*)
+                *"PowerState/running"*)
                     ts_echo_color $( [[ $MODE == "start" ]] && echo GREEN || echo RED ) "$logMessage"
                     if [[ $MODE == "deallocate" ]]; then
                         auto_shutdown_notification ":red_circle: $slackMessage"
                     fi
                     ;;
-                *"deallocated"*)
+                *"PowerState/deallocated"*)
                     ts_echo_color $( [[ $MODE == "start" ]] && echo RED || echo GREEN ) "$logMessage"
                     if [[ $MODE == "start" ]]; then
                         auto_shutdown_notification ":red_circle: $slackMessage"

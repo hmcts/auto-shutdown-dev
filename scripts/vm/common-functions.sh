@@ -39,9 +39,8 @@ function get_vm_details() {
   ENVIRONMENT=$(jq -r '.tags.environment' <<< $vm)
   BUSINESS_AREA=$( jq -r 'if (.tags.businessArea | ascii_downcase?) == "ss" then "cross-cutting" else .tags.businessArea | ascii_downcase? end' <<< $vm)
   STARTUP_MODE=$(jq -r '.tags.startupMode // "false"' <<< $vm)
-  VM_STATE=$(jq -r '.properties.powerState.code' <<< $vm)
-  SUBSCRIPTION=$(jq -r '.subscriptionId' <<<$cluster)
-
+  VM_STATE=$(jq -r '.properties.extended.instanceView.powerState.code' <<< $vm)
+  SUBSCRIPTION=$(jq -r '.subscriptionId' <<<$vm)
 }
 
 function vm_state_messages() {
