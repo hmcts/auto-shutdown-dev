@@ -8,9 +8,9 @@ function get_vms() {
     if [ -z $1 ]; then
         env_selector=""
     elif [ $1 == "untagged" ]; then
-        env_selector="| where isnull(tags.environment)"
+        env_selector="| where isnull(tags.environment) and isnull(tags.Environment)"
     else
-        env_selector="| where tags.environment == '$1'"
+        env_selector="| where tags.environment == '$1' or tags.Environment == '$1'"
     fi
 
     if [ -z $2 ]; then
