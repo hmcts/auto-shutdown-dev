@@ -336,7 +336,7 @@ jobs:
           REVIEWER: ${{ github.actor }}
         #As part of the dashboard view, update the issue title with the business area, team name, and environments requested
       - name: Update issue title
-        if: "!contains(github.event.issue.labels.*.name, 'cancel')" && env.PROCESS_SUCCESS == 'true' && (env.APPROVAL_STATE == 'Approved' || env.APPROVAL_STATE == 'auto-approved')
+        if: ${{ !contains(github.event.issue.labels.*.name, 'cancel') && env.PROCESS_SUCCESS == 'true' && (env.APPROVAL_STATE == 'Approved' || env.APPROVAL_STATE == 'auto-approved') }}
         run: |
           CURRENT_TITLE=$(gh issue view ${{ github.event.issue.number }} --json title -q .title)
           
@@ -360,7 +360,7 @@ jobs:
           fi
       #Add X to title if cancel label is added and remove from project dashboard
       - name: Run if cancel label added
-        if: "contains(github.event.issue.labels.*.name, 'cancel')" && env.PROCESS_SUCCESS == 'true' && (env.APPROVAL_STATE == 'Approved' || env.APPROVAL_STATE == 'auto-approved')
+        if: ${{ contains(github.event.issue.labels.*.name, 'cancel') && env.PROCESS_SUCCESS == 'true' && (env.APPROVAL_STATE == 'Approved' || env.APPROVAL_STATE == 'auto-approved') }}
         run: |
           CURRENT_TITLE=$(gh issue view ${{ github.event.issue.number }} --json title -q .title)
           if [[ "$CURRENT_TITLE" != *"- ❌"* ]]; then
@@ -373,7 +373,7 @@ jobs:
           gh project item-delete $PROJECT_NUMBER --owner $PROJECT_OWNER --id $ITEM_ID
       #Keep last 20 issues on project board
       - name: Keep last 20 issues on project board
-        if: "!contains(github.event.issue.labels.*.name, 'cancel')" && env.PROCESS_SUCCESS == 'true' && (env.APPROVAL_STATE == 'Approved' || env.APPROVAL_STATE == 'auto-approved')
+        if: ${{ !contains(github.event.issue.labels.*.name, 'cancel') && env.PROCESS_SUCCESS == 'true' && (env.APPROVAL_STATE == 'Approved' || env.APPROVAL_STATE == 'auto-approved') }}
         run: |
 
           # Get project ID
