@@ -19,12 +19,19 @@ function get_flexible_sql_servers() {
     area_selector="| where tags.businessArea == '$2'"
   fi
 
+  if [ -z $3 ]; then
+    replica_selector="| where id !contains 'replica'"
+  else
+    replica_selector="| where id contains 'replica'"
+  fi
+
   az graph query -q "
     resources
     | where type =~ 'microsoft.dbforpostgresql/flexibleservers'
     | where tags.autoShutdown == 'true'
     $env_selector
     $area_selector
+    $replica_selector
     | project name, resourceGroup, subscriptionId, ['tags'], properties.state, ['id']
     " --first 1000 -o json
 
