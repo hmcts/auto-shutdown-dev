@@ -20,9 +20,11 @@ function get_flexible_sql_servers() {
   fi
 
   if [ -z $3 ]; then
-    replica_selector="| where id !contains 'replica'"
-  else
+    replica_selector=""
+  elif [ $3 == "replica" ]; then
     replica_selector="| where id contains 'replica'"
+  elif [ $3 == "primary" ]; then
+    replica_selector="| where id !contains 'replica'"
   fi
 
   az graph query -q "
