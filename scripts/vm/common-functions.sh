@@ -23,6 +23,7 @@ function get_vms() {
     resources
     | where type =~ 'Microsoft.Compute/virtualMachines'
     | where tags.autoShutdown == 'true'
+    | where resourceGroup == 'atlassian-nonprod-rg'
     $env_selector
     $area_selector
     | project name, resourceGroup, subscriptionId, ['tags'], properties, ['id']
