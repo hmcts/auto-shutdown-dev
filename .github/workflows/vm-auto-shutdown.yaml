@@ -54,5 +54,10 @@ jobs:
         env:
           DEV_ENV: ${{ env.DEV_ENV }}
 
+      - name: Other - VM Auto Stop
+        run: ./scripts/vm/auto-start-stop.sh deallocate
+        env:
+          DEV_ENV: ${{ env.DEV_ENV }}
+
       - name: Output log file
         run: ./scripts/common/log-output.sh
