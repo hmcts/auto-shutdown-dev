@@ -22,7 +22,7 @@ VMS=$(get_vms)
 
 # For each VM found in the function `get_vms` start another loop
 jq -c '.data[]' <<<$VMS | while read vm; do
-
+    echo "!!!!!-vm: $vm"
     # Function that returns the Resource Group, Id and Name of the VMs and its current state as variables
     get_vm_details
 
