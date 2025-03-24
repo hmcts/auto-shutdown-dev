@@ -233,7 +233,6 @@ function compare_json_lists() {
 
 function should_skip_start_stop () {
   local script_env business_area issue
-  script_env=$1
   business_area=$2
   mode=$3
   serviceType=$4
@@ -250,6 +249,7 @@ function should_skip_start_stop () {
 
   while read issue; do
     local issue_env business_area_entry start_date end_date stay_on_late bastion_required issue_number
+    script_env=$1
     issue_env=$(jq -r '."environment"' <<< $issue)
     business_area_entry=$(jq -r '."business_area"' <<< $issue)
     start_date=$(jq -r '."start_date"' <<< $issue)
