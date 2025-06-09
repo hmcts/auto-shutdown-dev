@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Autoshutdown Exclusion Dashboard</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
@@ -85,6 +86,50 @@
             <div class="summary-card">
                 <h3>Total Requests (Last 30)</h3>
                 <div id="total-count" class="summary-number">-</div>
+            </div>
+        </div>
+
+        <!-- Enhanced Analytics Section -->
+        <div class="analytics-section">
+            <div class="summary-card">
+                <h3>Total Cost Impact</h3>
+                <div id="total-cost" class="summary-number cost-highlight">-</div>
+                <div class="summary-subtitle">Estimated savings lost</div>
+            </div>
+            <div class="summary-card">
+                <h3>Average Duration</h3>
+                <div id="avg-duration" class="summary-number">-</div>
+                <div class="summary-subtitle">Days per request</div>
+            </div>
+            <div class="summary-card">
+                <h3>Approval Rate</h3>
+                <div id="approval-rate" class="summary-number success-highlight">-</div>
+                <div class="summary-subtitle">Auto + Manual approved</div>
+            </div>
+            <div class="summary-card">
+                <h3>Most Active Team</h3>
+                <div id="top-team" class="summary-text">-</div>
+                <div class="summary-subtitle">By request count</div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+            <div class="chart-container">
+                <h3>Requests by Status</h3>
+                <canvas id="statusChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Requests by Environment</h3>
+                <canvas id="environmentChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Cost Analysis</h3>
+                <canvas id="costChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Request Trends (Last 30 Days)</h3>
+                <canvas id="trendChart"></canvas>
             </div>
         </div>
 
