@@ -48,13 +48,30 @@ function populateCalendarMonthDropdown() {
     const monthFilter = document.getElementById('calendar-month-filter');
     if (!monthFilter) return;
     
-    // Generate months from actual issue data
+    // Generate months from actual issue data, including created_at, start_date, and end_date ranges
     const monthsSet = new Set();
     
     allIssues.forEach(issue => {
+        // Add month from created_at date
         if (issue.created_at) {
             const monthKey = `${issue.created_at.getFullYear()}-${String(issue.created_at.getMonth() + 1).padStart(2, '0')}`;
             monthsSet.add(monthKey);
+        }
+        
+        // Add months from start_date and end_date range
+        if (issue.start_date && issue.end_date) {
+            const startDate = new Date(issue.start_date);
+            const endDate = new Date(issue.end_date);
+            
+            // Add each month between start_date and end_date (inclusive)
+            const currentDate = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
+            const lastDate = new Date(endDate.getFullYear(), endDate.getMonth(), 1);
+            
+            while (currentDate <= lastDate) {
+                const monthKey = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
+                monthsSet.add(monthKey);
+                currentDate.setMonth(currentDate.getMonth() + 1);
+            }
         }
     });
     
@@ -517,9 +534,32 @@ function applyFilters() {
         
         // Calendar month filter
         if (calendarMonth) {
-            if (!issue.created_at) return false; // Exclude items with null/undefined created_at
-            const issueMonthKey = `${issue.created_at.getFullYear()}-${String(issue.created_at.getMonth() + 1).padStart(2, '0')}`;
-            if (issueMonthKey !== calendarMonth) return false;
+            let matchesMonth = false;
+            
+            // Check if created_at matches the selected month
+            if (issue.created_at) {
+                const createdMonthKey = `${issue.created_at.getFullYear()}-${String(issue.created_at.getMonth() + 1).padStart(2, '0')}`;
+                if (createdMonthKey === calendarMonth) {
+                    matchesMonth = true;
+                }
+            }
+            
+            // Check if start_date/end_date range overlaps with the selected month
+            if (!matchesMonth && issue.start_date && issue.end_date) {
+                const [selectedYear, selectedMonth] = calendarMonth.split('-').map(Number);
+                const selectedMonthStart = new Date(selectedYear, selectedMonth - 1, 1);
+                const selectedMonthEnd = new Date(selectedYear, selectedMonth, 0); // Last day of the month
+                
+                const issueStart = new Date(issue.start_date);
+                const issueEnd = new Date(issue.end_date);
+                
+                // Check if issue date range overlaps with selected month
+                if (issueStart <= selectedMonthEnd && issueEnd >= selectedMonthStart) {
+                    matchesMonth = true;
+                }
+            }
+            
+            if (!matchesMonth) return false;
         }
         
         return true;
