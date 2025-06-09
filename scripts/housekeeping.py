@@ -5,7 +5,6 @@ from dateutil.parser import parse
 
 env_file = os.getenv("GITHUB_ENV")
 filepath = "issues_list.json"
-docs_filepath = "docs/issues_list.json"
 today = date.today()
 listObj = []
 temp_listObj = []
@@ -34,14 +33,5 @@ for x in range(len(listObj)):
 
 listObj = temp_listObj
 
-# Update both files
 with open(filepath, "w") as json_file:
     json.dump(listObj, json_file, indent=4)
-
-# Also update docs file for GitHub Pages
-try:
-    with open(docs_filepath, "w") as docs_json_file:
-        json.dump(listObj, docs_json_file, indent=4)
-        print("Updated docs/issues_list.json for GitHub Pages")
-except Exception as e:
-    print(f"Failed to update docs file: {e}")

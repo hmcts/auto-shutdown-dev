@@ -1,10 +1,7 @@
 // Dashboard Configuration
 const CONFIG = {
-    GITHUB_API_BASE: 'https://api.github.com',
-    REPO_OWNER: 'hmcts',
-    REPO_NAME: 'auto-shutdown-dev',
-    ISSUES_PER_PAGE: 100,
-    ISSUES_TO_SHOW: 30
+    // Configuration moved to backend data fetcher
+    // Frontend now only loads cached data
 };
 
 // Global state
@@ -45,27 +42,56 @@ function showError() {
 
 async function fetchIssues() {
     try {
-        // Use local issues_list.json as primary data source
-        await fetchFromLocalJSON();
+        // Load data from cached dashboard data file
+        const response = await fetch('./dashboard_data.json');
+        
+        if (!response.ok) {
+            throw new Error(`Failed to load dashboard data: ${response.status}`);
+        }
+
+        const cachedData = await response.json();
+        
+        // Extract issues from cached data
+        if (!cachedData.data || !Array.isArray(cachedData.data)) {
+            throw new Error('Invalid dashboard data format');
+        }
+
+        // Parse dates that were serialized as strings
+        allIssues = cachedData.data.map(issue => ({
+            ...issue,
+            created_at: new Date(issue.created_at),
+            updated_at: new Date(issue.updated_at),
+            start_date: issue.start_date ? new Date(issue.start_date) : null,
+            end_date: issue.end_date ? new Date(issue.end_date) : null
+        }));
+
+        filteredIssues = [...allIssues];
+        hideLoading();
+        
+        console.log(`Loaded ${allIssues.length} issues from cached data`);
+        if (cachedData.last_updated) {
+            console.log(`Data last updated: ${cachedData.last_updated}`);
+        }
+        
     } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error loading dashboard data:', error);
         showError();
         
-        // Show error message instead of sample data
+        // Show user-friendly error message
         const errorContainer = document.getElementById('error');
         errorContainer.innerHTML = `
             <div style="text-align: center; padding: 40px;">
-                <h3 style="color: #ef4444; margin-bottom: 16px;">⚠️ Unable to Load Data</h3>
+                <h3 style="color: #ef4444; margin-bottom: 16px;">⚠️ Unable to Load Dashboard Data</h3>
                 <p style="color: #6b7280; margin-bottom: 16px;">
                     The dashboard data is currently unavailable. This could be due to:
                 </p>
                 <ul style="color: #6b7280; text-align: left; max-width: 400px; margin: 0 auto 16px auto;">
-                    <li>Data file not yet generated</li>
+                    <li>Data not yet generated (first-time setup)</li>
                     <li>Network connectivity issues</li>
                     <li>GitHub Pages deployment in progress</li>
                 </ul>
                 <p style="color: #6b7280;">
-                    Please try refreshing the page in a few moments.
+                    The data is refreshed daily. Please try again later or contact the administrator.
                 </p>
                 <button onclick="location.reload()" style="margin-top: 16px; padding: 8px 16px; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer;">
                     Refresh Page
@@ -75,116 +101,11 @@ async function fetchIssues() {
     }
 }
 
-async function fetchFromLocalJSON() {
-    try {
-        // Try different paths for the JSON file (GitHub Pages vs local development)
-        const possiblePaths = ['../issues_list.json', './issues_list.json', 'issues_list.json'];
-        let response = null;
-        let localIssues = null;
-        
-        for (const path of possiblePaths) {
-            try {
-                response = await fetch(path);
-                if (response.ok) {
-                    localIssues = await response.json();
-                    console.log(`Successfully loaded data from ${path}`);
-                    break;
-                }
-            } catch (e) {
-                console.log(`Failed to load from ${path}:`, e.message);
-                continue;
-            }
-        }
-        
-        if (!localIssues) {
-            throw new Error('No local JSON file accessible from any path');
-        }
-        
-        // Handle empty array case
-        if (!Array.isArray(localIssues) || localIssues.length === 0) {
-            console.warn('Local JSON file is empty');
-            allIssues = [];
-            filteredIssues = [];
-            hideLoading();
-            return;
-        }
-        
-        // Transform local JSON data to match our format
-        allIssues = localIssues.map((issue, index) => ({
-            id: issue.issue_number || index + 1,
-            title: `Exclusion Request - ${issue.team_name || 'Unknown Team'}`,
-            status: issue.status || 'approved', // Use status from data or assume approved
-            created_at: issue.created_at ? new Date(issue.created_at) : new Date(issue.start_date || Date.now()),
-            updated_at: issue.updated_at ? new Date(issue.updated_at) : new Date(issue.start_date || Date.now()),
-            html_url: issue.issue_link || '#',
-            user: issue.requester || 'unknown',
-            labels: issue.labels || ['approved'],
-            business_area: issue.business_area,
-            team_name: issue.team_name,
-            environment: Array.isArray(issue.environment) ? issue.environment.join(', ') : issue.environment,
-            start_date: parseDate(issue.start_date),
-            end_date: parseDate(issue.end_date),
-            justification: issue.justification,
-            change_jira_id: issue.change_jira_id,
-            stay_on_late: issue.stay_on_late,
-            cost: issue.cost || null,
-            body: issue.body || `Request for ${issue.team_name} - ${issue.environment}`
-        }));
 
-        // Take only the last 30 issues for consistency with previous approach
-        allIssues = allIssues.slice(0, CONFIG.ISSUES_TO_SHOW);
 
-        filteredIssues = [...allIssues];
-        hideLoading();
-        
-    } catch (error) {
-        console.error('Error fetching from local JSON:', error);
-        throw error;
-    }
-}
 
-// Sample data creation function removed - no longer needed as we don't want to show sample data
 
-// Cost extraction function removed - cost data will be included in the JSON file from server-side processing
 
-function transformIssueData(issue) {
-    const labels = issue.labels.map(l => l.name);
-    
-    // Determine status from labels
-    let status = 'pending';
-    if (labels.includes('auto-approved')) status = 'auto-approved';
-    else if (labels.includes('approved')) status = 'approved';
-    else if (labels.includes('denied')) status = 'denied';
-    else if (labels.includes('cancel') || issue.title.toLowerCase().includes('cancel')) status = 'cancelled';
-    
-    // Extract data from issue body (simplified parsing)
-    const body = issue.body || '';
-    const extractField = (field) => {
-        const regex = new RegExp(`${field}[:\\s]*(.*?)(?:\\n|$)`, 'i');
-        const match = body.match(regex);
-        return match ? match[1].trim() : '';
-    };
-
-    return {
-        id: issue.number,
-        title: issue.title,
-        status: status,
-        created_at: new Date(issue.created_at),
-        updated_at: new Date(issue.updated_at),
-        html_url: issue.html_url,
-        user: issue.user.login,
-        labels: labels,
-        business_area: extractField('Business area') || extractField('business_area'),
-        team_name: extractField('Team/Application Name') || extractField('team_name'),
-        environment: extractField('Environment') || extractField('environment'),
-        start_date: parseDate(extractField('Skip shutdown start date') || extractField('start_date')),
-        end_date: parseDate(extractField('Skip shutdown end date') || extractField('end_date')),
-        justification: extractField('Justification for exclusion') || extractField('justification'),
-        change_jira_id: extractField('Change or Jira reference') || extractField('change_jira_id'),
-        stay_on_late: extractField('Do you need this exclusion past 11pm') || extractField('stay_on_late'),
-        body: body
-    };
-}
 
 function parseDate(dateString) {
     if (!dateString) return null;

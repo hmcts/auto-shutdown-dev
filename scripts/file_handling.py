@@ -30,43 +30,12 @@ new_data["business_area"] = new_data["business_area"].lower()
 new_data["stay_on_late"] = new_data.pop("form_stay_on_late")
 new_data["justification"] = new_data.pop("form_justification")
 new_data["bastion_required"] = bool(new_data.pop("form_bastion", []))
-
-# Add GitHub metadata
-issue_number = os.environ.get("ISSUE_NUMBER")
-github_repository = os.environ.get("GITHUB_REPO")
-github_actor = os.environ.get("GITHUB_ACTOR")
-approval_state = os.environ.get("APPROVAL_STATE", "pending")
-
-# Enhanced data with GitHub metadata
-new_data["issue_number"] = issue_number
-new_data["issue_link"] = ("https://github.com/" + github_repository + "/issues/" + issue_number)
-new_data["requester"] = github_actor
-new_data["status"] = approval_state.lower().replace(' ', '-') if approval_state else "pending"
-new_data["created_at"] = datetime.now().isoformat()
-new_data["updated_at"] = datetime.now().isoformat()
-
-# Add cost information if available
-cost_details = os.environ.get("COST_DETAILS_FORMATTED")
-if cost_details:
-    new_data["cost"] = f"£{cost_details}"
-
-# Add labels based on status
-labels = []
-if approval_state:
-    if approval_state.lower() == "auto-approved":
-        labels = ["auto-approved"]
-    elif approval_state.lower() == "approved":
-        labels = ["approved"]
-    elif approval_state.lower() == "denied":
-        labels = ["denied"]
-    else:
-        labels = ["pending"]
-new_data["labels"] = labels
-
 print("==================")
 print("Updated new data variable:")
 print(new_data)
 print("==================")
+issue_number = os.environ.get("ISSUE_NUMBER")
+github_repository = os.environ.get("GITHUB_REPO")
 today = date.today()
 env_file_path = os.getenv("GITHUB_ENV")
 status = os.getenv("APPROVAL_STATE")
@@ -95,6 +64,7 @@ with open(env_file_path, 'a') as env_file:
     env_file.close()
 
 if new_data:
+    new_data["issue_link"] = ("https://github.com/" + github_repository + "/issues/" + issue_number)
     #Business area validation
     try:
         if new_data["business_area"] not in ("cft", "cross-cutting"):
@@ -159,16 +129,6 @@ finally:
     with open(filepath, 'w') as json_file:
         json.dump(listObj, json_file, indent=4)
         json_file.close()
-    
-    # Also copy to docs folder for GitHub Pages
-    docs_filepath = "docs/issues_list.json"
-    try:
-        with open(docs_filepath, 'w') as docs_json_file:
-            json.dump(listObj, docs_json_file, indent=4)
-            docs_json_file.close()
-            print("Updated docs/issues_list.json for GitHub Pages")
-    except Exception as e:
-        print(f"Failed to update docs file: {e}")
 
     update_env_vars("ISSUE_COMMENT=Processing failed", "ISSUE_COMMENT=Processed Correctly")
     update_env_vars("PROCESS_SUCCESS=false", "PROCESS_SUCCESS=true")
