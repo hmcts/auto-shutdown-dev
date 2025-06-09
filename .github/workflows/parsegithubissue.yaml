@@ -17,10 +17,6 @@ env:
   NUMBER: ${{ github.event.issue.number }}
 permissions:
   id-token: write
-
-concurrency:
-  group: issue-processing-${{ github.event.issue.number || 'manual' }}
-  cancel-in-progress: false
 jobs:
   process-request:
     permissions: write-all
