@@ -19,6 +19,7 @@ async function initializeInsights() {
 
 function renderInsights() {
     populateTeamDropdown();
+    populateCalendarMonthDropdown();
     renderSummary();
     renderAnalytics();
     renderCharts();
@@ -40,6 +41,39 @@ function populateTeamDropdown() {
         option.value = team;
         option.textContent = team;
         teamFilter.appendChild(option);
+    });
+}
+
+function populateCalendarMonthDropdown() {
+    const monthFilter = document.getElementById('calendar-month-filter');
+    if (!monthFilter) return;
+    
+    // Get unique months from the data
+    const months = new Set();
+    allIssues.forEach(issue => {
+        if (issue.created_at) {
+            const monthKey = `${issue.created_at.getFullYear()}-${String(issue.created_at.getMonth() + 1).padStart(2, '0')}`;
+            const monthLabel = issue.created_at.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+            months.add(`${monthKey}|${monthLabel}`);
+        }
+    });
+    
+    // Convert to sorted array
+    const sortedMonths = Array.from(months)
+        .map(item => {
+            const [key, label] = item.split('|');
+            return { key, label };
+        })
+        .sort((a, b) => b.key.localeCompare(a.key)); // Sort newest first
+    
+    // Clear existing options except "All Months"
+    monthFilter.innerHTML = '<option value="">All Months</option>';
+    
+    sortedMonths.forEach(month => {
+        const option = document.createElement('option');
+        option.value = month.key;
+        option.textContent = month.label;
+        monthFilter.appendChild(option);
     });
 }
 
@@ -409,6 +443,7 @@ function renderTrendChart() {
 function setupInsightsEventListeners() {
     // Filter event listeners
     const datePresetFilter = document.getElementById('date-preset-filter');
+    const calendarMonthFilter = document.getElementById('calendar-month-filter');
     const businessAreaFilter = document.getElementById('business-area-filter');
     const teamFilter = document.getElementById('team-filter');
     const environmentFilter = document.getElementById('environment-filter');
@@ -417,6 +452,7 @@ function setupInsightsEventListeners() {
     const endDateFilter = document.getElementById('end-date-filter');
     
     if (datePresetFilter) datePresetFilter.addEventListener('change', applyDatePreset);
+    if (calendarMonthFilter) calendarMonthFilter.addEventListener('change', applyFilters);
     if (businessAreaFilter) businessAreaFilter.addEventListener('change', applyFilters);
     if (teamFilter) teamFilter.addEventListener('change', applyFilters);
     if (environmentFilter) environmentFilter.addEventListener('change', applyFilters);
@@ -464,6 +500,7 @@ function applyFilters() {
     const status = document.getElementById('status-filter')?.value || '';
     const startDate = document.getElementById('start-date-filter')?.value || '';
     const endDate = document.getElementById('end-date-filter')?.value || '';
+    const calendarMonth = document.getElementById('calendar-month-filter')?.value || '';
     
     filteredIssues = allIssues.filter(issue => {
         // Normalize business area - only accept valid values
@@ -474,6 +511,14 @@ function applyFilters() {
         if (status && issue.status !== status) return false;
         if (startDate && issue.created_at < new Date(startDate)) return false;
         if (endDate && issue.created_at > new Date(endDate)) return false;
+        
+        // Calendar month filter
+        if (calendarMonth) {
+            if (!issue.created_at) return false; // Exclude items with null/undefined created_at
+            const issueMonthKey = `${issue.created_at.getFullYear()}-${String(issue.created_at.getMonth() + 1).padStart(2, '0')}`;
+            if (issueMonthKey !== calendarMonth) return false;
+        }
+        
         return true;
     });
     
@@ -486,6 +531,7 @@ function applyFilters() {
 function clearFilters() {
     const filters = [
         'date-preset-filter',
+        'calendar-month-filter',
         'business-area-filter',
         'team-filter', 
         'environment-filter',
@@ -650,6 +696,7 @@ function createFilterSummary() {
     
     const filters = [
         { id: 'date-preset-filter', label: 'Date Preset' },
+        { id: 'calendar-month-filter', label: 'Calendar Month' },
         { id: 'business-area-filter', label: 'Business Area' },
         { id: 'team-filter', label: 'Team' },
         { id: 'environment-filter', label: 'Environment' },
@@ -669,7 +716,17 @@ function createFilterSummary() {
             const filterInfo = document.createElement('p');
             filterInfo.style.margin = '5px 0';
             filterInfo.style.color = '#374151';
-            filterInfo.innerHTML = `<strong>${filter.label}:</strong> ${element.value}`;
+            
+            // Special handling for calendar month filter to show readable label
+            let displayValue = element.value;
+            if (filter.id === 'calendar-month-filter' && element.value) {
+                const selectedOption = element.querySelector(`option[value="${element.value}"]`);
+                if (selectedOption) {
+                    displayValue = selectedOption.textContent;
+                }
+            }
+            
+            filterInfo.innerHTML = `<strong>${filter.label}:</strong> ${displayValue}`;
             filterDiv.appendChild(filterInfo);
         });
     } else {
