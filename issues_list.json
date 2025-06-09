@@ -1,1 +1,35 @@
-[]
+[
+  {
+    "business_area": "CFT",
+    "team_name": "IDAM",
+    "environment": "Sandbox",
+    "start_date": "2024-01-15",
+    "end_date": "2024-01-20",
+    "justification": "Emergency maintenance required",
+    "change_jira_id": "PLAT-1234",
+    "stay_on_late": "No",
+    "issue_link": "#"
+  },
+  {
+    "business_area": "Cross-Cutting",
+    "team_name": "Platform Operations",
+    "environment": "AAT / Staging",
+    "start_date": "2024-01-18",
+    "end_date": "2024-01-25",
+    "justification": "Security patch deployment",
+    "change_jira_id": "PLAT-5678",
+    "stay_on_late": "Yes",
+    "issue_link": "#"
+  },
+  {
+    "business_area": "CFT",
+    "team_name": "Evidence Management",
+    "environment": "Preview / Dev",
+    "start_date": "2024-01-20",
+    "end_date": "2024-01-22",
+    "justification": "Critical bug fix testing",
+    "change_jira_id": "EM-9876",
+    "stay_on_late": "No",
+    "issue_link": "#"
+  }
+]

@@ -258,9 +258,39 @@ function parseDate(dateString) {
 }
 
 function renderDashboard() {
+    populateTeamDropdown();
     renderSummary();
     renderCalendar();
     renderRequestsList();
+}
+
+function populateTeamDropdown() {
+    const teamFilter = document.getElementById('team-filter');
+    const currentValue = teamFilter.value; // Preserve current selection
+    
+    // Get unique team names from all issues
+    const uniqueTeams = [...new Set(allIssues
+        .map(issue => issue.team_name)
+        .filter(team => team && team.trim() !== '')
+    )].sort();
+    
+    // Clear existing options except "All"
+    const allOption = teamFilter.querySelector('option[value=""]');
+    teamFilter.innerHTML = '';
+    teamFilter.appendChild(allOption);
+    
+    // Add team options
+    uniqueTeams.forEach(team => {
+        const option = document.createElement('option');
+        option.value = team;
+        option.textContent = team;
+        teamFilter.appendChild(option);
+    });
+    
+    // Restore previous selection if it still exists
+    if (currentValue && uniqueTeams.includes(currentValue)) {
+        teamFilter.value = currentValue;
+    }
 }
 
 function renderSummary() {
@@ -429,7 +459,7 @@ function renderRequestsList() {
 function setupEventListeners() {
     // Filter event listeners
     document.getElementById('business-area-filter').addEventListener('change', applyFilters);
-    document.getElementById('team-filter').addEventListener('input', applyFilters);
+    document.getElementById('team-filter').addEventListener('change', applyFilters);
     document.getElementById('environment-filter').addEventListener('change', applyFilters);
     document.getElementById('status-filter').addEventListener('change', applyFilters);
     document.getElementById('start-date-filter').addEventListener('change', applyFilters);
@@ -460,7 +490,7 @@ function setupEventListeners() {
 
 function applyFilters() {
     const businessArea = document.getElementById('business-area-filter').value.toLowerCase();
-    const teamFilter = document.getElementById('team-filter').value.toLowerCase();
+    const teamFilter = document.getElementById('team-filter').value; // Exact match, no toLowerCase needed
     const environment = document.getElementById('environment-filter').value;
     const status = document.getElementById('status-filter').value;
     const startDate = document.getElementById('start-date-filter').value;
@@ -472,8 +502,8 @@ function applyFilters() {
             return false;
         }
         
-        // Team filter
-        if (teamFilter && (!issue.team_name || !issue.team_name.toLowerCase().includes(teamFilter))) {
+        // Team filter - exact match
+        if (teamFilter && issue.team_name !== teamFilter) {
             return false;
         }
         
