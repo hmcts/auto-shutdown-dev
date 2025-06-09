@@ -14,5 +14,21 @@
         "justification": "Test",
         "bastion_required": false,
         "issue_link": "https://github.com/hmcts/auto-shutdown-dev/issues/140"
+    },
+    {
+        "form_review_date": "13/06/2025",
+        "start_date": "12-06-2025",
+        "end_date": "12-06-2025",
+        "request_type": "stop",
+        "environment": [
+            "Test / Perftest"
+        ],
+        "business_area": "cft",
+        "team_name": "PlatOps",
+        "change_jira_id": "DTSPO-0000",
+        "stay_on_late": "No",
+        "justification": "Testing",
+        "bastion_required": false,
+        "issue_link": "https://github.com/hmcts/auto-shutdown-dev/issues/161"
     }
 ]
