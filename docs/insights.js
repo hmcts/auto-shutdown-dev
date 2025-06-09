@@ -125,11 +125,40 @@ function renderAnalytics() {
     const avgDurationEl = document.getElementById('avg-duration');
     const approvalRateEl = document.getElementById('approval-rate');
     const topTeamEl = document.getElementById('top-team');
+    const costBreakdownEl = document.getElementById('cost-breakdown');
     
     if (totalCostEl) totalCostEl.textContent = totalCost > 0 ? `£${totalCost.toFixed(2)}` : 'No data';
     if (avgDurationEl) avgDurationEl.textContent = avgDuration > 0 ? `${avgDuration}` : 'No data';
     if (approvalRateEl) approvalRateEl.textContent = `${approvalRate}%`;
     if (topTeamEl) topTeamEl.textContent = topTeam;
+    
+    // Calculate cost breakdown by team/environment
+    if (costBreakdownEl) {
+        const costBreakdown = {};
+        filteredIssues.forEach(issue => {
+            if (issue.cost) {
+                const costMatch = issue.cost.match(/£?([\d,]+\.?\d*)/);
+                if (costMatch) {
+                    const cost = parseFloat(costMatch[1].replace(',', ''));
+                    const key = `${issue.team_name || 'Unknown'} (${issue.environment || 'Unknown'})`;
+                    costBreakdown[key] = (costBreakdown[key] || 0) + cost;
+                }
+            }
+        });
+        
+        const topCostEntries = Object.entries(costBreakdown)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 3);
+        
+        if (topCostEntries.length > 0) {
+            const breakdown = topCostEntries
+                .map(([key, cost]) => `${key}: £${cost.toFixed(2)}`)
+                .join('<br>');
+            costBreakdownEl.innerHTML = breakdown;
+        } else {
+            costBreakdownEl.textContent = 'No cost data';
+        }
+    }
 }
 
 function renderCharts() {
@@ -142,6 +171,11 @@ function renderCharts() {
 function renderStatusChart() {
     const ctx = document.getElementById('statusChart');
     if (!ctx) return;
+    
+    // Destroy existing chart if it exists
+    if (window.statusChartInstance) {
+        window.statusChartInstance.destroy();
+    }
     
     const statusCounts = {
         'approved': 0,
@@ -157,7 +191,7 @@ function renderStatusChart() {
         }
     });
     
-    new Chart(ctx, {
+    window.statusChartInstance = new Chart(ctx, {
         type: 'doughnut',
         data: {
             labels: ['Approved', 'Auto-Approved', 'Pending', 'Denied', 'Cancelled'],
@@ -179,6 +213,15 @@ function renderStatusChart() {
                 legend: {
                     position: 'bottom'
                 }
+            },
+            onClick: (event, elements) => {
+                if (elements.length > 0) {
+                    const index = elements[0].index;
+                    const statusKeys = Object.keys(statusCounts);
+                    const status = statusKeys[index];
+                    const count = Object.values(statusCounts)[index];
+                    showStatusDetails(status, count);
+                }
             }
         }
     });
@@ -188,13 +231,18 @@ function renderEnvironmentChart() {
     const ctx = document.getElementById('environmentChart');
     if (!ctx) return;
     
+    // Destroy existing chart if it exists
+    if (window.environmentChartInstance) {
+        window.environmentChartInstance.destroy();
+    }
+    
     const envCounts = {};
     filteredIssues.forEach(issue => {
         const env = issue.environment || 'Unknown';
         envCounts[env] = (envCounts[env] || 0) + 1;
     });
     
-    new Chart(ctx, {
+    window.environmentChartInstance = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: Object.keys(envCounts),
@@ -213,8 +261,23 @@ function renderEnvironmentChart() {
                 }
             },
             scales: {
+                x: {
+                    display: true,
+                    ticks: {
+                        maxRotation: 45,
+                        minRotation: 0
+                    }
+                },
                 y: {
                     beginAtZero: true
+                }
+            },
+            onClick: (event, elements) => {
+                if (elements.length > 0) {
+                    const index = elements[0].index;
+                    const environment = Object.keys(envCounts)[index];
+                    const count = Object.values(envCounts)[index];
+                    showEnvironmentDetails(environment, count);
                 }
             }
         }
@@ -224,6 +287,11 @@ function renderEnvironmentChart() {
 function renderCostChart() {
     const ctx = document.getElementById('costChart');
     if (!ctx) return;
+    
+    // Destroy existing chart if it exists
+    if (window.costChartInstance) {
+        window.costChartInstance.destroy();
+    }
     
     const costData = filteredIssues
         .filter(issue => issue.cost)
@@ -250,7 +318,7 @@ function renderCostChart() {
         costData.filter(cost => cost > range.min && cost <= range.max).length
     );
     
-    new Chart(ctx, {
+    window.costChartInstance = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: ranges.map(r => r.label),
@@ -271,6 +339,14 @@ function renderCostChart() {
             scales: {
                 y: {
                     beginAtZero: true
+                }
+            },
+            onClick: (event, elements) => {
+                if (elements.length > 0) {
+                    const index = elements[0].index;
+                    const range = ranges[index];
+                    const count = rangeCounts[index];
+                    showCostRangeDetails(range, count);
                 }
             }
         }
@@ -326,6 +402,7 @@ function renderTrendChart() {
 
 function setupInsightsEventListeners() {
     // Filter event listeners
+    const datePresetFilter = document.getElementById('date-preset-filter');
     const businessAreaFilter = document.getElementById('business-area-filter');
     const teamFilter = document.getElementById('team-filter');
     const environmentFilter = document.getElementById('environment-filter');
@@ -333,6 +410,7 @@ function setupInsightsEventListeners() {
     const startDateFilter = document.getElementById('start-date-filter');
     const endDateFilter = document.getElementById('end-date-filter');
     
+    if (datePresetFilter) datePresetFilter.addEventListener('change', applyDatePreset);
     if (businessAreaFilter) businessAreaFilter.addEventListener('change', applyFilters);
     if (teamFilter) teamFilter.addEventListener('change', applyFilters);
     if (environmentFilter) environmentFilter.addEventListener('change', applyFilters);
@@ -341,13 +419,34 @@ function setupInsightsEventListeners() {
     if (endDateFilter) endDateFilter.addEventListener('change', applyFilters);
     
     // Action button listeners
-    const clearFilters = document.getElementById('clear-filters');
+    const clearFiltersBtn = document.getElementById('clear-filters');
     const exportCsv = document.getElementById('export-csv');
     const exportJson = document.getElementById('export-json');
     
-    if (clearFilters) clearFilters.addEventListener('click', clearFilters);
+    if (clearFiltersBtn) clearFiltersBtn.addEventListener('click', clearFilters);
     if (exportCsv) exportCsv.addEventListener('click', exportCSV);
     if (exportJson) exportJson.addEventListener('click', exportJSON);
+}
+
+function applyDatePreset() {
+    const datePreset = document.getElementById('date-preset-filter')?.value || '';
+    const startDateFilter = document.getElementById('start-date-filter');
+    const endDateFilter = document.getElementById('end-date-filter');
+    
+    if (datePreset && startDateFilter && endDateFilter) {
+        const today = new Date();
+        const startDate = new Date(today);
+        startDate.setDate(today.getDate() - parseInt(datePreset));
+        
+        startDateFilter.value = startDate.toISOString().split('T')[0];
+        endDateFilter.value = today.toISOString().split('T')[0];
+    } else if (!datePreset && startDateFilter && endDateFilter) {
+        // Clear date filters when "All Data" is selected
+        startDateFilter.value = '';
+        endDateFilter.value = '';
+    }
+    
+    applyFilters();
 }
 
 function applyFilters() {
@@ -376,6 +475,7 @@ function applyFilters() {
 
 function clearFilters() {
     const filters = [
+        'date-preset-filter',
         'business-area-filter',
         'team-filter', 
         'environment-filter',
@@ -431,4 +531,91 @@ function downloadFile(content, filename, mimeType) {
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
+}
+
+function showEnvironmentDetails(environment, count) {
+    const requests = filteredIssues.filter(issue => (issue.environment || 'Unknown') === environment);
+    
+    let details = `<h3>Environment: ${environment}</h3>`;
+    details += `<p><strong>Total Requests:</strong> ${count}</p>`;
+    details += '<div class="request-list">';
+    
+    requests.forEach(request => {
+        details += `<div class="request-item">
+            <strong>${request.title}</strong> - ${request.status}
+            ${request.cost ? ` (${request.cost})` : ''}
+            <br><small>Team: ${request.team_name || 'Unknown'}</small>
+        </div>`;
+    });
+    
+    details += '</div>';
+    showModal('Environment Details', details);
+}
+
+function showStatusDetails(status, count) {
+    const requests = filteredIssues.filter(issue => issue.status === status);
+    
+    let details = `<h3>Status: ${status.charAt(0).toUpperCase() + status.slice(1)}</h3>`;
+    details += `<p><strong>Total Requests:</strong> ${count}</p>`;
+    details += '<div class="request-list">';
+    
+    requests.forEach(request => {
+        details += `<div class="request-item">
+            <strong>${request.title}</strong>
+            ${request.cost ? ` (${request.cost})` : ''}
+            <br><small>Team: ${request.team_name || 'Unknown'} - Environment: ${request.environment || 'Unknown'}</small>
+        </div>`;
+    });
+    
+    details += '</div>';
+    showModal('Status Details', details);
+}
+
+function showCostRangeDetails(range, count) {
+    const requests = filteredIssues.filter(issue => {
+        if (!issue.cost) return false;
+        const costMatch = issue.cost.match(/£?([\d,]+\.?\d*)/);
+        if (!costMatch) return false;
+        const cost = parseFloat(costMatch[1].replace(',', ''));
+        return cost > range.min && cost <= range.max;
+    });
+    
+    let details = `<h3>Cost Range: ${range.label}</h3>`;
+    details += `<p><strong>Total Requests:</strong> ${count}</p>`;
+    details += '<div class="request-list">';
+    
+    requests.forEach(request => {
+        details += `<div class="request-item">
+            <strong>${request.title}</strong> - ${request.cost}
+            <br><small>Team: ${request.team_name || 'Unknown'} - Environment: ${request.environment || 'Unknown'}</small>
+        </div>`;
+    });
+    
+    details += '</div>';
+    showModal('Cost Range Details', details);
+}
+
+function showModal(title, content) {
+    const modal = document.getElementById('request-modal');
+    const modalContent = document.getElementById('modal-content');
+    const modalTitle = modal.querySelector('h2');
+    
+    if (modal && modalContent && modalTitle) {
+        modalTitle.textContent = title;
+        modalContent.innerHTML = content;
+        modal.classList.remove('hidden');
+        
+        // Close modal on close button click
+        const closeBtn = modal.querySelector('.close');
+        if (closeBtn) {
+            closeBtn.onclick = () => modal.classList.add('hidden');
+        }
+        
+        // Close modal on outside click
+        modal.onclick = (e) => {
+            if (e.target === modal) {
+                modal.classList.add('hidden');
+            }
+        };
+    }
 }

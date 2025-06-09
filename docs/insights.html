@@ -18,11 +18,20 @@
             <div class="nav-links">
                 <a href="index.html" class="nav-link">📅 Overview</a>
                 <a href="insights.html" class="nav-link active">📊 Insights</a>
-                <a href="reports.html" class="nav-link">📋 Reports</a>
             </div>
         </nav>
 
         <div class="filters-section">
+            <div class="filter-group">
+                <label for="date-preset-filter">Quick Date Filter:</label>
+                <select id="date-preset-filter">
+                    <option value="">All Data</option>
+                    <option value="7">Last 7 Days</option>
+                    <option value="30">Last 30 Days</option>
+                    <option value="90">Last 90 Days</option>
+                </select>
+            </div>
+
             <div class="filter-group">
                 <label for="business-area-filter">Business Area:</label>
                 <select id="business-area-filter">
@@ -74,8 +83,8 @@
             </div>
 
             <button id="clear-filters" class="btn-secondary">Clear Filters</button>
-            <button id="export-csv" class="btn-primary">Export CSV</button>
-            <button id="export-json" class="btn-primary">Export JSON</button>
+            <button id="export-csv" class="btn-primary">Export Visible Data (CSV)</button>
+            <button id="export-json" class="btn-primary">Export Visible Data (JSON)</button>
         </div>
 
         <div class="summary-section">
@@ -118,6 +127,11 @@
                 <h3>🏆 Most Active Team</h3>
                 <div id="top-team" class="summary-text">-</div>
                 <div class="summary-subtitle">By request count</div>
+            </div>
+            <div class="summary-card">
+                <h3>📊 Cost by Team/Environment</h3>
+                <div id="cost-breakdown" class="summary-text">-</div>
+                <div class="summary-subtitle">Top cost contributors</div>
             </div>
         </div>
 
