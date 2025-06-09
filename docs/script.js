@@ -4,7 +4,7 @@ const CONFIG = {
     REPO_OWNER: 'hmcts',
     REPO_NAME: 'auto-shutdown-dev',
     ISSUES_PER_PAGE: 100,
-    DAYS_TO_SHOW: 30
+    ISSUES_TO_SHOW: 30
 };
 
 // Global state
@@ -72,11 +72,8 @@ async function fetchIssues() {
 
         const issues = await response.json();
         
-        const thirtyDaysAgo = new Date();
-        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - CONFIG.DAYS_TO_SHOW);
-        
-        // Filter for autoshutdown exclusion requests and limit to last 30 days
-        allIssues = issues.filter(issue => 
+        // Filter for autoshutdown exclusion requests (all time, not date-limited)
+        const filteredByType = issues.filter(issue => 
             issue.title && 
             (issue.title.toLowerCase().includes('auto shutdown') || 
              issue.title.toLowerCase().includes('autoshutdown') ||
@@ -85,12 +82,14 @@ async function fetchIssues() {
                 label.name.includes('auto-approved') || 
                 label.name.includes('approved') ||
                 label.name.includes('pending')
-             )) &&
-            new Date(issue.created_at) >= thirtyDaysAgo
+             ))
         );
 
+        // Take only the last 30 matching issues (most recent first)
+        const last30Issues = filteredByType.slice(0, CONFIG.ISSUES_TO_SHOW);
+
         // Transform issue data and fetch cost information
-        allIssues = await Promise.all(allIssues.map(async (issue) => {
+        allIssues = await Promise.all(last30Issues.map(async (issue) => {
             const transformedIssue = transformIssueData(issue);
             transformedIssue.cost = await extractCostFromComments(issue.number);
             return transformedIssue;
@@ -139,12 +138,10 @@ async function fetchFromLocalJSON() {
             change_jira_id: issue.change_jira_id,
             stay_on_late: issue.stay_on_late,
             body: `Backup data from local JSON file`
-        })).filter(issue => {
-            // Only show issues from the last 30 days
-            const thirtyDaysAgo = new Date();
-            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - CONFIG.DAYS_TO_SHOW);
-            return issue.start_date && issue.start_date >= thirtyDaysAgo;
-        });
+        }));
+
+        // Take only the last 30 issues for consistency with GitHub API approach
+        allIssues = allIssues.slice(0, CONFIG.ISSUES_TO_SHOW);
 
         filteredIssues = [...allIssues];
         hideLoading();
