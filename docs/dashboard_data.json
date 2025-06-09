@@ -1,7 +1,30 @@
 {
-  "last_updated": "2025-06-09T12:28:07.339Z",
+  "last_updated": "2025-06-09T12:59:19.342Z",
   "total_issues": 30,
   "data": [
+    {
+      "id": 149,
+      "title": "PR-148",
+      "status": "auto-approved",
+      "created_at": "2025-06-09T12:31:21.000Z",
+      "updated_at": "2025-06-09T12:47:30.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown-dev/issues/149",
+      "user": "github-actions[bot]",
+      "labels": [
+        "auto-approved",
+        "pull-request"
+      ],
+      "business_area": "CFT",
+      "team_name": "PlatOps",
+      "environment": "AAT / Staging",
+      "start_date": "2025-07-09T00:00:00.000Z",
+      "end_date": "2025-07-10T00:00:00.000Z",
+      "justification": "?",
+      "change_jira_id": "PR-148",
+      "stay_on_late": "?",
+      "body": "### Change or Jira reference\n\nPR-148\n\n### Justification for exclusion?\n\nDevelopment\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPlatOps\n\n### Environment\n\nAAT / Staging\n\n### Skip shutdown start date\n\n09-07-2025\n\n### Skip shutdown end date\n\n10-07-2025\n\n### Do you need this exclusion past 11pm?\n\nNo\n",
+      "cost": null
+    },
     {
       "id": 146,
       "title": "PR-142",
@@ -639,28 +662,6 @@
       "stay_on_late": "?",
       "body": "### Change or Jira reference\n\nN/A\n\n### Justification for exclusion?\n\nN/A\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nN/A\n\n### Environment\n\nDemo\n\n### Is this request for Bastion only?\n\n- [ ] Bastion only\n\n### Skip shutdown start date\n\n25/04/2025\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nNo\n\n### Review date\n\n25/04/2025",
       "cost": "£67.48"
-    },
-    {
-      "id": 96,
-      "title": "Testing",
-      "status": "auto-approved",
-      "created_at": "2025-03-17T14:20:36.000Z",
-      "updated_at": "2025-03-17T14:21:29.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown-dev/issues/96",
-      "user": "MartyFox",
-      "labels": [
-        "auto-approved"
-      ],
-      "business_area": "CFT",
-      "team_name": "N/A",
-      "environment": "Sandbox",
-      "start_date": "2025-04-25T00:00:00.000Z",
-      "end_date": null,
-      "justification": "?",
-      "change_jira_id": "N/A",
-      "stay_on_late": "?",
-      "body": "### Change or Jira reference\n\nN/A\n\n### Justification for exclusion?\n\nN/A\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nN/A\n\n### Environment\n\nSandbox\n\n### Is this request for Bastion only?\n\n- [x] Bastion only\n\n### Skip shutdown start date\n\n25/04/2025\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nNo\n\n### Review date\n\n26/04/2025",
-      "cost": "£8.67"
     }
   ]
 }
