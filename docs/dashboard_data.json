@@ -1,7 +1,30 @@
 {
-  "last_updated": "2025-06-09T14:21:12.985Z",
+  "last_updated": "2025-06-09T14:24:54.172Z",
   "total_issues": 50,
   "data": [
+    {
+      "id": 163,
+      "title": "PR-162",
+      "status": "auto-approved",
+      "created_at": "2025-06-09T14:23:34.000Z",
+      "updated_at": "2025-06-09T14:24:03.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown-dev/issues/163",
+      "user": "github-actions[bot]",
+      "labels": [
+        "auto-approved",
+        "pull-request"
+      ],
+      "business_area": "CFT",
+      "team_name": "PlatOps",
+      "environment": "AAT / Staging",
+      "start_date": "2025-07-09T00:00:00.000Z",
+      "end_date": "2025-07-10T00:00:00.000Z",
+      "justification": "?",
+      "change_jira_id": "PR-162",
+      "stay_on_late": "?",
+      "body": "### Change or Jira reference\n\nPR-162\n\n### Justification for exclusion?\n\nDevelopment\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPlatOps\n\n### Environment\n\nAAT / Staging\n\n### Skip shutdown start date\n\n09-07-2025\n\n### Skip shutdown end date\n\n10-07-2025\n\n### Do you need this exclusion past 11pm?\n\nNo\n",
+      "cost": null
+    },
     {
       "id": 161,
       "title": "Form test 10",
@@ -1094,28 +1117,6 @@
       "stay_on_late": "?",
       "body": "### Change or Jira reference\n\nPR-69\n\n### Justification for exclusion?\n\nDevelopment\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPlatOps\n\n### Environment\n\nAAT / Staging\n\n### Skip shutdown start date\n\n25-12-2024\n\n### Skip shutdown end date\n\n26-12-2024\n\n### Do you need this exclusion past 11pm?\n\nNo\n",
       "cost": "£189.39"
-    },
-    {
-      "id": 67,
-      "title": "Test",
-      "status": "auto-approved",
-      "created_at": "2024-11-20T14:14:45.000Z",
-      "updated_at": "2024-11-20T14:15:49.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown-dev/issues/67",
-      "user": "JordanHoey96",
-      "labels": [
-        "auto-approved"
-      ],
-      "business_area": "CFT",
-      "team_name": "PlatOps",
-      "environment": "Sandbox",
-      "start_date": "2024-11-28T00:00:00.000Z",
-      "end_date": null,
-      "justification": "?",
-      "change_jira_id": "DTSPO-6000",
-      "stay_on_late": "?",
-      "body": "### Change or Jira reference\n\nDTSPO-6000\n\n### Justification for exclusion?\n\ntesting\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPlatOps\n\n### Environment\n\nSandbox\n\n### Skip shutdown start date\n\n28-11-2024\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nNo",
-      "cost": "£9.67"
     }
   ]
 }
