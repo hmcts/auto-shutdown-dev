@@ -116,6 +116,19 @@ function formatDate(date) {
     });
 }
 
+function normalizeBusinessArea(businessArea) {
+    if (!businessArea || typeof businessArea !== 'string') return '';
+    
+    const normalized = businessArea.trim();
+    
+    // Only return valid business areas, ignore malformed data
+    if (normalized === 'CFT' || normalized === 'cft') return 'CFT';
+    if (normalized === 'Cross-Cutting' || normalized === 'cross-cutting') return 'Cross-Cutting';
+    
+    // Return empty string for invalid/malformed data
+    return '';
+}
+
 function showRequestDetails(request) {
     const modal = document.getElementById('request-modal');
     const modalContent = document.getElementById('modal-content');
@@ -126,7 +139,7 @@ function showRequestDetails(request) {
         <h3>${request.title}</h3>
         <p><strong>Status:</strong> <span class="request-status ${request.status}">${request.status}</span></p>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
-            <div><strong>Business Area:</strong> ${request.business_area || 'Not specified'}</div>
+            <div><strong>Business Area:</strong> ${normalizeBusinessArea(request.business_area) || 'Not specified'}</div>
             <div><strong>Team:</strong> ${request.team_name || 'Not specified'}</div>
             <div><strong>Environment:</strong> ${request.environment || 'Not specified'}</div>
             <div><strong>Created:</strong> ${formatDate(request.created_at)}</div>

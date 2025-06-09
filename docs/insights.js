@@ -140,6 +140,7 @@ function renderAnalytics() {
                 const costMatch = issue.cost.match(/£?([\d,]+\.?\d*)/);
                 if (costMatch) {
                     const cost = parseFloat(costMatch[1].replace(',', ''));
+                    const normalizedBusinessArea = normalizeBusinessArea(issue.business_area);
                     const key = `${issue.team_name || 'Unknown'} (${issue.environment || 'Unknown'})`;
                     costBreakdown[key] = (costBreakdown[key] || 0) + cost;
                 }
@@ -465,7 +466,9 @@ function applyFilters() {
     const endDate = document.getElementById('end-date-filter')?.value || '';
     
     filteredIssues = allIssues.filter(issue => {
-        if (businessArea && issue.business_area !== businessArea) return false;
+        // Normalize business area - only accept valid values
+        const normalizedBusinessArea = normalizeBusinessArea(issue.business_area);
+        if (businessArea && normalizedBusinessArea !== businessArea) return false;
         if (team && issue.team_name !== team) return false;
         if (environment && issue.environment !== environment) return false;
         if (status && issue.status !== status) return false;
@@ -508,7 +511,7 @@ function exportCSV() {
         issue.id,
         issue.title,
         issue.status,
-        issue.business_area || '',
+        normalizeBusinessArea(issue.business_area) || '',
         issue.team_name || '',
         issue.environment || '',
         issue.start_date ? formatDate(issue.start_date) : '',
