@@ -542,6 +542,36 @@ body {
     color: #374151;
 }
 
+/* Request list styles for modals */
+.request-list {
+    margin-top: 20px;
+}
+
+.request-item {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 8px;
+    transition: all 0.2s ease;
+}
+
+.request-item:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+}
+
+.request-item strong {
+    color: #1f2937;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.request-item small {
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
 /* Loading and Error States */
 .loading {
     text-align: center;

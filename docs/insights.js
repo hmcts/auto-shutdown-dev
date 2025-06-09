@@ -357,6 +357,11 @@ function renderTrendChart() {
     const ctx = document.getElementById('trendChart');
     if (!ctx) return;
     
+    // Destroy existing chart if it exists
+    if (window.trendChartInstance) {
+        window.trendChartInstance.destroy();
+    }
+    
     const last30Days = [];
     const today = new Date();
     for (let i = 29; i >= 0; i--) {
@@ -371,7 +376,7 @@ function renderTrendChart() {
         ).length;
     });
     
-    new Chart(ctx, {
+    window.trendChartInstance = new Chart(ctx, {
         type: 'line',
         data: {
             labels: last30Days.map(date => date.toLocaleDateString('en-GB', { month: 'short', day: 'numeric' })),
