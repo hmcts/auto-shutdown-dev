@@ -14,124 +14,13 @@
             <p>Visual overview of environment shutdown exclusion requests</p>
         </header>
 
-        <div class="filters-section">
-            <div class="filter-group">
-                <label for="business-area-filter">Business Area:</label>
-                <select id="business-area-filter">
-                    <option value="">All</option>
-                    <option value="cft">CFT</option>
-                    <option value="cross-cutting">Cross-Cutting</option>
-                </select>
+        <nav class="main-navigation">
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active">📅 Overview</a>
+                <a href="insights.html" class="nav-link">📊 Insights</a>
+                <a href="reports.html" class="nav-link">📋 Reports</a>
             </div>
-
-            <div class="filter-group">
-                <label for="team-filter">Team/Application:</label>
-                <select id="team-filter">
-                    <option value="">All</option>
-                    <!-- Options will be populated dynamically -->
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label for="environment-filter">Environment:</label>
-                <select id="environment-filter">
-                    <option value="">All</option>
-                    <option value="Sandbox">Sandbox</option>
-                    <option value="AAT / Staging">AAT / Staging</option>
-                    <option value="Preview / Dev">Preview / Dev</option>
-                    <option value="Test / Perftest">Test / Perftest</option>
-                    <option value="Demo">Demo</option>
-                    <option value="ITHC">ITHC</option>
-                    <option value="PTL">PTL</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label for="status-filter">Status:</label>
-                <select id="status-filter">
-                    <option value="">All</option>
-                    <option value="approved">Approved</option>
-                    <option value="auto-approved">Auto-Approved</option>
-                    <option value="pending">Pending</option>
-                    <option value="denied">Denied</option>
-                    <option value="cancelled">Cancelled</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label for="date-range-filter">Date Range:</label>
-                <input type="date" id="start-date-filter">
-                <span>to</span>
-                <input type="date" id="end-date-filter">
-            </div>
-
-            <button id="clear-filters" class="btn-secondary">Clear Filters</button>
-            <button id="export-csv" class="btn-primary">Export CSV</button>
-            <button id="export-json" class="btn-primary">Export JSON</button>
-        </div>
-
-        <div class="summary-section">
-            <div class="summary-card">
-                <h3>📊 Active Requests</h3>
-                <div id="active-count" class="summary-number">-</div>
-            </div>
-            <div class="summary-card">
-                <h3>❌ Cancelled Requests</h3>
-                <div id="cancelled-count" class="summary-number">-</div>
-            </div>
-            <div class="summary-card">
-                <h3>⏳ Pending Approval</h3>
-                <div id="pending-count" class="summary-number">-</div>
-            </div>
-            <div class="summary-card">
-                <h3>📈 Total Requests (Last 30)</h3>
-                <div id="total-count" class="summary-number">-</div>
-            </div>
-        </div>
-
-        <!-- Enhanced Analytics Section -->
-        <div class="analytics-section">
-            <div class="summary-card">
-                <h3>💰 Total Cost Impact</h3>
-                <div id="total-cost" class="summary-number cost-highlight">-</div>
-                <div class="summary-subtitle">Estimated savings lost</div>
-            </div>
-            <div class="summary-card">
-                <h3>⏱️ Average Duration</h3>
-                <div id="avg-duration" class="summary-number">-</div>
-                <div class="summary-subtitle">Days per request</div>
-            </div>
-            <div class="summary-card">
-                <h3>✅ Approval Rate</h3>
-                <div id="approval-rate" class="summary-number success-highlight">-</div>
-                <div class="summary-subtitle">Auto + Manual approved</div>
-            </div>
-            <div class="summary-card">
-                <h3>🏆 Most Active Team</h3>
-                <div id="top-team" class="summary-text">-</div>
-                <div class="summary-subtitle">By request count</div>
-            </div>
-        </div>
-
-        <!-- Charts Section -->
-        <div class="charts-section">
-            <div class="chart-container">
-                <h3>📊 Requests by Status</h3>
-                <canvas id="statusChart"></canvas>
-            </div>
-            <div class="chart-container">
-                <h3>🌍 Requests by Environment</h3>
-                <canvas id="environmentChart"></canvas>
-            </div>
-            <div class="chart-container">
-                <h3>💰 Cost Analysis</h3>
-                <canvas id="costChart"></canvas>
-            </div>
-            <div class="chart-container">
-                <h3>📈 Request Trends (Last 30 Days)</h3>
-                <canvas id="trendChart"></canvas>
-            </div>
-        </div>
+        </nav>
 
         <div class="calendar-section">
             <div class="calendar-header">
@@ -170,6 +59,7 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="shared.js"></script>
+    <script src="overview.js"></script>
 </body>
 </html>
