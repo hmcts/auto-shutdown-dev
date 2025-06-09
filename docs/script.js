@@ -138,6 +138,8 @@ function parseDate(dateString) {
 function renderDashboard() {
     populateTeamDropdown();
     renderSummary();
+    renderAnalytics();
+    renderCharts();
     renderCalendar();
     renderRequestsList();
 }
@@ -197,6 +199,278 @@ function renderSummary() {
     document.getElementById('cancelled-count').textContent = stats.cancelled;
     document.getElementById('pending-count').textContent = stats.pending;
     document.getElementById('total-count').textContent = stats.total;
+}
+
+function renderAnalytics() {
+    // Calculate total cost
+    const costsWithData = filteredIssues
+        .filter(issue => issue.cost && issue.cost !== null)
+        .map(issue => {
+            const costStr = issue.cost.replace(/[£,]/g, '');
+            return parseFloat(costStr) || 0;
+        });
+    
+    const totalCost = costsWithData.reduce((sum, cost) => sum + cost, 0);
+    
+    // Calculate average duration
+    const durationsInDays = filteredIssues
+        .filter(issue => issue.start_date && issue.end_date)
+        .map(issue => {
+            const start = new Date(issue.start_date);
+            const end = new Date(issue.end_date);
+            return Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+        });
+    
+    const avgDuration = durationsInDays.length > 0 
+        ? (durationsInDays.reduce((sum, duration) => sum + duration, 0) / durationsInDays.length).toFixed(1)
+        : 0;
+    
+    // Calculate approval rate
+    const approvedCount = filteredIssues.filter(issue => 
+        issue.status === 'approved' || issue.status === 'auto-approved'
+    ).length;
+    const approvalRate = filteredIssues.length > 0 
+        ? Math.round((approvedCount / filteredIssues.length) * 100)
+        : 0;
+    
+    // Find most active team
+    const teamCounts = {};
+    filteredIssues.forEach(issue => {
+        if (issue.team_name && issue.team_name.trim() !== '') {
+            teamCounts[issue.team_name] = (teamCounts[issue.team_name] || 0) + 1;
+        }
+    });
+    
+    const topTeam = Object.keys(teamCounts).length > 0 
+        ? Object.keys(teamCounts).reduce((a, b) => teamCounts[a] > teamCounts[b] ? a : b)
+        : 'None';
+    
+    // Update the UI
+    document.getElementById('total-cost').textContent = totalCost > 0 ? `£${totalCost.toFixed(2)}` : 'No data';
+    document.getElementById('avg-duration').textContent = avgDuration > 0 ? `${avgDuration}` : 'No data';
+    document.getElementById('approval-rate').textContent = `${approvalRate}%`;
+    document.getElementById('top-team').textContent = topTeam;
+}
+
+function renderCharts() {
+    renderStatusChart();
+    renderEnvironmentChart();
+    renderCostChart();
+    renderTrendChart();
+}
+
+function renderStatusChart() {
+    const ctx = document.getElementById('statusChart').getContext('2d');
+    
+    // Clear any existing chart
+    if (window.statusChartInstance) {
+        window.statusChartInstance.destroy();
+    }
+    
+    const statusCounts = {};
+    filteredIssues.forEach(issue => {
+        statusCounts[issue.status] = (statusCounts[issue.status] || 0) + 1;
+    });
+    
+    const statusColors = {
+        'approved': '#22c55e',
+        'auto-approved': '#10b981',
+        'pending': '#f59e0b',
+        'denied': '#ef4444',
+        'cancelled': '#9ca3af'
+    };
+    
+    window.statusChartInstance = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: Object.keys(statusCounts),
+            datasets: [{
+                data: Object.values(statusCounts),
+                backgroundColor: Object.keys(statusCounts).map(status => statusColors[status] || '#6b7280'),
+                borderWidth: 2,
+                borderColor: '#ffffff'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+}
+
+function renderEnvironmentChart() {
+    const ctx = document.getElementById('environmentChart').getContext('2d');
+    
+    if (window.environmentChartInstance) {
+        window.environmentChartInstance.destroy();
+    }
+    
+    const envCounts = {};
+    filteredIssues.forEach(issue => {
+        if (issue.environment && issue.environment.trim() !== '') {
+            envCounts[issue.environment] = (envCounts[issue.environment] || 0) + 1;
+        }
+    });
+    
+    window.environmentChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: Object.keys(envCounts),
+            datasets: [{
+                label: 'Requests',
+                data: Object.values(envCounts),
+                backgroundColor: '#3b82f6',
+                borderColor: '#2563eb',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+}
+
+function renderCostChart() {
+    const ctx = document.getElementById('costChart').getContext('2d');
+    
+    if (window.costChartInstance) {
+        window.costChartInstance.destroy();
+    }
+    
+    const issuesWithCost = filteredIssues
+        .filter(issue => issue.cost && issue.cost !== null)
+        .map(issue => ({
+            team: issue.team_name || 'Unknown',
+            cost: parseFloat(issue.cost.replace(/[£,]/g, '')) || 0
+        }));
+    
+    if (issuesWithCost.length === 0) {
+        ctx.font = '16px Arial';
+        ctx.fillStyle = '#6b7280';
+        ctx.textAlign = 'center';
+        ctx.fillText('No cost data available', ctx.canvas.width / 2, ctx.canvas.height / 2);
+        return;
+    }
+    
+    const teamCosts = {};
+    issuesWithCost.forEach(item => {
+        teamCosts[item.team] = (teamCosts[item.team] || 0) + item.cost;
+    });
+    
+    window.costChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: Object.keys(teamCosts),
+            datasets: [{
+                label: 'Total Cost (£)',
+                data: Object.values(teamCosts),
+                backgroundColor: '#dc2626',
+                borderColor: '#b91c1c',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return '£' + value.toFixed(0);
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function renderTrendChart() {
+    const ctx = document.getElementById('trendChart').getContext('2d');
+    
+    if (window.trendChartInstance) {
+        window.trendChartInstance.destroy();
+    }
+    
+    // Group requests by creation date (last 30 days)
+    const last30Days = [];
+    const today = new Date();
+    for (let i = 29; i >= 0; i--) {
+        const date = new Date(today);
+        date.setDate(today.getDate() - i);
+        last30Days.push({
+            date: date.toISOString().split('T')[0],
+            count: 0
+        });
+    }
+    
+    filteredIssues.forEach(issue => {
+        const createdDate = new Date(issue.created_at).toISOString().split('T')[0];
+        const dayIndex = last30Days.findIndex(day => day.date === createdDate);
+        if (dayIndex !== -1) {
+            last30Days[dayIndex].count++;
+        }
+    });
+    
+    window.trendChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: last30Days.map(day => {
+                const date = new Date(day.date);
+                return date.toLocaleDateString('en-GB', { month: 'short', day: 'numeric' });
+            }),
+            datasets: [{
+                label: 'Requests Created',
+                data: last30Days.map(day => day.count),
+                borderColor: '#3b82f6',
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
 }
 
 function renderCalendar() {
