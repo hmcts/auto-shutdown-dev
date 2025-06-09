@@ -160,7 +160,7 @@ function renderRequestsList() {
                 ${request.cost ? `
                 <div class="detail-item">
                     <span class="detail-label">Cost</span>
-                    <span style="font-weight: 600; color: #059669;">${request.cost}</span>
+                    <span style="font-weight: 600; color: #dc2626;">${request.cost}</span>
                 </div>
                 ` : ''}
             </div>
