@@ -45,14 +45,9 @@ function showError() {
 
 async function fetchIssues() {
     try {
-        const thirtyDaysAgo = new Date();
-        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - CONFIG.DAYS_TO_SHOW);
-        
-        const since = thirtyDaysAgo.toISOString();
         const url = `${CONFIG.GITHUB_API_BASE}/repos/${CONFIG.REPO_OWNER}/${CONFIG.REPO_NAME}/issues`;
         const params = new URLSearchParams({
             state: 'all',
-            since: since,
             per_page: CONFIG.ISSUES_PER_PAGE,
             sort: 'created',
             direction: 'desc'
@@ -77,7 +72,10 @@ async function fetchIssues() {
 
         const issues = await response.json();
         
-        // Filter for autoshutdown exclusion requests
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - CONFIG.DAYS_TO_SHOW);
+        
+        // Filter for autoshutdown exclusion requests and limit to last 30 days
         allIssues = issues.filter(issue => 
             issue.title && 
             (issue.title.toLowerCase().includes('auto shutdown') || 
@@ -87,8 +85,16 @@ async function fetchIssues() {
                 label.name.includes('auto-approved') || 
                 label.name.includes('approved') ||
                 label.name.includes('pending')
-             ))
-        ).map(transformIssueData);
+             )) &&
+            new Date(issue.created_at) >= thirtyDaysAgo
+        );
+
+        // Transform issue data and fetch cost information
+        allIssues = await Promise.all(allIssues.map(async (issue) => {
+            const transformedIssue = transformIssueData(issue);
+            transformedIssue.cost = await extractCostFromComments(issue.number);
+            return transformedIssue;
+        }));
 
         filteredIssues = [...allIssues];
         hideLoading();
@@ -152,6 +158,38 @@ async function fetchFromLocalJSON() {
     } catch (error) {
         console.error('Error fetching from local JSON:', error);
         throw error;
+    }
+}
+
+async function extractCostFromComments(issueNumber) {
+    try {
+        const url = `${CONFIG.GITHUB_API_BASE}/repos/${CONFIG.REPO_OWNER}/${CONFIG.REPO_NAME}/issues/${issueNumber}/comments`;
+        const response = await fetch(url, {
+            headers: {
+                'Accept': 'application/vnd.github.v3+json',
+                'User-Agent': 'AutoShutdown-Dashboard'
+            }
+        });
+        
+        if (!response.ok) {
+            return null;
+        }
+        
+        const comments = await response.json();
+        
+        // Look for cost information in comments
+        for (const comment of comments) {
+            const body = comment.body || '';
+            const costMatch = body.match(/Total estimated cost.*?£([\d,]+\.?\d*)/i);
+            if (costMatch) {
+                return `£${costMatch[1]}`;
+            }
+        }
+        
+        return null;
+    } catch (error) {
+        console.error(`Error fetching comments for issue ${issueNumber}:`, error);
+        return null;
     }
 }
 
@@ -311,8 +349,20 @@ function renderCalendar() {
         requestsForDay.forEach(request => {
             const indicator = document.createElement('div');
             indicator.className = `request-indicator ${request.status}`;
-            indicator.textContent = `${request.team_name || 'Unknown'} - ${request.environment || 'Unknown'}`;
-            indicator.title = `${request.title}\nTeam: ${request.team_name}\nEnvironment: ${request.environment}\nStatus: ${request.status}`;
+            
+            // Include cost information if available
+            let displayText = `${request.team_name || 'Unknown'} - ${request.environment || 'Unknown'}`;
+            if (request.cost) {
+                displayText += ` (${request.cost})`;
+            }
+            indicator.textContent = displayText;
+            
+            let tooltip = `${request.title}\nTeam: ${request.team_name}\nEnvironment: ${request.environment}\nStatus: ${request.status}`;
+            if (request.cost) {
+                tooltip += `\nCost: ${request.cost}`;
+            }
+            indicator.title = tooltip;
+            
             indicator.onclick = () => showRequestDetails(request);
             dayRequests.appendChild(indicator);
         });
@@ -365,6 +415,12 @@ function renderRequestsList() {
                     <div class="detail-label">Created</div>
                     <div>${formatDate(request.created_at)}</div>
                 </div>
+                ${request.cost ? `
+                <div class="detail-item">
+                    <div class="detail-label">Estimated Cost</div>
+                    <div style="font-weight: 600; color: #059669;">${request.cost}</div>
+                </div>
+                ` : ''}
             </div>
         `;
         
@@ -486,6 +542,7 @@ function showRequestDetails(request) {
                 <div><strong>End Date:</strong> ${request.end_date ? formatDate(request.end_date) : 'Not specified'}</div>
                 <div><strong>Stay on Late:</strong> ${request.stay_on_late || 'Not specified'}</div>
                 <div><strong>Change/Jira ID:</strong> ${request.change_jira_id || 'Not specified'}</div>
+                ${request.cost ? `<div><strong>Estimated Cost:</strong> <span style="font-weight: 600; color: #059669;">${request.cost}</span></div>` : ''}
             </div>
             <div style="margin-top: 20px;">
                 <strong>Justification:</strong>
