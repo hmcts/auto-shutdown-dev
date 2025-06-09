@@ -18,7 +18,7 @@ const CONFIG = {
     REPO_OWNER: 'hmcts',
     REPO_NAME: 'auto-shutdown-dev',
     ISSUES_PER_PAGE: 100,
-    ISSUES_TO_SHOW: 30,
+    ISSUES_TO_SHOW: 50,
     OUTPUT_FILE: path.join(__dirname, '..', 'docs', 'dashboard_data.json')
 };
 
@@ -75,11 +75,11 @@ async function fetchIssuesFromGitHub() {
 
     console.log(`Found ${filteredByType.length} autoshutdown exclusion issues`);
 
-    // Take only the last 30 matching issues (most recent first)
-    const last30Issues = filteredByType.slice(0, CONFIG.ISSUES_TO_SHOW);
+    // Take only the last 50 matching issues (most recent first)
+    const last50Issues = filteredByType.slice(0, CONFIG.ISSUES_TO_SHOW);
 
     // Transform issue data and fetch cost information
-    const transformedIssues = await Promise.all(last30Issues.map(async (issue) => {
+    const transformedIssues = await Promise.all(last50Issues.map(async (issue) => {
         const transformedIssue = transformIssueData(issue);
         transformedIssue.cost = await extractCostFromComments(issue.number);
         return transformedIssue;
