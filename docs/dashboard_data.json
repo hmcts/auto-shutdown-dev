@@ -1,5 +1,5 @@
 {
-  "last_updated": "2025-06-09T11:56:58.601Z",
+  "last_updated": "2025-06-09T12:11:42.559Z",
   "total_issues": 30,
   "data": [
     {
@@ -53,7 +53,7 @@
       "title": "Add comprehensive visualizations and analytics to the autoshutdown dashboard",
       "status": "pending",
       "created_at": "2025-06-09T11:39:00.000Z",
-      "updated_at": "2025-06-09T11:50:14.000Z",
+      "updated_at": "2025-06-09T12:11:26.000Z",
       "html_url": "https://github.com/hmcts/auto-shutdown-dev/pull/142",
       "user": "Copilot",
       "labels": [],
