@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autoshutdown Exclusion Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="dashboard-header">
+            <h1>Autoshutdown Exclusion Dashboard</h1>
+            <p>Visual overview of environment shutdown exclusion requests</p>
+        </header>
+
+        <div class="filters-section">
+            <div class="filter-group">
+                <label for="business-area-filter">Business Area:</label>
+                <select id="business-area-filter">
+                    <option value="">All</option>
+                    <option value="cft">CFT</option>
+                    <option value="cross-cutting">Cross-Cutting</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="team-filter">Team/Application:</label>
+                <input type="text" id="team-filter" placeholder="Filter by team name">
+            </div>
+
+            <div class="filter-group">
+                <label for="environment-filter">Environment:</label>
+                <select id="environment-filter">
+                    <option value="">All</option>
+                    <option value="Sandbox">Sandbox</option>
+                    <option value="AAT / Staging">AAT / Staging</option>
+                    <option value="Preview / Dev">Preview / Dev</option>
+                    <option value="Test / Perftest">Test / Perftest</option>
+                    <option value="Demo">Demo</option>
+                    <option value="ITHC">ITHC</option>
+                    <option value="PTL">PTL</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="status-filter">Status:</label>
+                <select id="status-filter">
+                    <option value="">All</option>
+                    <option value="approved">Approved</option>
+                    <option value="auto-approved">Auto-Approved</option>
+                    <option value="pending">Pending</option>
+                    <option value="denied">Denied</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="date-range-filter">Date Range:</label>
+                <input type="date" id="start-date-filter">
+                <span>to</span>
+                <input type="date" id="end-date-filter">
+            </div>
+
+            <button id="clear-filters" class="btn-secondary">Clear Filters</button>
+            <button id="export-csv" class="btn-primary">Export CSV</button>
+            <button id="export-json" class="btn-primary">Export JSON</button>
+        </div>
+
+        <div class="summary-section">
+            <div class="summary-card">
+                <h3>Active Requests</h3>
+                <div id="active-count" class="summary-number">-</div>
+            </div>
+            <div class="summary-card">
+                <h3>Cancelled Requests</h3>
+                <div id="cancelled-count" class="summary-number">-</div>
+            </div>
+            <div class="summary-card">
+                <h3>Pending Approval</h3>
+                <div id="pending-count" class="summary-number">-</div>
+            </div>
+            <div class="summary-card">
+                <h3>Total Requests (30 days)</h3>
+                <div id="total-count" class="summary-number">-</div>
+            </div>
+        </div>
+
+        <div class="calendar-section">
+            <div class="calendar-header">
+                <button id="prev-month" class="nav-btn">&lt;</button>
+                <h2 id="current-month"></h2>
+                <button id="next-month" class="nav-btn">&gt;</button>
+            </div>
+            <div id="calendar-grid" class="calendar-grid">
+                <!-- Calendar will be generated here -->
+            </div>
+        </div>
+
+        <div class="requests-list">
+            <h2>Recent Requests</h2>
+            <div id="requests-container">
+                <!-- Request cards will be generated here -->
+            </div>
+        </div>
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading requests...</p>
+        </div>
+
+        <div id="error" class="error hidden">
+            <p>Error loading data. Please try again later.</p>
+        </div>
+    </div>
+
+    <!-- Request Detail Modal -->
+    <div id="request-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Request Details</h2>
+            <div id="modal-content"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
