@@ -56,6 +56,9 @@ function renderCalendar() {
         calendarGrid.appendChild(headerEl);
     });
     
+    // Create calendar structure with days array for easier manipulation
+    const calendarDays = [];
+    
     // Create calendar days (6 weeks = 42 days)
     for (let i = 0; i < 42; i++) {
         const date = new Date(startDate);
@@ -63,6 +66,8 @@ function renderCalendar() {
         
         const dayElement = document.createElement('div');
         dayElement.className = 'calendar-day';
+        dayElement.style.gridColumn = (i % 7) + 1;
+        dayElement.style.gridRow = Math.floor(i / 7) + 2; // +2 because row 1 is headers
         
         if (date.getMonth() !== currentDate.getMonth()) {
             dayElement.classList.add('other-month');
@@ -78,46 +83,139 @@ function renderCalendar() {
         dayNumber.textContent = date.getDate();
         dayElement.appendChild(dayNumber);
         
-        // Requests for this day
+        // Requests for this day (single-day only)
         const dayRequests = document.createElement('div');
         dayRequests.className = 'day-requests';
-        
-        const requestsForDay = filteredIssues.filter(issue => {
-            if (!issue.start_date) return false;
-            const endDate = issue.end_date || issue.start_date; // Use start_date if end_date is null
-            
-            // Normalize dates to just compare day/month/year to avoid timezone issues
-            const dayStart = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-            const issueStart = new Date(issue.start_date.getFullYear(), issue.start_date.getMonth(), issue.start_date.getDate());
-            const issueEnd = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
-            
-            return dayStart >= issueStart && dayStart <= issueEnd;
-        });
-        
-        requestsForDay.forEach(request => {
-            const indicator = document.createElement('div');
-            indicator.className = `request-indicator ${request.status}`;
-            
-            // Include cost information if available
-            let displayText = `${request.team_name || 'Unknown'} - ${request.environment || 'Unknown'}`;
-            if (request.cost) {
-                displayText += ` (${request.cost})`;
-            }
-            indicator.textContent = displayText;
-            
-            let tooltip = `${request.title}\nTeam: ${request.team_name}\nEnvironment: ${request.environment}\nStatus: ${request.status}`;
-            if (request.cost) {
-                tooltip += `\nCost: ${request.cost}`;
-            }
-            indicator.title = tooltip;
-            
-            indicator.onclick = () => showRequestDetails(request);
-            dayRequests.appendChild(indicator);
-        });
-        
         dayElement.appendChild(dayRequests);
+        
+        calendarDays.push({
+            element: dayElement,
+            date: new Date(date),
+            index: i,
+            requestsContainer: dayRequests
+        });
+        
         calendarGrid.appendChild(dayElement);
     }
+    
+    // Process requests and separate single-day from multi-day
+    const processedRequests = new Set();
+    
+    filteredIssues.forEach(issue => {
+        if (!issue.start_date || processedRequests.has(issue.id)) return;
+        
+        const endDate = issue.end_date || issue.start_date;
+        const issueStart = new Date(issue.start_date.getFullYear(), issue.start_date.getMonth(), issue.start_date.getDate());
+        const issueEnd = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+        
+        // Check if this is a multi-day request
+        const isMultiDay = issueStart.getTime() !== issueEnd.getTime();
+        
+        if (isMultiDay) {
+            renderSpanningIndicator(issue, issueStart, issueEnd, calendarDays, calendarGrid);
+        } else {
+            // Single day request - add to appropriate day
+            calendarDays.forEach(dayInfo => {
+                if (dayInfo.date.getTime() === issueStart.getTime()) {
+                    const indicator = createRequestIndicator(issue);
+                    dayInfo.requestsContainer.appendChild(indicator);
+                }
+            });
+        }
+        
+        processedRequests.add(issue.id);
+    });
+}
+
+function renderSpanningIndicator(request, startDate, endDate, calendarDays, calendarGrid) {
+    // Find the start and end positions in the calendar
+    let startIndex = -1;
+    let endIndex = -1;
+    
+    for (let i = 0; i < calendarDays.length; i++) {
+        const dayDate = calendarDays[i].date;
+        if (dayDate.getTime() === startDate.getTime()) {
+            startIndex = i;
+        }
+        if (dayDate.getTime() === endDate.getTime()) {
+            endIndex = i;
+        }
+    }
+    
+    // If either start or end is not visible in current month view, render as individual indicators
+    if (startIndex === -1 || endIndex === -1) {
+        calendarDays.forEach(dayInfo => {
+            if (dayInfo.date >= startDate && dayInfo.date <= endDate) {
+                const indicator = createRequestIndicator(request);
+                dayInfo.requestsContainer.appendChild(indicator);
+            }
+        });
+        return;
+    }
+    
+    // Calculate spanning across multiple weeks if needed
+    let currentIndex = startIndex;
+    
+    while (currentIndex <= endIndex) {
+        const startRow = Math.floor(currentIndex / 7) + 2; // +2 for header row
+        const startCol = (currentIndex % 7) + 1;
+        
+        // Find the end of current row or end of span, whichever comes first
+        const rowEnd = Math.floor(currentIndex / 7) * 7 + 6; // Last day of current week
+        const segmentEnd = Math.min(endIndex, rowEnd);
+        const endCol = (segmentEnd % 7) + 1;
+        
+        // Create spanning indicator for this segment
+        const spanningIndicator = document.createElement('div');
+        spanningIndicator.className = `spanning-request-indicator ${request.status}`;
+        
+        // Include cost information if available
+        let displayText = `${request.team_name || 'Unknown'} - ${request.environment || 'Unknown'}`;
+        if (request.cost) {
+            displayText += ` (${request.cost})`;
+        }
+        spanningIndicator.textContent = displayText;
+        
+        let tooltip = `${request.title}\nTeam: ${request.team_name}\nEnvironment: ${request.environment}\nStatus: ${request.status}`;
+        if (request.cost) {
+            tooltip += `\nCost: ${request.cost}`;
+        }
+        spanningIndicator.title = tooltip;
+        
+        spanningIndicator.onclick = () => showRequestDetails(request);
+        
+        // Position the spanning indicator
+        spanningIndicator.style.gridColumn = `${startCol} / ${endCol + 1}`;
+        spanningIndicator.style.gridRow = startRow;
+        spanningIndicator.style.zIndex = '10';
+        
+        calendarGrid.appendChild(spanningIndicator);
+        
+        // Move to next week
+        currentIndex = segmentEnd + 1;
+    }
+}
+
+function createRequestIndicator(request) {
+    const indicator = document.createElement('div');
+    indicator.className = `request-indicator ${request.status}`;
+    
+    // Include cost information if available
+    let displayText = `${request.team_name || 'Unknown'} - ${request.environment || 'Unknown'}`;
+    if (request.cost) {
+        displayText += ` (${request.cost})`;
+    }
+    indicator.textContent = displayText;
+    
+    let tooltip = `${request.title}\nTeam: ${request.team_name}\nEnvironment: ${request.environment}\nStatus: ${request.status}`;
+    if (request.cost) {
+        tooltip += `\nCost: ${request.cost}`;
+    }
+    indicator.title = tooltip;
+    
+    indicator.onclick = () => showRequestDetails(request);
+    
+    return indicator;
 }
 
 function renderRequestsList() {
