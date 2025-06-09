@@ -400,6 +400,64 @@ body {
     text-decoration: line-through;
 }
 
+/* Spanning Request Indicators */
+.spanning-request-indicator {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 30px 2px 2px 2px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    border: 2px solid;
+    box-sizing: border-box;
+}
+
+.spanning-request-indicator:hover {
+    transform: scale(1.01);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 20;
+}
+
+.spanning-request-indicator.approved {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #22c55e;
+}
+
+.spanning-request-indicator.auto-approved {
+    background: #d1fae5;
+    color: #065f46;
+    border-color: #10b981;
+}
+
+.spanning-request-indicator.pending {
+    background: #fef3c7;
+    color: #92400e;
+    border-color: #f59e0b;
+}
+
+.spanning-request-indicator.denied {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #ef4444;
+}
+
+.spanning-request-indicator.cancelled {
+    background: #f3f4f6;
+    color: #6b7280;
+    border-color: #9ca3af;
+    opacity: 0.6;
+    text-decoration: line-through;
+}
+
 /* Requests List */
 .requests-list {
     background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
