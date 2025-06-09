@@ -15,6 +15,10 @@ on:
 permissions:
   contents: write  # Need write access to commit the updated data file
 
+concurrency:
+  group: issue-processing-${{ github.event.issue.number || 'scheduled' }}
+  cancel-in-progress: false
+
 jobs:
   update-dashboard-data:
     runs-on: ubuntu-latest
