@@ -45,98 +45,33 @@ function showError() {
 
 async function fetchIssues() {
     try {
-        const url = `${CONFIG.GITHUB_API_BASE}/repos/${CONFIG.REPO_OWNER}/${CONFIG.REPO_NAME}/issues`;
-        const params = new URLSearchParams({
-            state: 'all',
-            per_page: CONFIG.ISSUES_PER_PAGE,
-            sort: 'created',
-            direction: 'desc'
-        });
-
-        const response = await fetch(`${url}?${params}`, {
-            headers: {
-                'Accept': 'application/vnd.github.v3+json',
-                'User-Agent': 'AutoShutdown-Dashboard'
-            }
-        });
-        
-        if (!response.ok) {
-            let errorMessage = `GitHub API error: ${response.status}`;
-            if (response.status === 403) {
-                errorMessage += ' - Rate limit exceeded. Please try again later.';
-            } else if (response.status === 404) {
-                errorMessage += ' - Repository not found or not accessible.';
-            }
-            throw new Error(errorMessage);
-        }
-
-        const issues = await response.json();
-        
-        // Filter for autoshutdown exclusion requests (all time, not date-limited)
-        const filteredByType = issues.filter(issue => 
-            issue.title && 
-            (issue.title.toLowerCase().includes('auto shutdown') || 
-             issue.title.toLowerCase().includes('autoshutdown') ||
-             issue.title.toLowerCase().includes('exclusion') ||
-             issue.labels.some(label => 
-                label.name.includes('auto-approved') || 
-                label.name.includes('approved') ||
-                label.name.includes('pending')
-             ))
-        );
-
-        // Take only the last 30 matching issues (most recent first)
-        const last30Issues = filteredByType.slice(0, CONFIG.ISSUES_TO_SHOW);
-
-        // Transform issue data and fetch cost information
-        allIssues = await Promise.all(last30Issues.map(async (issue) => {
-            const transformedIssue = transformIssueData(issue);
-            transformedIssue.cost = await extractCostFromComments(issue.number);
-            return transformedIssue;
-        }));
-
-        filteredIssues = [...allIssues];
-        hideLoading();
-        
+        // Use local issues_list.json as primary data source
+        await fetchFromLocalJSON();
     } catch (error) {
-        console.error('Error fetching from GitHub API:', error);
-        // Fallback to local issues_list.json if available
-        try {
-            await fetchFromLocalJSON();
-        } catch (fallbackError) {
-            console.error('Error fetching from fallback source:', fallbackError);
-            // Last resort: create sample data to ensure dashboard works
-            console.log('Creating sample data as last resort...');
-            const sampleData = createSampleData();
-            allIssues = sampleData.map((issue, index) => ({
-                id: index + 1,
-                title: `Exclusion Request - ${issue.team_name || 'Unknown Team'}`,
-                status: 'approved',
-                created_at: new Date(issue.start_date || Date.now()),
-                updated_at: new Date(issue.start_date || Date.now()),
-                html_url: issue.issue_link || '#',
-                user: 'unknown',
-                labels: ['approved'],
-                business_area: issue.business_area,
-                team_name: issue.team_name,
-                environment: issue.environment,
-                start_date: parseDate(issue.start_date),
-                end_date: parseDate(issue.end_date),
-                justification: issue.justification,
-                change_jira_id: issue.change_jira_id,
-                stay_on_late: issue.stay_on_late,
-                body: `Sample data for demonstration`
-            }));
-            
-            filteredIssues = [...allIssues];
-            hideLoading();
-            
-            // Show a notice that we're using sample data
-            const notice = document.createElement('div');
-            notice.style.cssText = 'background: #fee2e2; border: 1px solid #ef4444; padding: 10px; margin: 10px 0; border-radius: 6px; color: #991b1b;';
-            notice.innerHTML = '⚠️ Unable to load live data. Displaying sample data for demonstration purposes.';
-            document.querySelector('.container').insertBefore(notice, document.querySelector('.summary-section'));
-        }
+        console.error('Error fetching data:', error);
+        showError();
+        
+        // Show error message instead of sample data
+        const errorContainer = document.getElementById('error');
+        errorContainer.innerHTML = `
+            <div style="text-align: center; padding: 40px;">
+                <h3 style="color: #ef4444; margin-bottom: 16px;">⚠️ Unable to Load Data</h3>
+                <p style="color: #6b7280; margin-bottom: 16px;">
+                    The dashboard data is currently unavailable. This could be due to:
+                </p>
+                <ul style="color: #6b7280; text-align: left; max-width: 400px; margin: 0 auto 16px auto;">
+                    <li>Data file not yet generated</li>
+                    <li>Network connectivity issues</li>
+                    <li>GitHub Pages deployment in progress</li>
+                </ul>
+                <p style="color: #6b7280;">
+                    Please try refreshing the page in a few moments.
+                </p>
+                <button onclick="location.reload()" style="margin-top: 16px; padding: 8px 16px; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                    Refresh Page
+                </button>
+            </div>
+        `;
     }
 }
 
@@ -167,20 +102,23 @@ async function fetchFromLocalJSON() {
         
         // Handle empty array case
         if (!Array.isArray(localIssues) || localIssues.length === 0) {
-            console.warn('Local JSON file is empty or invalid, creating sample data');
-            localIssues = createSampleData();
+            console.warn('Local JSON file is empty');
+            allIssues = [];
+            filteredIssues = [];
+            hideLoading();
+            return;
         }
         
         // Transform local JSON data to match our format
         allIssues = localIssues.map((issue, index) => ({
-            id: index + 1,
+            id: issue.issue_number || index + 1,
             title: `Exclusion Request - ${issue.team_name || 'Unknown Team'}`,
-            status: 'approved', // Assume approved since it's in the local file
-            created_at: new Date(issue.start_date || Date.now()),
-            updated_at: new Date(issue.start_date || Date.now()),
+            status: issue.status || 'approved', // Use status from data or assume approved
+            created_at: issue.created_at ? new Date(issue.created_at) : new Date(issue.start_date || Date.now()),
+            updated_at: issue.updated_at ? new Date(issue.updated_at) : new Date(issue.start_date || Date.now()),
             html_url: issue.issue_link || '#',
-            user: 'unknown',
-            labels: ['approved'],
+            user: issue.requester || 'unknown',
+            labels: issue.labels || ['approved'],
             business_area: issue.business_area,
             team_name: issue.team_name,
             environment: Array.isArray(issue.environment) ? issue.environment.join(', ') : issue.environment,
@@ -189,20 +127,15 @@ async function fetchFromLocalJSON() {
             justification: issue.justification,
             change_jira_id: issue.change_jira_id,
             stay_on_late: issue.stay_on_late,
-            body: `Backup data from local JSON file`
+            cost: issue.cost || null,
+            body: issue.body || `Request for ${issue.team_name} - ${issue.environment}`
         }));
 
-        // Take only the last 30 issues for consistency with GitHub API approach
+        // Take only the last 30 issues for consistency with previous approach
         allIssues = allIssues.slice(0, CONFIG.ISSUES_TO_SHOW);
 
         filteredIssues = [...allIssues];
         hideLoading();
-        
-        // Show a notice that we're using fallback data
-        const notice = document.createElement('div');
-        notice.style.cssText = 'background: #fef3c7; border: 1px solid #f59e0b; padding: 10px; margin: 10px 0; border-radius: 6px; color: #92400e;';
-        notice.innerHTML = '⚠️ Using local data as GitHub API is not accessible. Some features may be limited.';
-        document.querySelector('.container').insertBefore(notice, document.querySelector('.summary-section'));
         
     } catch (error) {
         console.error('Error fetching from local JSON:', error);
@@ -210,75 +143,9 @@ async function fetchFromLocalJSON() {
     }
 }
 
-function createSampleData() {
-    return [
-        {
-            business_area: "CFT",
-            team_name: "IDAM",
-            environment: "Sandbox",
-            start_date: "2024-01-15",
-            end_date: "2024-01-20",
-            justification: "Emergency maintenance required for security updates",
-            change_jira_id: "PLAT-1234",
-            stay_on_late: "No",
-            issue_link: "#"
-        },
-        {
-            business_area: "Cross-Cutting",
-            team_name: "Platform Operations",
-            environment: "AAT / Staging",
-            start_date: "2024-01-18",
-            end_date: "2024-01-25",
-            justification: "Critical security patch deployment and testing",
-            change_jira_id: "PLAT-5678",
-            stay_on_late: "Yes",
-            issue_link: "#"
-        },
-        {
-            business_area: "CFT",
-            team_name: "Evidence Management",
-            environment: "Preview / Dev",
-            start_date: "2024-01-20",
-            end_date: "2024-01-22",
-            justification: "Critical bug fix testing for production release",
-            change_jira_id: "EM-9876",
-            stay_on_late: "No",
-            issue_link: "#"
-        }
-    ];
-}
+// Sample data creation function removed - no longer needed as we don't want to show sample data
 
-async function extractCostFromComments(issueNumber) {
-    try {
-        const url = `${CONFIG.GITHUB_API_BASE}/repos/${CONFIG.REPO_OWNER}/${CONFIG.REPO_NAME}/issues/${issueNumber}/comments`;
-        const response = await fetch(url, {
-            headers: {
-                'Accept': 'application/vnd.github.v3+json',
-                'User-Agent': 'AutoShutdown-Dashboard'
-            }
-        });
-        
-        if (!response.ok) {
-            return null;
-        }
-        
-        const comments = await response.json();
-        
-        // Look for cost information in comments
-        for (const comment of comments) {
-            const body = comment.body || '';
-            const costMatch = body.match(/Total estimated cost.*?£([\d,]+\.?\d*)/i);
-            if (costMatch) {
-                return `£${costMatch[1]}`;
-            }
-        }
-        
-        return null;
-    } catch (error) {
-        console.error(`Error fetching comments for issue ${issueNumber}:`, error);
-        return null;
-    }
-}
+// Cost extraction function removed - cost data will be included in the JSON file from server-side processing
 
 function transformIssueData(issue) {
     const labels = issue.labels.map(l => l.name);
