@@ -6,6 +6,7 @@
     <title>Insights - Autoshutdown Exclusion Dashboard</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -36,8 +37,8 @@
                 <label for="business-area-filter">Business Area:</label>
                 <select id="business-area-filter">
                     <option value="">All</option>
-                    <option value="cft">CFT</option>
-                    <option value="cross-cutting">Cross-Cutting</option>
+                    <option value="CFT">CFT</option>
+                    <option value="Cross-Cutting">Cross-Cutting</option>
                 </select>
             </div>
 
@@ -85,6 +86,7 @@
             <button id="clear-filters" class="btn-secondary">Clear Filters</button>
             <button id="export-csv" class="btn-primary">Export Visible Data (CSV)</button>
             <button id="export-json" class="btn-primary">Export Visible Data (JSON)</button>
+            <button id="export-pdf" class="btn-primary">Export Visible Data (PDF)</button>
         </div>
 
         <div class="summary-section">

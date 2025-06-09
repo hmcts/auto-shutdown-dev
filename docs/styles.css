@@ -947,3 +947,25 @@ body {
     font-style: italic;
     padding: 40px 20px;
 }
+
+/* PDF Export Styles */
+@media print {
+    body {
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact;
+    }
+    
+    .summary-card, .chart-container {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+    
+    .charts-section {
+        page-break-before: auto;
+    }
+    
+    canvas {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}
