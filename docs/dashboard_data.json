@@ -1,5 +1,5 @@
 {
-  "last_updated": "2025-06-09T11:33:13.734Z",
+  "last_updated": "2025-06-09T11:39:03.282Z",
   "total_issues": 30,
   "data": [
     {
@@ -30,12 +30,11 @@
       "title": "PR-134",
       "status": "auto-approved",
       "created_at": "2025-06-09T10:57:56.000Z",
-      "updated_at": "2025-06-09T11:33:06.000Z",
+      "updated_at": "2025-06-09T11:33:19.000Z",
       "html_url": "https://github.com/hmcts/auto-shutdown-dev/issues/136",
       "user": "github-actions[bot]",
       "labels": [
         "auto-approved",
-        "Processing",
         "pull-request"
       ],
       "business_area": "CFT",
