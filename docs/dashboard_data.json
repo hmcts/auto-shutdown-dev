@@ -1,13 +1,58 @@
 {
-  "last_updated": "2025-06-09T14:13:59.466Z",
+  "last_updated": "2025-06-09T14:21:12.985Z",
   "total_issues": 50,
   "data": [
+    {
+      "id": 161,
+      "title": "Form test 10",
+      "status": "auto-approved",
+      "created_at": "2025-06-09T14:19:15.000Z",
+      "updated_at": "2025-06-09T14:20:34.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown-dev/issues/161",
+      "user": "JordanHoey96",
+      "labels": [
+        "auto-approved"
+      ],
+      "business_area": "CFT",
+      "team_name": "PlatOps",
+      "environment": "Test / Perftest",
+      "start_date": "2025-06-12T00:00:00.000Z",
+      "end_date": null,
+      "justification": "?",
+      "change_jira_id": "DTSPO-0000",
+      "stay_on_late": "?",
+      "body": "### Change or Jira reference\n\nDTSPO-0000\n\n### Justification for exclusion?\n\nTesting\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPlatOps\n\n### Environment\n\nTest / Perftest\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n12/06/2025\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nNo\n\n### Review date\n\n13/06/2025",
+      "cost": "£98.03"
+    },
+    {
+      "id": 160,
+      "title": "Form test 9",
+      "status": "auto-approved",
+      "created_at": "2025-06-09T14:13:44.000Z",
+      "updated_at": "2025-06-09T14:21:01.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown-dev/issues/160",
+      "user": "JordanHoey96",
+      "labels": [
+        "auto-approved",
+        "Processing"
+      ],
+      "business_area": "CFT",
+      "team_name": "PlatOps",
+      "environment": "Demo",
+      "start_date": "2025-06-10T00:00:00.000Z",
+      "end_date": null,
+      "justification": "?",
+      "change_jira_id": "DTSPO-0000",
+      "stay_on_late": "?",
+      "body": "### Change or Jira reference\n\nDTSPO-0000\n\n### Justification for exclusion?\n\nTesting\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPlatOps\n\n### Environment\n\nDemo\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n10/06/2025\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nNo\n\n### Review date\n\n11/06/2025",
+      "cost": "£63.6"
+    },
     {
       "id": 159,
       "title": "Form test 8",
       "status": "auto-approved",
       "created_at": "2025-06-09T14:02:28.000Z",
-      "updated_at": "2025-06-09T14:03:55.000Z",
+      "updated_at": "2025-06-09T14:21:00.000Z",
       "html_url": "https://github.com/hmcts/auto-shutdown-dev/issues/159",
       "user": "JordanHoey96",
       "labels": [
@@ -122,7 +167,7 @@
       "title": "Form test 7",
       "status": "auto-approved",
       "created_at": "2025-06-09T11:56:03.000Z",
-      "updated_at": "2025-06-09T11:56:49.000Z",
+      "updated_at": "2025-06-09T14:21:00.000Z",
       "html_url": "https://github.com/hmcts/auto-shutdown-dev/issues/144",
       "user": "JordanHoey96",
       "labels": [
@@ -145,7 +190,7 @@
       "title": "Form test 6",
       "status": "auto-approved",
       "created_at": "2025-06-09T11:48:02.000Z",
-      "updated_at": "2025-06-09T11:48:45.000Z",
+      "updated_at": "2025-06-09T14:21:00.000Z",
       "html_url": "https://github.com/hmcts/auto-shutdown-dev/issues/143",
       "user": "JordanHoey96",
       "labels": [
@@ -1071,50 +1116,6 @@
       "stay_on_late": "?",
       "body": "### Change or Jira reference\n\nDTSPO-6000\n\n### Justification for exclusion?\n\ntesting\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPlatOps\n\n### Environment\n\nSandbox\n\n### Skip shutdown start date\n\n28-11-2024\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nNo",
       "cost": "£9.67"
-    },
-    {
-      "id": 66,
-      "title": "Testing",
-      "status": "auto-approved",
-      "created_at": "2024-11-20T13:51:16.000Z",
-      "updated_at": "2024-11-20T13:52:08.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown-dev/issues/66",
-      "user": "JordanHoey96",
-      "labels": [
-        "auto-approved"
-      ],
-      "business_area": "CFT",
-      "team_name": "PlatOps",
-      "environment": "PTL",
-      "start_date": "2024-11-25T00:00:00.000Z",
-      "end_date": null,
-      "justification": "?",
-      "change_jira_id": "DTSPO-2000",
-      "stay_on_late": "?",
-      "body": "### Change or Jira reference\n\nDTSPO-2000\n\n### Justification for exclusion?\n\nTesting\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPlatOps\n\n### Environment\n\nPTL\n\n### Skip shutdown start date\n\n25-11-2024\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nNo",
-      "cost": "£0"
-    },
-    {
-      "id": 65,
-      "title": "Testing 05",
-      "status": "auto-approved",
-      "created_at": "2024-11-20T13:39:45.000Z",
-      "updated_at": "2024-11-20T13:40:55.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown-dev/issues/65",
-      "user": "JordanHoey96",
-      "labels": [
-        "auto-approved"
-      ],
-      "business_area": "CFT",
-      "team_name": "PlatOps",
-      "environment": "Sandbox",
-      "start_date": "2024-11-26T00:00:00.000Z",
-      "end_date": null,
-      "justification": "?",
-      "change_jira_id": "DTSPO-1000",
-      "stay_on_late": "?",
-      "body": "### Change or Jira reference\n\nDTSPO-1000\n\n### Justification for exclusion?\n\nTesting\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPlatOps\n\n### Environment\n\nSandbox\n\n### Skip shutdown start date\n\n26-11-2024\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nNo",
-      "cost": "£0"
     }
   ]
 }
