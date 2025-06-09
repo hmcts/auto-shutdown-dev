@@ -1,7 +1,53 @@
 {
-  "last_updated": "2025-06-09T14:37:48.644Z",
+  "last_updated": "2025-06-09T14:53:31.000Z",
   "total_issues": 50,
   "data": [
+    {
+      "id": 168,
+      "title": "PR-166",
+      "status": "auto-approved",
+      "created_at": "2025-06-09T14:44:54.000Z",
+      "updated_at": "2025-06-09T14:45:22.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown-dev/issues/168",
+      "user": "github-actions[bot]",
+      "labels": [
+        "auto-approved",
+        "pull-request"
+      ],
+      "business_area": "CFT",
+      "team_name": "PlatOps",
+      "environment": "AAT / Staging",
+      "start_date": "2025-07-09T00:00:00.000Z",
+      "end_date": "2025-07-10T00:00:00.000Z",
+      "justification": "?",
+      "change_jira_id": "PR-166",
+      "stay_on_late": "?",
+      "body": "### Change or Jira reference\n\nPR-166\n\n### Justification for exclusion?\n\nDevelopment\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPlatOps\n\n### Environment\n\nAAT / Staging\n\n### Skip shutdown start date\n\n09-07-2025\n\n### Skip shutdown end date\n\n10-07-2025\n\n### Do you need this exclusion past 11pm?\n\nNo\n",
+      "cost": null
+    },
+    {
+      "id": 167,
+      "title": "PR-166",
+      "status": "auto-approved",
+      "created_at": "2025-06-09T14:44:54.000Z",
+      "updated_at": "2025-06-09T14:45:19.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown-dev/issues/167",
+      "user": "github-actions[bot]",
+      "labels": [
+        "auto-approved",
+        "pull-request"
+      ],
+      "business_area": "CFT",
+      "team_name": "PlatOps",
+      "environment": "AAT / Staging",
+      "start_date": "2025-07-09T00:00:00.000Z",
+      "end_date": "2025-07-10T00:00:00.000Z",
+      "justification": "?",
+      "change_jira_id": "PR-166",
+      "stay_on_late": "?",
+      "body": "### Change or Jira reference\n\nPR-166\n\n### Justification for exclusion?\n\nDevelopment\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPlatOps\n\n### Environment\n\nAAT / Staging\n\n### Skip shutdown start date\n\n09-07-2025\n\n### Skip shutdown end date\n\n10-07-2025\n\n### Do you need this exclusion past 11pm?\n\nNo\n",
+      "cost": null
+    },
     {
       "id": 164,
       "title": "Form test 11",
@@ -1070,52 +1116,6 @@
       "stay_on_late": "?",
       "body": "### Change or Jira reference\n\nPR-75\n\n### Justification for exclusion?\n\nDevelopment\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPlatOps\n\n### Environment\n\nAAT / Staging\n\n### Skip shutdown start date\n\n16-04-2025\n\n### Skip shutdown end date\n\n17-04-2025\n\n### Do you need this exclusion past 11pm?\n\nNo\n",
       "cost": "£187.19"
-    },
-    {
-      "id": 74,
-      "title": "PR-73",
-      "status": "auto-approved",
-      "created_at": "2024-12-10T14:05:02.000Z",
-      "updated_at": "2024-12-10T14:44:32.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown-dev/issues/74",
-      "user": "hmcts-platform-operations",
-      "labels": [
-        "auto-approved",
-        "pull-request"
-      ],
-      "business_area": "CFT",
-      "team_name": "PlatOps",
-      "environment": "AAT / Staging",
-      "start_date": "2025-01-09T00:00:00.000Z",
-      "end_date": "2025-01-10T00:00:00.000Z",
-      "justification": "?",
-      "change_jira_id": "PR-73",
-      "stay_on_late": "?",
-      "body": "### Change or Jira reference\n\nPR-73\n\n### Justification for exclusion?\n\nDevelopment\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPlatOps\n\n### Environment\n\nAAT / Staging\n\n### Skip shutdown start date\n\n09-01-2025\n\n### Skip shutdown end date\n\n10-01-2025\n\n### Do you need this exclusion past 11pm?\n\nNo\n",
-      "cost": "£193.88"
-    },
-    {
-      "id": 72,
-      "title": "PR-71",
-      "status": "auto-approved",
-      "created_at": "2024-12-10T11:49:00.000Z",
-      "updated_at": "2024-12-10T11:49:54.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown-dev/issues/72",
-      "user": "hmcts-platform-operations",
-      "labels": [
-        "auto-approved",
-        "pull-request"
-      ],
-      "business_area": "CFT",
-      "team_name": "PlatOps",
-      "environment": "AAT / Staging",
-      "start_date": "2025-01-09T00:00:00.000Z",
-      "end_date": "2025-01-10T00:00:00.000Z",
-      "justification": "?",
-      "change_jira_id": "PR-71",
-      "stay_on_late": "?",
-      "body": "### Change or Jira reference\n\nPR-71\n\n### Justification for exclusion?\n\nDevelopment\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPlatOps\n\n### Environment\n\nAAT / Staging\n\n### Skip shutdown start date\n\n09-01-2025\n\n### Skip shutdown end date\n\n10-01-2025\n\n### Do you need this exclusion past 11pm?\n\nNo\n",
-      "cost": "£190.13"
     }
   ]
 }
