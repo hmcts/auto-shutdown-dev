@@ -411,7 +411,7 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    margin: 30px 2px 2px 2px;
+    margin: 28px 4px 2px 4px;
     height: 18px;
     display: flex;
     align-items: center;
