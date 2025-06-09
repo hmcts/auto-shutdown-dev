@@ -427,10 +427,12 @@ function setupInsightsEventListeners() {
     const clearFiltersBtn = document.getElementById('clear-filters');
     const exportCsv = document.getElementById('export-csv');
     const exportJson = document.getElementById('export-json');
+    const exportPdf = document.getElementById('export-pdf');
     
     if (clearFiltersBtn) clearFiltersBtn.addEventListener('click', clearFilters);
     if (exportCsv) exportCsv.addEventListener('click', exportCSV);
     if (exportJson) exportJson.addEventListener('click', exportJSON);
+    if (exportPdf) exportPdf.addEventListener('click', exportPDF);
 }
 
 function applyDatePreset() {
@@ -524,6 +526,193 @@ function exportCSV() {
 function exportJSON() {
     const jsonContent = JSON.stringify(filteredIssues, null, 2);
     downloadFile(jsonContent, 'autoshutdown-insights.json', 'application/json');
+}
+
+function exportPDF() {
+    // Show loading indicator
+    const originalText = document.getElementById('export-pdf').textContent;
+    document.getElementById('export-pdf').textContent = 'Generating PDF...';
+    document.getElementById('export-pdf').disabled = true;
+    
+    // Create a container for PDF content
+    const pdfContent = document.createElement('div');
+    pdfContent.style.backgroundColor = 'white';
+    pdfContent.style.padding = '20px';
+    pdfContent.style.fontFamily = 'Arial, sans-serif';
+    
+    // Add title and filter info
+    const title = document.createElement('h1');
+    title.textContent = 'Auto-shutdown Insights Report';
+    title.style.textAlign = 'center';
+    title.style.marginBottom = '20px';
+    title.style.color = '#1f2937';
+    pdfContent.appendChild(title);
+    
+    // Add filter summary
+    const filterSummary = createFilterSummary();
+    pdfContent.appendChild(filterSummary);
+    
+    // Clone and add summary section
+    const summarySection = document.querySelector('.summary-section');
+    if (summarySection) {
+        const summaryClone = summarySection.cloneNode(true);
+        const summaryTitle = document.createElement('h2');
+        summaryTitle.textContent = 'Summary Statistics';
+        summaryTitle.style.marginTop = '30px';
+        summaryTitle.style.marginBottom = '15px';
+        summaryTitle.style.color = '#1f2937';
+        pdfContent.appendChild(summaryTitle);
+        pdfContent.appendChild(summaryClone);
+    }
+    
+    // Clone and add analytics section
+    const analyticsSection = document.querySelector('.analytics-section');
+    if (analyticsSection) {
+        const analyticsClone = analyticsSection.cloneNode(true);
+        const analyticsTitle = document.createElement('h2');
+        analyticsTitle.textContent = 'Detailed Analytics';
+        analyticsTitle.style.marginTop = '30px';
+        analyticsTitle.style.marginBottom = '15px';
+        analyticsTitle.style.color = '#1f2937';
+        pdfContent.appendChild(analyticsTitle);
+        pdfContent.appendChild(analyticsClone);
+    }
+    
+    // Add charts as images
+    addChartsToPDF(pdfContent).then(() => {
+        // Configure PDF options
+        const opt = {
+            margin: 1,
+            filename: 'autoshutdown-insights-report.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { 
+                scale: 2,
+                useCORS: true,
+                backgroundColor: '#ffffff'
+            },
+            jsPDF: { 
+                unit: 'in', 
+                format: 'letter', 
+                orientation: 'portrait' 
+            }
+        };
+        
+        // Generate PDF
+        html2pdf().from(pdfContent).set(opt).save().then(() => {
+            // Reset button state
+            document.getElementById('export-pdf').textContent = originalText;
+            document.getElementById('export-pdf').disabled = false;
+        }).catch((error) => {
+            console.error('Error generating PDF:', error);
+            document.getElementById('export-pdf').textContent = originalText;
+            document.getElementById('export-pdf').disabled = false;
+            alert('Error generating PDF. Please try again.');
+        });
+    });
+}
+
+function createFilterSummary() {
+    const filterDiv = document.createElement('div');
+    filterDiv.style.marginBottom = '20px';
+    filterDiv.style.padding = '15px';
+    filterDiv.style.backgroundColor = '#f8fafc';
+    filterDiv.style.borderRadius = '8px';
+    filterDiv.style.border = '1px solid #e5e7eb';
+    
+    const filterTitle = document.createElement('h3');
+    filterTitle.textContent = 'Applied Filters';
+    filterTitle.style.marginTop = '0';
+    filterTitle.style.marginBottom = '10px';
+    filterTitle.style.color = '#1f2937';
+    filterDiv.appendChild(filterTitle);
+    
+    const filters = [
+        { id: 'date-preset-filter', label: 'Date Preset' },
+        { id: 'business-area-filter', label: 'Business Area' },
+        { id: 'team-filter', label: 'Team' },
+        { id: 'environment-filter', label: 'Environment' },
+        { id: 'status-filter', label: 'Status' },
+        { id: 'start-date-filter', label: 'Start Date' },
+        { id: 'end-date-filter', label: 'End Date' }
+    ];
+    
+    const activeFilters = filters.filter(filter => {
+        const element = document.getElementById(filter.id);
+        return element && element.value && element.value.trim() !== '';
+    });
+    
+    if (activeFilters.length > 0) {
+        activeFilters.forEach(filter => {
+            const element = document.getElementById(filter.id);
+            const filterInfo = document.createElement('p');
+            filterInfo.style.margin = '5px 0';
+            filterInfo.style.color = '#374151';
+            filterInfo.innerHTML = `<strong>${filter.label}:</strong> ${element.value}`;
+            filterDiv.appendChild(filterInfo);
+        });
+    } else {
+        const noFilters = document.createElement('p');
+        noFilters.textContent = 'No filters applied - showing all data';
+        noFilters.style.color = '#6b7280';
+        noFilters.style.fontStyle = 'italic';
+        filterDiv.appendChild(noFilters);
+    }
+    
+    const totalResults = document.createElement('p');
+    totalResults.style.marginTop = '10px';
+    totalResults.style.fontWeight = 'bold';
+    totalResults.style.color = '#1f2937';
+    totalResults.innerHTML = `<strong>Total Results:</strong> ${filteredIssues.length} requests`;
+    filterDiv.appendChild(totalResults);
+    
+    return filterDiv;
+}
+
+async function addChartsToPDF(container) {
+    const chartsTitle = document.createElement('h2');
+    chartsTitle.textContent = 'Charts & Visualizations';
+    chartsTitle.style.marginTop = '30px';
+    chartsTitle.style.marginBottom = '15px';
+    chartsTitle.style.color = '#1f2937';
+    container.appendChild(chartsTitle);
+    
+    const chartContainers = document.querySelectorAll('.chart-container');
+    const chartsGrid = document.createElement('div');
+    chartsGrid.style.display = 'grid';
+    chartsGrid.style.gridTemplateColumns = '1fr 1fr';
+    chartsGrid.style.gap = '20px';
+    chartsGrid.style.marginBottom = '20px';
+    
+    for (const chartContainer of chartContainers) {
+        const canvas = chartContainer.querySelector('canvas');
+        const title = chartContainer.querySelector('h3');
+        
+        if (canvas && title) {
+            const chartDiv = document.createElement('div');
+            chartDiv.style.textAlign = 'center';
+            chartDiv.style.padding = '15px';
+            chartDiv.style.border = '1px solid #e5e7eb';
+            chartDiv.style.borderRadius = '8px';
+            chartDiv.style.backgroundColor = '#ffffff';
+            
+            const chartTitle = document.createElement('h4');
+            chartTitle.textContent = title.textContent;
+            chartTitle.style.marginTop = '0';
+            chartTitle.style.marginBottom = '10px';
+            chartTitle.style.color = '#1f2937';
+            chartDiv.appendChild(chartTitle);
+            
+            const img = document.createElement('img');
+            img.src = canvas.toDataURL('image/png');
+            img.style.maxWidth = '100%';
+            img.style.height = 'auto';
+            chartDiv.appendChild(img);
+            
+            chartsGrid.appendChild(chartDiv);
+        }
+    }
+    
+    container.appendChild(chartsGrid);
 }
 
 function downloadFile(content, filename, mimeType) {
