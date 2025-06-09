@@ -83,8 +83,9 @@ function renderCalendar() {
         dayRequests.className = 'day-requests';
         
         const requestsForDay = filteredIssues.filter(issue => {
-            if (!issue.start_date || !issue.end_date) return false;
-            return date >= issue.start_date && date <= issue.end_date;
+            if (!issue.start_date) return false;
+            const endDate = issue.end_date || issue.start_date; // Use start_date if end_date is null
+            return date >= issue.start_date && date <= endDate;
         });
         
         requestsForDay.forEach(request => {
