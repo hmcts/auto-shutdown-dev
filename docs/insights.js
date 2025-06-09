@@ -778,9 +778,10 @@ function showEnvironmentDetails(environment, count) {
     
     requests.forEach(request => {
         details += `<div class="request-item">
-            <strong><a href="${request.html_url}" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: none;">${request.title}</a></strong> - ${request.status}
+            <strong>${request.title}</strong> - ${request.status}
             ${request.cost ? ` (${request.cost})` : ''}
             <br><small>Team: ${request.team_name || 'Unknown'}</small>
+            <br><a href="${request.html_url}" target="_blank" class="btn-primary" style="display: inline-block; text-decoration: none; padding: 6px 12px; margin-top: 5px; font-size: 12px;">View on GitHub</a>
         </div>`;
     });
     
@@ -797,9 +798,10 @@ function showStatusDetails(status, count) {
     
     requests.forEach(request => {
         details += `<div class="request-item">
-            <strong><a href="${request.html_url}" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: none;">${request.title}</a></strong>
+            <strong>${request.title}</strong>
             ${request.cost ? ` (${request.cost})` : ''}
             <br><small>Team: ${request.team_name || 'Unknown'} - Environment: ${request.environment || 'Unknown'}</small>
+            <br><a href="${request.html_url}" target="_blank" class="btn-primary" style="display: inline-block; text-decoration: none; padding: 6px 12px; margin-top: 5px; font-size: 12px;">View on GitHub</a>
         </div>`;
     });
     
@@ -822,8 +824,9 @@ function showCostRangeDetails(range, count) {
     
     requests.forEach(request => {
         details += `<div class="request-item">
-            <strong><a href="${request.html_url}" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: none;">${request.title}</a></strong> - ${request.cost}
+            <strong>${request.title}</strong> - ${request.cost}
             <br><small>Team: ${request.team_name || 'Unknown'} - Environment: ${request.environment || 'Unknown'}</small>
+            <br><a href="${request.html_url}" target="_blank" class="btn-primary" style="display: inline-block; text-decoration: none; padding: 6px 12px; margin-top: 5px; font-size: 12px;">View on GitHub</a>
         </div>`;
     });
     
