@@ -532,6 +532,15 @@ function exportJSON() {
 }
 
 function exportPDF() {
+    console.log('exportPDF called');
+    
+    // Check if html2pdf is available
+    if (typeof html2pdf === 'undefined') {
+        console.error('html2pdf library not loaded');
+        alert('PDF export library not loaded. Please refresh the page and try again.');
+        return;
+    }
+    
     // Show loading indicator
     const originalText = document.getElementById('export-pdf').textContent;
     document.getElementById('export-pdf').textContent = 'Generating PDF...';
@@ -583,6 +592,8 @@ function exportPDF() {
     
     // Add charts as images
     addChartsToPDF(pdfContent).then(() => {
+        console.log('Charts added successfully, starting PDF generation');
+        
         // Configure PDF options
         const opt = {
             margin: 1,
@@ -600,8 +611,11 @@ function exportPDF() {
             }
         };
         
+        console.log('Starting html2pdf generation');
+        
         // Generate PDF
         html2pdf().from(pdfContent).set(opt).save().then(() => {
+            console.log('PDF generation completed successfully');
             // Reset button state
             document.getElementById('export-pdf').textContent = originalText;
             document.getElementById('export-pdf').disabled = false;
@@ -611,6 +625,11 @@ function exportPDF() {
             document.getElementById('export-pdf').disabled = false;
             alert('Error generating PDF. Please try again.');
         });
+    }).catch((error) => {
+        console.error('Error adding charts to PDF:', error);
+        document.getElementById('export-pdf').textContent = originalText;
+        document.getElementById('export-pdf').disabled = false;
+        alert('Error preparing PDF content. Please try again.');
     });
 }
 
@@ -672,6 +691,8 @@ function createFilterSummary() {
 }
 
 async function addChartsToPDF(container) {
+    console.log('addChartsToPDF called');
+    
     const chartsTitle = document.createElement('h2');
     chartsTitle.textContent = 'Charts & Visualizations';
     chartsTitle.style.marginTop = '30px';
@@ -680,6 +701,8 @@ async function addChartsToPDF(container) {
     container.appendChild(chartsTitle);
     
     const chartContainers = document.querySelectorAll('.chart-container');
+    console.log('Found chart containers:', chartContainers.length);
+    
     const chartsGrid = document.createElement('div');
     chartsGrid.style.display = 'grid';
     chartsGrid.style.gridTemplateColumns = '1fr 1fr';
@@ -691,6 +714,8 @@ async function addChartsToPDF(container) {
         const title = chartContainer.querySelector('h3');
         
         if (canvas && title) {
+            console.log('Processing chart:', title.textContent);
+            
             const chartDiv = document.createElement('div');
             chartDiv.style.textAlign = 'center';
             chartDiv.style.padding = '15px';
@@ -705,17 +730,31 @@ async function addChartsToPDF(container) {
             chartTitle.style.color = '#1f2937';
             chartDiv.appendChild(chartTitle);
             
-            const img = document.createElement('img');
-            img.src = canvas.toDataURL('image/png');
-            img.style.maxWidth = '100%';
-            img.style.height = 'auto';
-            chartDiv.appendChild(img);
+            try {
+                const img = document.createElement('img');
+                img.src = canvas.toDataURL('image/png');
+                img.style.maxWidth = '100%';
+                img.style.height = 'auto';
+                chartDiv.appendChild(img);
+                console.log('Chart image created successfully');
+            } catch (error) {
+                console.error('Error creating chart image:', error);
+                // Add fallback text if chart image fails
+                const fallbackText = document.createElement('p');
+                fallbackText.textContent = 'Chart could not be exported';
+                fallbackText.style.color = '#6b7280';
+                chartDiv.appendChild(fallbackText);
+            }
             
             chartsGrid.appendChild(chartDiv);
         }
     }
     
     container.appendChild(chartsGrid);
+    console.log('Charts added to PDF container');
+    
+    // Return a resolved promise since we don't have any actual async operations
+    return Promise.resolve();
 }
 
 function downloadFile(content, filename, mimeType) {
@@ -739,7 +778,7 @@ function showEnvironmentDetails(environment, count) {
     
     requests.forEach(request => {
         details += `<div class="request-item">
-            <strong>${request.title}</strong> - ${request.status}
+            <strong><a href="${request.html_url}" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: none;">${request.title}</a></strong> - ${request.status}
             ${request.cost ? ` (${request.cost})` : ''}
             <br><small>Team: ${request.team_name || 'Unknown'}</small>
         </div>`;
@@ -758,7 +797,7 @@ function showStatusDetails(status, count) {
     
     requests.forEach(request => {
         details += `<div class="request-item">
-            <strong>${request.title}</strong>
+            <strong><a href="${request.html_url}" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: none;">${request.title}</a></strong>
             ${request.cost ? ` (${request.cost})` : ''}
             <br><small>Team: ${request.team_name || 'Unknown'} - Environment: ${request.environment || 'Unknown'}</small>
         </div>`;
@@ -783,7 +822,7 @@ function showCostRangeDetails(range, count) {
     
     requests.forEach(request => {
         details += `<div class="request-item">
-            <strong>${request.title}</strong> - ${request.cost}
+            <strong><a href="${request.html_url}" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: none;">${request.title}</a></strong> - ${request.cost}
             <br><small>Team: ${request.team_name || 'Unknown'} - Environment: ${request.environment || 'Unknown'}</small>
         </div>`;
     });
