@@ -56,6 +56,9 @@ function renderCalendar() {
         calendarGrid.appendChild(headerEl);
     });
     
+    // Track which requests we've already rendered to avoid duplicates
+    const renderedRequests = new Set();
+    
     // Create calendar days (6 weeks = 42 days)
     for (let i = 0; i < 42; i++) {
         const date = new Date(startDate);
@@ -95,30 +98,73 @@ function renderCalendar() {
         });
         
         requestsForDay.forEach(request => {
-            const indicator = document.createElement('div');
-            indicator.className = `request-indicator ${request.status}`;
+            // Check if this is a multi-day request
+            const endDate = request.end_date || request.start_date;
+            const issueStart = new Date(request.start_date.getFullYear(), request.start_date.getMonth(), request.start_date.getDate());
+            const issueEnd = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+            const isMultiDay = issueEnd > issueStart;
             
-            // Include cost information if available
-            let displayText = `${request.team_name || 'Unknown'} - ${request.environment || 'Unknown'}`;
-            if (request.cost) {
-                displayText += ` (${request.cost})`;
+            // Determine what type of indicator to show
+            const dayStart = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            const isFirstDay = dayStart.getTime() === issueStart.getTime();
+            const isLastDay = dayStart.getTime() === issueEnd.getTime();
+            
+            // For multi-day requests, only show the full entry on the first day
+            // and continuation indicators on subsequent days
+            if (isMultiDay && !isFirstDay) {
+                // Don't render the full indicator if this isn't the first day
+                const indicator = document.createElement('div');
+                indicator.className = `request-indicator continuation ${request.status}`;
+                
+                if (isLastDay) {
+                    indicator.textContent = '◀ (ends)';
+                    indicator.title = `${request.title} - ENDS TODAY\nTeam: ${request.team_name}\nEnvironment: ${request.environment}\nStatus: ${request.status}`;
+                } else {
+                    indicator.textContent = '◀ ◆ ▶';
+                    indicator.title = `${request.title} - CONTINUES\nTeam: ${request.team_name}\nEnvironment: ${request.environment}\nStatus: ${request.status}`;
+                }
+                
+                indicator.onclick = () => showRequestDetails(request);
+                dayRequests.appendChild(indicator);
+            } else {
+                // First day or single-day request - show full details
+                const indicator = document.createElement('div');
+                indicator.className = `request-indicator ${isMultiDay ? 'multi-day' : ''} ${request.status}`;
+                
+                // Include cost information if available
+                let displayText = `${request.team_name || 'Unknown'} - ${request.environment || 'Unknown'}`;
+                if (request.cost) {
+                    displayText += ` (${request.cost})`;
+                }
+                
+                // Add duration info for multi-day requests
+                if (isMultiDay) {
+                    const totalDays = Math.ceil((issueEnd - issueStart) / (1000 * 60 * 60 * 24)) + 1;
+                    displayText += ` ▶ [${totalDays}d]`;
+                }
+                
+                indicator.textContent = displayText;
+                
+                let tooltip = `${request.title}\nTeam: ${request.team_name}\nEnvironment: ${request.environment}\nStatus: ${request.status}`;
+                if (request.cost) {
+                    tooltip += `\nCost: ${request.cost}`;
+                }
+                if (isMultiDay) {
+                    tooltip += `\nDuration: ${formatDate(request.start_date)} - ${formatDate(request.end_date)}`;
+                }
+                indicator.title = tooltip;
+                
+                indicator.onclick = () => showRequestDetails(request);
+                dayRequests.appendChild(indicator);
             }
-            indicator.textContent = displayText;
-            
-            let tooltip = `${request.title}\nTeam: ${request.team_name}\nEnvironment: ${request.environment}\nStatus: ${request.status}`;
-            if (request.cost) {
-                tooltip += `\nCost: ${request.cost}`;
-            }
-            indicator.title = tooltip;
-            
-            indicator.onclick = () => showRequestDetails(request);
-            dayRequests.appendChild(indicator);
         });
         
         dayElement.appendChild(dayRequests);
         calendarGrid.appendChild(dayElement);
     }
 }
+
+
 
 function renderRequestsList() {
     const container = document.getElementById('requests-container');

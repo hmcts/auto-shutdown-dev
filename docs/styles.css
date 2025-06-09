@@ -332,6 +332,7 @@ body {
     position: relative;
     display: flex;
     flex-direction: column;
+    overflow: visible; /* Allow spanning indicators to overflow */
 }
 
 .calendar-day.other-month {
@@ -362,6 +363,21 @@ body {
     font-weight: 500;
     cursor: pointer;
     transition: opacity 0.2s ease;
+    margin-bottom: 1px;
+}
+
+.request-indicator.multi-day {
+    border-left: 4px solid currentColor;
+    font-weight: 600;
+    padding-left: 6px;
+}
+
+.request-indicator.continuation {
+    font-size: 9px;
+    text-align: center;
+    opacity: 0.8;
+    font-weight: 400;
+    border-left: 2px solid currentColor;
 }
 
 .request-indicator:hover {
