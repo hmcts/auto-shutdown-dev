@@ -58,9 +58,21 @@ async function fetchIssues() {
             direction: 'desc'
         });
 
-        const response = await fetch(`${url}?${params}`);
+        const response = await fetch(`${url}?${params}`, {
+            headers: {
+                'Accept': 'application/vnd.github.v3+json',
+                'User-Agent': 'AutoShutdown-Dashboard'
+            }
+        });
+        
         if (!response.ok) {
-            throw new Error(`GitHub API error: ${response.status}`);
+            let errorMessage = `GitHub API error: ${response.status}`;
+            if (response.status === 403) {
+                errorMessage += ' - Rate limit exceeded. Please try again later.';
+            } else if (response.status === 404) {
+                errorMessage += ' - Repository not found or not accessible.';
+            }
+            throw new Error(errorMessage);
         }
 
         const issues = await response.json();
@@ -82,7 +94,63 @@ async function fetchIssues() {
         hideLoading();
         
     } catch (error) {
-        console.error('Error fetching issues:', error);
+        console.error('Error fetching from GitHub API:', error);
+        // Fallback to local issues_list.json if available
+        try {
+            await fetchFromLocalJSON();
+        } catch (fallbackError) {
+            console.error('Error fetching from fallback source:', fallbackError);
+            throw error; // Throw original error
+        }
+    }
+}
+
+async function fetchFromLocalJSON() {
+    try {
+        const response = await fetch('../issues_list.json');
+        if (!response.ok) {
+            throw new Error('Local JSON file not accessible');
+        }
+        
+        const localIssues = await response.json();
+        
+        // Transform local JSON data to match our format
+        allIssues = localIssues.map((issue, index) => ({
+            id: index + 1,
+            title: `Exclusion Request - ${issue.team_name || 'Unknown Team'}`,
+            status: 'approved', // Assume approved since it's in the local file
+            created_at: new Date(issue.start_date || Date.now()),
+            updated_at: new Date(issue.start_date || Date.now()),
+            html_url: issue.issue_link || '#',
+            user: 'unknown',
+            labels: ['approved'],
+            business_area: issue.business_area,
+            team_name: issue.team_name,
+            environment: Array.isArray(issue.environment) ? issue.environment.join(', ') : issue.environment,
+            start_date: parseDate(issue.start_date),
+            end_date: parseDate(issue.end_date),
+            justification: issue.justification,
+            change_jira_id: issue.change_jira_id,
+            stay_on_late: issue.stay_on_late,
+            body: `Backup data from local JSON file`
+        })).filter(issue => {
+            // Only show issues from the last 30 days
+            const thirtyDaysAgo = new Date();
+            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - CONFIG.DAYS_TO_SHOW);
+            return issue.start_date && issue.start_date >= thirtyDaysAgo;
+        });
+
+        filteredIssues = [...allIssues];
+        hideLoading();
+        
+        // Show a notice that we're using fallback data
+        const notice = document.createElement('div');
+        notice.style.cssText = 'background: #fef3c7; border: 1px solid #f59e0b; padding: 10px; margin: 10px 0; border-radius: 6px; color: #92400e;';
+        notice.innerHTML = '⚠️ Using local data as GitHub API is not accessible. Some features may be limited.';
+        document.querySelector('.container').insertBefore(notice, document.querySelector('.summary-section'));
+        
+    } catch (error) {
+        console.error('Error fetching from local JSON:', error);
         throw error;
     }
 }

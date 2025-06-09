@@ -3,6 +3,18 @@ Config for Auto-Shutdown/Start of the AKS clusters
 
 In the near future, all environments excluding Production will be automatically shutdown. This action is to reduce the unnecessary infrastructure costs while the environments are not in use.
 
+## Visual Dashboard
+
+🎯 **NEW**: [View the Autoshutdown Exclusion Dashboard](https://hmcts.github.io/auto-shutdown-dev/) - A visual interface to easily view and manage shutdown exclusion requests.
+
+The dashboard provides:
+- **Calendar View**: Last 30 exclusion requests displayed in a user-friendly calendar format
+- **Advanced Filtering**: Filter by business area, team/application, environment, dates, and approval status  
+- **Real-time Updates**: Automatically reflects newly approved, denied, or cancelled requests
+- **Visual Status Indicators**: Cancelled requests are visually distinct (faded/greyed out)
+- **Export Options**: Download filtered results as CSV or JSON
+- **Summary Statistics**: Overview of active vs cancelled vs pending requests
+
 ## Default cluster shutdown hours
 
 20:00 to 06:30 everyday of the week.
