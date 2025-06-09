@@ -48,20 +48,23 @@ function populateCalendarMonthDropdown() {
     const monthFilter = document.getElementById('calendar-month-filter');
     if (!monthFilter) return;
     
-    // Generate months from December 2024 to December 2025
-    const months = [];
-    const startDate = new Date(2024, 11, 1); // December 2024 (month is 0-indexed)
-    const endDate = new Date(2025, 11, 1);   // December 2025
+    // Generate months from actual issue data
+    const monthsSet = new Set();
     
-    let currentDate = new Date(startDate);
-    while (currentDate <= endDate) {
-        const monthKey = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
-        const monthLabel = currentDate.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
-        months.push({ key: monthKey, label: monthLabel });
-        
-        // Move to next month
-        currentDate.setMonth(currentDate.getMonth() + 1);
-    }
+    allIssues.forEach(issue => {
+        if (issue.created_at) {
+            const monthKey = `${issue.created_at.getFullYear()}-${String(issue.created_at.getMonth() + 1).padStart(2, '0')}`;
+            monthsSet.add(monthKey);
+        }
+    });
+    
+    // Convert to array and create month objects with labels
+    const months = Array.from(monthsSet).map(monthKey => {
+        const [year, month] = monthKey.split('-');
+        const date = new Date(parseInt(year), parseInt(month) - 1, 1);
+        const monthLabel = date.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+        return { key: monthKey, label: monthLabel };
+    });
     
     // Sort newest first
     const sortedMonths = months.sort((a, b) => b.key.localeCompare(a.key));
