@@ -1,10 +1,7 @@
 // Dashboard Configuration
 const CONFIG = {
-    GITHUB_API_BASE: 'https://api.github.com',
-    REPO_OWNER: 'hmcts',
-    REPO_NAME: 'auto-shutdown-dev',
-    ISSUES_PER_PAGE: 100,
-    ISSUES_TO_SHOW: 30
+    // Configuration moved to backend data fetcher
+    // Frontend now only loads cached data
 };
 
 // Global state
@@ -45,189 +42,70 @@ function showError() {
 
 async function fetchIssues() {
     try {
-        const url = `${CONFIG.GITHUB_API_BASE}/repos/${CONFIG.REPO_OWNER}/${CONFIG.REPO_NAME}/issues`;
-        const params = new URLSearchParams({
-            state: 'all',
-            per_page: CONFIG.ISSUES_PER_PAGE,
-            sort: 'created',
-            direction: 'desc'
-        });
-
-        const response = await fetch(`${url}?${params}`, {
-            headers: {
-                'Accept': 'application/vnd.github.v3+json',
-                'User-Agent': 'AutoShutdown-Dashboard'
-            }
-        });
+        // Load data from cached dashboard data file
+        const response = await fetch('./dashboard_data.json');
         
         if (!response.ok) {
-            let errorMessage = `GitHub API error: ${response.status}`;
-            if (response.status === 403) {
-                errorMessage += ' - Rate limit exceeded. Please try again later.';
-            } else if (response.status === 404) {
-                errorMessage += ' - Repository not found or not accessible.';
-            }
-            throw new Error(errorMessage);
+            throw new Error(`Failed to load dashboard data: ${response.status}`);
         }
 
-        const issues = await response.json();
+        const cachedData = await response.json();
         
-        // Filter for autoshutdown exclusion requests (all time, not date-limited)
-        const filteredByType = issues.filter(issue => 
-            issue.title && 
-            (issue.title.toLowerCase().includes('auto shutdown') || 
-             issue.title.toLowerCase().includes('autoshutdown') ||
-             issue.title.toLowerCase().includes('exclusion') ||
-             issue.labels.some(label => 
-                label.name.includes('auto-approved') || 
-                label.name.includes('approved') ||
-                label.name.includes('pending')
-             ))
-        );
+        // Extract issues from cached data
+        if (!cachedData.data || !Array.isArray(cachedData.data)) {
+            throw new Error('Invalid dashboard data format');
+        }
 
-        // Take only the last 30 matching issues (most recent first)
-        const last30Issues = filteredByType.slice(0, CONFIG.ISSUES_TO_SHOW);
-
-        // Transform issue data and fetch cost information
-        allIssues = await Promise.all(last30Issues.map(async (issue) => {
-            const transformedIssue = transformIssueData(issue);
-            transformedIssue.cost = await extractCostFromComments(issue.number);
-            return transformedIssue;
+        // Parse dates that were serialized as strings
+        allIssues = cachedData.data.map(issue => ({
+            ...issue,
+            created_at: new Date(issue.created_at),
+            updated_at: new Date(issue.updated_at),
+            start_date: issue.start_date ? new Date(issue.start_date) : null,
+            end_date: issue.end_date ? new Date(issue.end_date) : null
         }));
 
         filteredIssues = [...allIssues];
         hideLoading();
         
-    } catch (error) {
-        console.error('Error fetching from GitHub API:', error);
-        // Fallback to local issues_list.json if available
-        try {
-            await fetchFromLocalJSON();
-        } catch (fallbackError) {
-            console.error('Error fetching from fallback source:', fallbackError);
-            throw error; // Throw original error
+        console.log(`Loaded ${allIssues.length} issues from cached data`);
+        if (cachedData.last_updated) {
+            console.log(`Data last updated: ${cachedData.last_updated}`);
         }
+        
+    } catch (error) {
+        console.error('Error loading dashboard data:', error);
+        showError();
+        
+        // Show user-friendly error message
+        const errorContainer = document.getElementById('error');
+        errorContainer.innerHTML = `
+            <div style="text-align: center; padding: 40px;">
+                <h3 style="color: #ef4444; margin-bottom: 16px;">⚠️ Unable to Load Dashboard Data</h3>
+                <p style="color: #6b7280; margin-bottom: 16px;">
+                    The dashboard data is currently unavailable. This could be due to:
+                </p>
+                <ul style="color: #6b7280; text-align: left; max-width: 400px; margin: 0 auto 16px auto;">
+                    <li>Data not yet generated (first-time setup)</li>
+                    <li>Network connectivity issues</li>
+                    <li>GitHub Pages deployment in progress</li>
+                </ul>
+                <p style="color: #6b7280;">
+                    The data is refreshed daily. Please try again later or contact the administrator.
+                </p>
+                <button onclick="location.reload()" style="margin-top: 16px; padding: 8px 16px; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                    Refresh Page
+                </button>
+            </div>
+        `;
     }
 }
 
-async function fetchFromLocalJSON() {
-    try {
-        const response = await fetch('../issues_list.json');
-        if (!response.ok) {
-            throw new Error('Local JSON file not accessible');
-        }
-        
-        const localIssues = await response.json();
-        
-        // Transform local JSON data to match our format
-        allIssues = localIssues.map((issue, index) => ({
-            id: index + 1,
-            title: `Exclusion Request - ${issue.team_name || 'Unknown Team'}`,
-            status: 'approved', // Assume approved since it's in the local file
-            created_at: new Date(issue.start_date || Date.now()),
-            updated_at: new Date(issue.start_date || Date.now()),
-            html_url: issue.issue_link || '#',
-            user: 'unknown',
-            labels: ['approved'],
-            business_area: issue.business_area,
-            team_name: issue.team_name,
-            environment: Array.isArray(issue.environment) ? issue.environment.join(', ') : issue.environment,
-            start_date: parseDate(issue.start_date),
-            end_date: parseDate(issue.end_date),
-            justification: issue.justification,
-            change_jira_id: issue.change_jira_id,
-            stay_on_late: issue.stay_on_late,
-            body: `Backup data from local JSON file`
-        }));
 
-        // Take only the last 30 issues for consistency with GitHub API approach
-        allIssues = allIssues.slice(0, CONFIG.ISSUES_TO_SHOW);
 
-        filteredIssues = [...allIssues];
-        hideLoading();
-        
-        // Show a notice that we're using fallback data
-        const notice = document.createElement('div');
-        notice.style.cssText = 'background: #fef3c7; border: 1px solid #f59e0b; padding: 10px; margin: 10px 0; border-radius: 6px; color: #92400e;';
-        notice.innerHTML = '⚠️ Using local data as GitHub API is not accessible. Some features may be limited.';
-        document.querySelector('.container').insertBefore(notice, document.querySelector('.summary-section'));
-        
-    } catch (error) {
-        console.error('Error fetching from local JSON:', error);
-        throw error;
-    }
-}
 
-async function extractCostFromComments(issueNumber) {
-    try {
-        const url = `${CONFIG.GITHUB_API_BASE}/repos/${CONFIG.REPO_OWNER}/${CONFIG.REPO_NAME}/issues/${issueNumber}/comments`;
-        const response = await fetch(url, {
-            headers: {
-                'Accept': 'application/vnd.github.v3+json',
-                'User-Agent': 'AutoShutdown-Dashboard'
-            }
-        });
-        
-        if (!response.ok) {
-            return null;
-        }
-        
-        const comments = await response.json();
-        
-        // Look for cost information in comments
-        for (const comment of comments) {
-            const body = comment.body || '';
-            const costMatch = body.match(/Total estimated cost.*?£([\d,]+\.?\d*)/i);
-            if (costMatch) {
-                return `£${costMatch[1]}`;
-            }
-        }
-        
-        return null;
-    } catch (error) {
-        console.error(`Error fetching comments for issue ${issueNumber}:`, error);
-        return null;
-    }
-}
 
-function transformIssueData(issue) {
-    const labels = issue.labels.map(l => l.name);
-    
-    // Determine status from labels
-    let status = 'pending';
-    if (labels.includes('auto-approved')) status = 'auto-approved';
-    else if (labels.includes('approved')) status = 'approved';
-    else if (labels.includes('denied')) status = 'denied';
-    else if (labels.includes('cancel') || issue.title.toLowerCase().includes('cancel')) status = 'cancelled';
-    
-    // Extract data from issue body (simplified parsing)
-    const body = issue.body || '';
-    const extractField = (field) => {
-        const regex = new RegExp(`${field}[:\\s]*(.*?)(?:\\n|$)`, 'i');
-        const match = body.match(regex);
-        return match ? match[1].trim() : '';
-    };
 
-    return {
-        id: issue.number,
-        title: issue.title,
-        status: status,
-        created_at: new Date(issue.created_at),
-        updated_at: new Date(issue.updated_at),
-        html_url: issue.html_url,
-        user: issue.user.login,
-        labels: labels,
-        business_area: extractField('Business area') || extractField('business_area'),
-        team_name: extractField('Team/Application Name') || extractField('team_name'),
-        environment: extractField('Environment') || extractField('environment'),
-        start_date: parseDate(extractField('Skip shutdown start date') || extractField('start_date')),
-        end_date: parseDate(extractField('Skip shutdown end date') || extractField('end_date')),
-        justification: extractField('Justification for exclusion') || extractField('justification'),
-        change_jira_id: extractField('Change or Jira reference') || extractField('change_jira_id'),
-        stay_on_late: extractField('Do you need this exclusion past 11pm') || extractField('stay_on_late'),
-        body: body
-    };
-}
 
 function parseDate(dateString) {
     if (!dateString) return null;
@@ -258,9 +136,39 @@ function parseDate(dateString) {
 }
 
 function renderDashboard() {
+    populateTeamDropdown();
     renderSummary();
     renderCalendar();
     renderRequestsList();
+}
+
+function populateTeamDropdown() {
+    const teamFilter = document.getElementById('team-filter');
+    const currentValue = teamFilter.value; // Preserve current selection
+    
+    // Get unique team names from all issues
+    const uniqueTeams = [...new Set(allIssues
+        .map(issue => issue.team_name)
+        .filter(team => team && team.trim() !== '')
+    )].sort();
+    
+    // Clear existing options except "All"
+    const allOption = teamFilter.querySelector('option[value=""]');
+    teamFilter.innerHTML = '';
+    teamFilter.appendChild(allOption);
+    
+    // Add team options
+    uniqueTeams.forEach(team => {
+        const option = document.createElement('option');
+        option.value = team;
+        option.textContent = team;
+        teamFilter.appendChild(option);
+    });
+    
+    // Restore previous selection if it still exists
+    if (currentValue && uniqueTeams.includes(currentValue)) {
+        teamFilter.value = currentValue;
+    }
 }
 
 function renderSummary() {
@@ -429,7 +337,7 @@ function renderRequestsList() {
 function setupEventListeners() {
     // Filter event listeners
     document.getElementById('business-area-filter').addEventListener('change', applyFilters);
-    document.getElementById('team-filter').addEventListener('input', applyFilters);
+    document.getElementById('team-filter').addEventListener('change', applyFilters);
     document.getElementById('environment-filter').addEventListener('change', applyFilters);
     document.getElementById('status-filter').addEventListener('change', applyFilters);
     document.getElementById('start-date-filter').addEventListener('change', applyFilters);
@@ -460,7 +368,7 @@ function setupEventListeners() {
 
 function applyFilters() {
     const businessArea = document.getElementById('business-area-filter').value.toLowerCase();
-    const teamFilter = document.getElementById('team-filter').value.toLowerCase();
+    const teamFilter = document.getElementById('team-filter').value; // Exact match, no toLowerCase needed
     const environment = document.getElementById('environment-filter').value;
     const status = document.getElementById('status-filter').value;
     const startDate = document.getElementById('start-date-filter').value;
@@ -472,8 +380,8 @@ function applyFilters() {
             return false;
         }
         
-        // Team filter
-        if (teamFilter && (!issue.team_name || !issue.team_name.toLowerCase().includes(teamFilter))) {
+        // Team filter - exact match
+        if (teamFilter && issue.team_name !== teamFilter) {
             return false;
         }
         
