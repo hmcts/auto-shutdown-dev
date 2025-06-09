@@ -129,6 +129,40 @@ function normalizeBusinessArea(businessArea) {
     return '';
 }
 
+function parseFieldFromBody(body, fieldPattern) {
+    if (!body) return null;
+    
+    const regex = new RegExp(`### ${fieldPattern}[\\s\\S]*?\\n\\n([^\\n#]+)`, 'i');
+    const match = body.match(regex);
+    
+    if (match && match[1]) {
+        const value = match[1].trim();
+        // Filter out common non-responses
+        if (value === '_No response_' || value === 'N/A' || value === '?') {
+            return null;
+        }
+        return value;
+    }
+    
+    return null;
+}
+
+function parseJustification(issue) {
+    // Try the parsed field first, fall back to parsing from body
+    if (issue.justification && issue.justification !== '?') {
+        return issue.justification;
+    }
+    return parseFieldFromBody(issue.body, 'Justification for exclusion\\?');
+}
+
+function parseStayOnLate(issue) {
+    // Try the parsed field first, fall back to parsing from body
+    if (issue.stay_on_late && issue.stay_on_late !== '?') {
+        return issue.stay_on_late;
+    }
+    return parseFieldFromBody(issue.body, 'Do you need this exclusion past 11pm\\?');
+}
+
 function showRequestDetails(request) {
     const modal = document.getElementById('request-modal');
     const modalContent = document.getElementById('modal-content');
@@ -145,14 +179,14 @@ function showRequestDetails(request) {
             <div><strong>Created:</strong> ${formatDate(request.created_at)}</div>
             <div><strong>Start Date:</strong> ${request.start_date ? formatDate(request.start_date) : 'Not specified'}</div>
             <div><strong>End Date:</strong> ${request.end_date ? formatDate(request.end_date) : 'Not specified'}</div>
-            <div><strong>Stay on Late:</strong> ${request.stay_on_late || 'Not specified'}</div>
+            <div><strong>Stay on Late:</strong> ${parseStayOnLate(request) || 'Not specified'}</div>
             <div><strong>Change/Jira ID:</strong> ${request.change_jira_id || 'Not specified'}</div>
             ${request.cost ? `<div><strong>Estimated Cost:</strong> <span style="font-weight: 600; color: #059669;">${request.cost}</span></div>` : ''}
         </div>
         <div style="margin-top: 20px;">
             <strong>Justification:</strong>
             <p style="margin-top: 5px; padding: 10px; background: #f9fafb; border-radius: 4px;">
-                ${request.justification || 'Not specified'}
+                ${parseJustification(request) || 'Not specified'}
             </p>
         </div>
         <div style="margin-top: 20px;">

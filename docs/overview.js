@@ -83,8 +83,15 @@ function renderCalendar() {
         dayRequests.className = 'day-requests';
         
         const requestsForDay = filteredIssues.filter(issue => {
-            if (!issue.start_date || !issue.end_date) return false;
-            return date >= issue.start_date && date <= issue.end_date;
+            if (!issue.start_date) return false;
+            const endDate = issue.end_date || issue.start_date; // Use start_date if end_date is null
+            
+            // Normalize dates to just compare day/month/year to avoid timezone issues
+            const dayStart = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            const issueStart = new Date(issue.start_date.getFullYear(), issue.start_date.getMonth(), issue.start_date.getDate());
+            const issueEnd = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+            
+            return dayStart >= issueStart && dayStart <= issueEnd;
         });
         
         requestsForDay.forEach(request => {
