@@ -74,8 +74,8 @@ function get_vm_costs() {
     resources
     | where type =~ 'Microsoft.Compute/virtualMachines'
     | where tags.autoShutdown == 'true'
-    | where tags.environment =~ '$env_entry'
-    | where tolower(tags.businessArea) == tolower('$business_area_entry')
+    | where tags.environment =~ '"$env_entry"'
+    | where tolower(tags.businessArea) == tolower('"$business_area_entry"')
     | project name, resourceGroup, subscriptionId, ['tags'], properties.extended.instanceView.powerState.displayStatus, properties.hardwareProfile.vmSize, properties.storageProfile.osDisk.osType, ['id']
     | where not(tags.builtFrom == 'https://github.com/hmcts/bastion')
     " --first 1000 -o json)
@@ -105,8 +105,8 @@ function get_appgateway_costs() {
     resources
     | where type =~ 'microsoft.network/applicationgateways'
     | where tags.autoShutdown == 'true'
-    | where tags.environment =~ '$env_entry'
-    | where tolower(tags.businessArea) == tolower('$business_area_entry')
+    | where tags.environment =~ '"$env_entry"'
+    | where tolower(tags.businessArea) == tolower('"$business_area_entry"')
     | project name, resourceGroup, subscriptionId, ['tags'], properties.operationalState, properties.sku.tier, properties.sku.name, properties.sku.capacity, ['id']
     " --first 1000 -o json)
 
@@ -137,8 +137,8 @@ function get_flexible_server_costs() {
     resources
     | where type =~ 'microsoft.dbforpostgresql/flexibleservers'
     | where tags.autoShutdown == 'true'
-    | where tags.environment =~ '$env_entry'
-    | where tolower(tags.businessArea) == tolower('$business_area_entry')
+    | where tags.environment =~ '"$env_entry"'
+    | where tolower(tags.businessArea) == tolower('"$business_area_entry"')
     | project name, resourceGroup, subscriptionId, ['tags'], properties.state, properties.sku.tier, properties.sku.name, ['id']
     " --first 1000 -o json)
 
@@ -170,8 +170,8 @@ function get_sqlmi_costs() {
     resources
     | where type =~ 'microsoft.sql/managedinstances'
     | where tags.autoShutdown == 'true'
-    | where tags.environment =~ '$env_entry'
-    | where tolower(tags.businessArea) == tolower('$business_area_entry')
+    | where tags.environment =~ '"$env_entry"'
+    | where tolower(tags.businessArea) == tolower('"$business_area_entry"')
     | project name, resourceGroup, subscriptionId, ['tags'], properties.state, properties.sku.tier, properties.sku.name, properties.sku.family, properties.vCores, ['id']
     " --first 1000 -o json)
 
