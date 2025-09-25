@@ -1,5 +1,5 @@
 {
-  "last_updated": "2025-09-24T06:06:47.682Z",
+  "last_updated": "2025-09-25T06:07:04.323Z",
   "total_issues": 50,
   "data": [
     {
@@ -398,7 +398,7 @@
       "change_jira_id": "CHG-0037713 - 37713",
       "stay_on_late": "?",
       "body": "### Change or Jira reference\n\nCHG-0037713 - 37713\n\n### Justification for exclusion?\n\nRelease for civils JO at 7pm on 18th August\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nCivil\n\n### Environment\n\nAAT / Staging, Preview / Dev, Demo, PTL\n\n### Do you require a Bastion host to be powered on?\n\n- [x] Bastion host required?\n\n### Skip shutdown start date\n\n18-08-2025\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n13-08-2025",
-      "cost": "£453.56"
+      "cost": null
     },
     {
       "id": 1152,
@@ -775,7 +775,7 @@
       "change_jira_id": "https://tools.hmcts.net/jira/browse/SIDM-9800",
       "stay_on_late": "?",
       "body": "### Change or Jira reference\n\nhttps://tools.hmcts.net/jira/browse/SIDM-9800\n\n### Justification for exclusion?\n\nPerformance testing\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nIDAM\n\n### Environment\n\nTest / Perftest\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n27-06-2025\n\n### Skip shutdown end date\n\n30-06-2025\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n30-09-2025",
-      "cost": "£147.04"
+      "cost": null
     },
     {
       "id": 1129,
@@ -999,7 +999,7 @@
       "change_jira_id": "CHG5021346",
       "stay_on_late": "?",
       "body": "### Change or Jira reference\n\nCHG5021346\n\n### Justification for exclusion?\n\nWe are doing an elastic search reindexing and need the pipelines working to merge in changes\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nImmigration and Asylum\n\n### Environment\n\nAAT / Staging, Preview / Dev, PTL\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n17/06/2025\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n18/06/2025",
-      "cost": "£304.99"
+      "cost": null
     },
     {
       "id": 1114,
