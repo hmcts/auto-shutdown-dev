@@ -1,7 +1,51 @@
 {
-  "last_updated": "2025-09-30T06:06:53.198Z",
+  "last_updated": "2025-10-01T06:06:44.699Z",
   "total_issues": 50,
   "data": [
+    {
+      "id": 1182,
+      "title": "IAC - Jenkins Exemption",
+      "status": "auto-approved",
+      "created_at": "2025-09-30T15:35:23.000Z",
+      "updated_at": "2025-09-30T15:36:55.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1182",
+      "user": "KleoG",
+      "labels": [
+        "auto-approved"
+      ],
+      "business_area": "CFT",
+      "team_name": "Immigration and Asylum",
+      "environment": "AAT / Staging, Preview / Dev, PTL, Demo",
+      "start_date": "2025-09-30T00:00:00.000Z",
+      "end_date": null,
+      "justification": "?",
+      "change_jira_id": "0058181",
+      "stay_on_late": "?",
+      "body": "### Change or Jira reference\n\n0058181\n\n### Justification for exclusion?\n\nWe are doing an elastic search reindexing and need the pipelines working to merge in changes\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nImmigration and Asylum\n\n### Environment\n\nAAT / Staging, Preview / Dev, PTL, Demo\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n30-09-2025\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n01-10-2025",
+      "cost": "£444.05"
+    },
+    {
+      "id": 1181,
+      "title": "Adoption - Redis Cache Persistance",
+      "status": "auto-approved",
+      "created_at": "2025-09-30T14:35:38.000Z",
+      "updated_at": "2025-09-30T14:36:54.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1181",
+      "user": "jamesrferguson1",
+      "labels": [
+        "auto-approved"
+      ],
+      "business_area": "CFT",
+      "team_name": "Adoption (adoption web)",
+      "environment": "AAT / Staging, Preview / Dev, PTL",
+      "start_date": "2025-10-02T00:00:00.000Z",
+      "end_date": null,
+      "justification": "?",
+      "change_jira_id": "ADOP-2323",
+      "stay_on_late": "?",
+      "body": "### Change or Jira reference\n\nADOP-2323\n\n### Justification for exclusion?\n\nCICD pipeline needed for out of hours release\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nAdoption (adoption web)\n\n### Environment\n\nAAT / Staging, Preview / Dev, PTL\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n02-10-2025\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n03-10-2025",
+      "cost": "£333.21"
+    },
     {
       "id": 1180,
       "title": "Nexus Telephony Production Dry Run",
@@ -1066,51 +1110,6 @@
       "stay_on_late": "?",
       "body": "### Change or Jira reference\n\nhttps://tools.hmcts.net/jira/browse/SIDM-9845\n\n### Justification for exclusion?\n\nPerformance Testing\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nIDAM\n\n### Environment\n\nTest / Perftest\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n24-06-2025\n\n### Skip shutdown end date\n\n25-06-2025\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n24-09-2025",
       "cost": "£222.22"
-    },
-    {
-      "id": 1119,
-      "title": "PR-1118",
-      "status": "auto-approved",
-      "created_at": "2025-06-24T09:31:58.000Z",
-      "updated_at": "2025-06-24T14:05:15.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1119",
-      "user": "hmcts-platform-operations",
-      "labels": [
-        "auto-approved",
-        "pull-request"
-      ],
-      "business_area": "CFT",
-      "team_name": "PlatOps",
-      "environment": "AAT / Staging",
-      "start_date": "2025-07-24T00:00:00.000Z",
-      "end_date": "2025-07-25T00:00:00.000Z",
-      "justification": "?",
-      "change_jira_id": "PR-1118",
-      "stay_on_late": "?",
-      "body": "### Change or Jira reference\n\nPR-1118\n\n### Justification for exclusion?\n\nDevelopment\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPlatOps\n\n### Environment\n\nAAT / Staging\n\n### Skip shutdown start date\n\n24-07-2025\n\n### Skip shutdown end date\n\n25-07-2025\n\n### Do you need this exclusion past 11pm?\n\nNo\n",
-      "cost": null
-    },
-    {
-      "id": 1117,
-      "title": "To keep DARTS Perf Test environment running for overnight",
-      "status": "auto-approved",
-      "created_at": "2025-06-19T16:42:14.000Z",
-      "updated_at": "2025-06-19T16:43:15.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1117",
-      "user": "hemantasharma1129",
-      "labels": [
-        "auto-approved"
-      ],
-      "business_area": "Cross-Cutting",
-      "team_name": "DARTS",
-      "environment": "Test / Perftest",
-      "start_date": "2025-06-19T00:00:00.000Z",
-      "end_date": "2025-06-21T00:00:00.000Z",
-      "justification": "?",
-      "change_jira_id": "https://tools.hmcts.net/jira/browse/DMP-5160",
-      "stay_on_late": "?",
-      "body": "### Change or Jira reference\n\nhttps://tools.hmcts.net/jira/browse/DMP-5160\n\n### Justification for exclusion?\n\nTo update huge volume of data in Perf Test, we need the DB up and running overnight\n\n### Business area\n\nCross-Cutting\n\n### Team/Application Name\n\nDARTS\n\n### Environment\n\nTest / Perftest\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n19-Jun-2025\n\n### Skip shutdown end date\n\n21-Jun-2025\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n19-Jul-2025",
-      "cost": "£124.39"
     }
   ]
 }
