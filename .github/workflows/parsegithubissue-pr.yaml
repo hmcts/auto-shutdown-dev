@@ -4,7 +4,7 @@ on:
   pull_request:
 env:
   GH_TOKEN: ${{ secrets.PLATFORM_USER_TOKEN }}
-  SLACK_WEBHOOK: ${{ secrets.secrets.SLACK_WEBHOOK }}
+  SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
   APPROVAL_STATE: "Pending Approval"
   APPROVAL_COMMENT: "Pending Approval"
   SLACK_TOKEN: ${{ secrets.AUTO_SHUTDOWN_OAUTH_TOKEN }}
