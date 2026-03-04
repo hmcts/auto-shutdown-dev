@@ -1,7 +1,73 @@
 {
-  "last_updated": "2026-03-03T07:18:59.868Z",
+  "last_updated": "2026-03-04T07:17:27.181Z",
   "total_issues": 50,
   "data": [
+    {
+      "id": 1316,
+      "title": "CHG-0120163",
+      "status": "auto-approved",
+      "created_at": "2026-03-03T20:31:49.000Z",
+      "updated_at": "2026-03-03T20:32:50.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1316",
+      "user": "RebeccaBaker",
+      "labels": [
+        "auto-approved"
+      ],
+      "business_area": "CFT",
+      "team_name": "ccd",
+      "environment": "PTL, AAT / Staging, Preview / Dev",
+      "start_date": "2026-03-03T00:00:00.000Z",
+      "end_date": null,
+      "justification": "?",
+      "change_jira_id": "CHG-0120163",
+      "stay_on_late": "?",
+      "body": "### Change or Jira reference\n\nCHG-0120163\n\n### Justification for exclusion?\n\nout of hours release\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nccd\n\n### Environment\n\nPTL, AAT / Staging, Preview / Dev\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n03-03-2026\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n03-06-2026",
+      "cost": "£409.54"
+    },
+    {
+      "id": 1315,
+      "title": "Don't shutdown perfTest",
+      "status": "auto-approved",
+      "created_at": "2026-03-03T16:58:11.000Z",
+      "updated_at": "2026-03-03T16:59:19.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1315",
+      "user": "yogeshruperaihmcts",
+      "labels": [
+        "auto-approved"
+      ],
+      "business_area": "CFT",
+      "team_name": "performance team",
+      "environment": "Test / Perftest",
+      "start_date": "2026-03-03T00:00:00.000Z",
+      "end_date": null,
+      "justification": "?",
+      "change_jira_id": "C100 Policy updates release",
+      "stay_on_late": "?",
+      "body": "### Change or Jira reference\n\nC100 Policy updates release\n\n### Justification for exclusion?\n\nTo complete c100 policy perf testing\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nperformance team\n\n### Environment\n\nTest / Perftest\n\n### Do you require a Bastion host to be powered on?\n\n- [x] Bastion host required?\n\n### Skip shutdown start date\n\n03/03/2026\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n05/03/2026",
+      "cost": "£98.74"
+    },
+    {
+      "id": 1314,
+      "title": "CHG-0120163",
+      "status": "auto-approved",
+      "created_at": "2026-03-03T09:04:48.000Z",
+      "updated_at": "2026-03-03T09:05:59.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1314",
+      "user": "RebeccaBaker",
+      "labels": [
+        "auto-approved"
+      ],
+      "business_area": "CFT",
+      "team_name": "CCD",
+      "environment": "PTL, AAT / Staging, Preview / Dev",
+      "start_date": "2026-04-03T00:00:00.000Z",
+      "end_date": null,
+      "justification": "?",
+      "change_jira_id": "CHG-0120163",
+      "stay_on_late": "?",
+      "body": "### Change or Jira reference\n\nCHG-0120163\n\n### Justification for exclusion?\n\nout of hours release\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nCCD\n\n### Environment\n\nPTL, AAT / Staging, Preview / Dev\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n03-04-2026\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n03-07-2026",
+      "cost": "£315.42"
+    },
     {
       "id": 1313,
       "title": "Don't shutdown perfTest",
@@ -1042,72 +1108,6 @@
       "stay_on_late": "?",
       "body": "### Change or Jira reference\n\nN/A\n\n### Justification for exclusion?\n\nDarts Demo keep alive for DetsToARm testing\n\n### Business area\n\nCross-Cutting\n\n### Team/Application Name\n\nDarts\n\n### Environment\n\nDemo, PTL\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n11-12-2025\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nNo\n\n### Review date\n\n12-12-2025",
       "cost": "£27.81"
-    },
-    {
-      "id": 1256,
-      "title": "IAC - Jenkins Exemption",
-      "status": "auto-approved",
-      "created_at": "2025-12-11T10:39:44.000Z",
-      "updated_at": "2025-12-11T10:40:56.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1256",
-      "user": "KleoG",
-      "labels": [
-        "auto-approved"
-      ],
-      "business_area": "CFT",
-      "team_name": "Immigration and Asylum",
-      "environment": "AAT / Staging, Preview / Dev, Sandbox, PTL",
-      "start_date": "2025-12-16T00:00:00.000Z",
-      "end_date": null,
-      "justification": "?",
-      "change_jira_id": "89916 and DIAC-1859",
-      "stay_on_late": "?",
-      "body": "### Change or Jira reference\n\n89916 and DIAC-1859\n\n### Justification for exclusion?\n\nWe are doing a ccd migration and need the pipelines to merge in changes.\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nImmigration and Asylum\n\n### Environment\n\nAAT / Staging, Preview / Dev, Sandbox, PTL\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n16-12-2025\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n17-12-2025",
-      "cost": "£378.1"
-    },
-    {
-      "id": 1255,
-      "title": "Skip auto shutdown for FPL OOH migration",
-      "status": "auto-approved",
-      "created_at": "2025-12-09T11:39:49.000Z",
-      "updated_at": "2025-12-09T11:40:55.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1255",
-      "user": "jamesrferguson1",
-      "labels": [
-        "auto-approved"
-      ],
-      "business_area": "CFT",
-      "team_name": "Family Public Law",
-      "environment": "AAT / Staging, Preview / Dev, PTL",
-      "start_date": "2025-12-10T00:00:00.000Z",
-      "end_date": null,
-      "justification": "?",
-      "change_jira_id": "HALO: 0088410",
-      "stay_on_late": "?",
-      "body": "### Change or Jira reference\n\nHALO: 0088410\n\n### Justification for exclusion?\n\nNeeded to run our pipelines during OOH migration run\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nFamily Public Law\n\n### Environment\n\nAAT / Staging, Preview / Dev, PTL\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n10-12-2025\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n11-12-2025",
-      "cost": "£328.59"
-    },
-    {
-      "id": 1254,
-      "title": "IAC - Data Migration Release for Detained Appeals",
-      "status": "auto-approved",
-      "created_at": "2025-12-09T11:35:54.000Z",
-      "updated_at": "2025-12-09T11:36:59.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1254",
-      "user": "rajeshthuraiyur",
-      "labels": [
-        "auto-approved"
-      ],
-      "business_area": "CFT",
-      "team_name": "Immigration & Asylum Chamber Service",
-      "environment": "AAT / Staging, Preview / Dev, Demo, PTL",
-      "start_date": "2025-12-09T00:00:00.000Z",
-      "end_date": null,
-      "justification": "?",
-      "change_jira_id": "DIAC-1827",
-      "stay_on_late": "?",
-      "body": "### Change or Jira reference\n\nDIAC-1827\n\n### Justification for exclusion?\n\nCCD Data migration release is planned during out of office hours\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nImmigration & Asylum Chamber Service\n\n### Environment\n\nAAT / Staging, Preview / Dev, Demo, PTL\n\n### Do you require a Bastion host to be powered on?\n\n- [x] Bastion host required?\n\n### Skip shutdown start date\n\n09-12-2025\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n10-12-2025",
-      "cost": "£424.57"
     }
   ]
 }
