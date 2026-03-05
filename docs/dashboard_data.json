@@ -1,7 +1,73 @@
 {
-  "last_updated": "2026-03-04T07:17:27.181Z",
+  "last_updated": "2026-03-05T07:19:15.483Z",
   "total_issues": 50,
   "data": [
+    {
+      "id": 1319,
+      "title": "Don't shutdown perfTest",
+      "status": "auto-approved",
+      "created_at": "2026-03-04T19:03:46.000Z",
+      "updated_at": "2026-03-04T19:04:53.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1319",
+      "user": "yogeshruperaihmcts",
+      "labels": [
+        "auto-approved"
+      ],
+      "business_area": "CFT",
+      "team_name": "performance team",
+      "environment": "Test / Perftest",
+      "start_date": "2026-03-04T00:00:00.000Z",
+      "end_date": null,
+      "justification": "?",
+      "change_jira_id": "To performance test C100 Policy Changes",
+      "stay_on_late": "?",
+      "body": "### Change or Jira reference\n\nTo performance test C100 Policy Changes\n\n### Justification for exclusion?\n\nTo performance test C100 Policy Changes\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nperformance team\n\n### Environment\n\nTest / Perftest\n\n### Do you require a Bastion host to be powered on?\n\n- [x] Bastion host required?\n\n### Skip shutdown start date\n\n04-03-2026\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n06-03-2026",
+      "cost": "£98.15"
+    },
+    {
+      "id": 1318,
+      "title": "Keep demo alive whilst DARTS SIT cycle 7 is on-going",
+      "status": "auto-approved",
+      "created_at": "2026-03-04T16:31:15.000Z",
+      "updated_at": "2026-03-04T16:37:50.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1318",
+      "user": "karen-hedges",
+      "labels": [
+        "auto-approved"
+      ],
+      "business_area": "Cross-Cutting",
+      "team_name": "Darts",
+      "environment": "Demo",
+      "start_date": "2026-03-04T00:00:00.000Z",
+      "end_date": "2026-03-26T00:00:00.000Z",
+      "justification": "?",
+      "change_jira_id": "https://tools.hmcts.net/jira/browse/DMP-5448",
+      "stay_on_late": "?",
+      "body": "### Change or Jira reference\n\nhttps://tools.hmcts.net/jira/browse/DMP-5448\n\n### Justification for exclusion?\n\nSIT cycle 7 testing\n\n### Business area\n\nCross-Cutting\n\n### Team/Application Name\n\nDarts\n\n### Environment\n\nDemo\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n04/03/2026\n\n### Skip shutdown end date\n\n26/03/2026\n\n### Do you need this exclusion past 11pm?\n\nNo\n\n### Review date\n\n26/03/2026",
+      "cost": "£1,074.69"
+    },
+    {
+      "id": 1317,
+      "title": "Keep up DARTS demo environment",
+      "status": "auto-approved",
+      "created_at": "2026-03-04T15:43:47.000Z",
+      "updated_at": "2026-03-04T16:22:28.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1317",
+      "user": "karen-hedges",
+      "labels": [
+        "auto-approved"
+      ],
+      "business_area": "Cross-Cutting",
+      "team_name": "Darts",
+      "environment": "Demo",
+      "start_date": "2026-03-04T00:00:00.000Z",
+      "end_date": "2026-05-27T00:00:00.000Z",
+      "justification": "?",
+      "change_jira_id": "https://tools.hmcts.net/jira/browse/DMP-5448",
+      "stay_on_late": "?",
+      "body": "### Change or Jira reference\n\nhttps://tools.hmcts.net/jira/browse/DMP-5448\n\n### Justification for exclusion?\n\nSIT cycle 7 testing\n\n### Business area\n\nCross-Cutting\n\n### Team/Application Name\n\nDarts\n\n### Environment\n\nDemo\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n04-03-2026\n\n### Skip shutdown end date\n\n27-05-2026\n\n### Do you need this exclusion past 11pm?\n\nNo\n\n### Review date\n\n27-05-2026",
+      "cost": "£4,030.23"
+    },
     {
       "id": 1316,
       "title": "CHG-0120163",
@@ -1041,73 +1107,6 @@
       "stay_on_late": "?",
       "body": "### Change or Jira reference\n\nPR-1261\n\n### Justification for exclusion?\n\nDevelopment\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPlatOps\n\n### Environment\n\nAAT / Staging\n\n### Skip shutdown start date\n\n18-01-2026\n\n### Skip shutdown end date\n\n19-01-2026\n\n### Do you need this exclusion past 11pm?\n\nNo\n",
       "cost": "£230.21"
-    },
-    {
-      "id": 1260,
-      "title": "PR-1259",
-      "status": "auto-approved",
-      "created_at": "2025-12-12T14:10:42.000Z",
-      "updated_at": "2025-12-16T10:30:16.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1260",
-      "user": "hmcts-platform-operations",
-      "labels": [
-        "auto-approved",
-        "pull-request"
-      ],
-      "business_area": "CFT",
-      "team_name": "PlatOps",
-      "environment": "AAT / Staging",
-      "start_date": "2026-01-15T00:00:00.000Z",
-      "end_date": "2026-01-16T00:00:00.000Z",
-      "justification": "?",
-      "change_jira_id": "PR-1259",
-      "stay_on_late": "?",
-      "body": "### Change or Jira reference\n\nPR-1259\n\n### Justification for exclusion?\n\nDevelopment\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPlatOps\n\n### Environment\n\nAAT / Staging\n\n### Skip shutdown start date\n\n15-01-2026\n\n### Skip shutdown end date\n\n16-01-2026\n\n### Do you need this exclusion past 11pm?\n\nNo\n",
-      "cost": "£589.96"
-    },
-    {
-      "id": 1258,
-      "title": "Keep Darts Alive for performance testing",
-      "status": "auto-approved",
-      "created_at": "2025-12-11T20:19:03.000Z",
-      "updated_at": "2025-12-11T20:20:12.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1258",
-      "user": "Ben-Edwards-cgi",
-      "labels": [
-        "auto-approved"
-      ],
-      "business_area": "Cross-Cutting",
-      "team_name": "Darts",
-      "environment": "PTL, Test / Perftest",
-      "start_date": "2025-12-11T00:00:00.000Z",
-      "end_date": "2025-12-15T00:00:00.000Z",
-      "justification": "?",
-      "change_jira_id": "N/A",
-      "stay_on_late": "?",
-      "body": "### Change or Jira reference\n\nN/A\n\n### Justification for exclusion?\n\nKeep Darts Alive for performance testing\n\n### Business area\n\nCross-Cutting\n\n### Team/Application Name\n\nDarts\n\n### Environment\n\nPTL, Test / Perftest\n\n### Do you require a Bastion host to be powered on?\n\n- [x] Bastion host required?\n\n### Skip shutdown start date\n\n11-12-2025\n\n### Skip shutdown end date\n\n15-12-2025\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n12-12-2025",
-      "cost": "£61.63"
-    },
-    {
-      "id": 1257,
-      "title": "Darts Demo keep alive for DetsToARm testing",
-      "status": "auto-approved",
-      "created_at": "2025-12-11T18:36:11.000Z",
-      "updated_at": "2025-12-11T18:37:14.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1257",
-      "user": "Ben-Edwards-cgi",
-      "labels": [
-        "auto-approved"
-      ],
-      "business_area": "Cross-Cutting",
-      "team_name": "Darts",
-      "environment": "Demo, PTL",
-      "start_date": "2025-12-11T00:00:00.000Z",
-      "end_date": null,
-      "justification": "?",
-      "change_jira_id": "N/A",
-      "stay_on_late": "?",
-      "body": "### Change or Jira reference\n\nN/A\n\n### Justification for exclusion?\n\nDarts Demo keep alive for DetsToARm testing\n\n### Business area\n\nCross-Cutting\n\n### Team/Application Name\n\nDarts\n\n### Environment\n\nDemo, PTL\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n11-12-2025\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nNo\n\n### Review date\n\n12-12-2025",
-      "cost": "£27.81"
     }
   ]
 }
