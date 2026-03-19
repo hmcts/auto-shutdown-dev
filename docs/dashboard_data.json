@@ -1,7 +1,30 @@
 {
-  "last_updated": "2026-03-18T07:24:52.943Z",
+  "last_updated": "2026-03-19T07:22:36.488Z",
   "total_issues": 50,
   "data": [
+    {
+      "id": 1335,
+      "title": "Keep the test env up - ❌",
+      "status": "cancelled",
+      "created_at": "2026-03-18T10:41:04.000Z",
+      "updated_at": "2026-03-18T10:42:52.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1335",
+      "user": "karen-hedges",
+      "labels": [
+        "auto-approved",
+        "cancel"
+      ],
+      "business_area": "Cross-Cutting",
+      "team_name": "Darts",
+      "environment": "Test / Perftest",
+      "start_date": "2026-03-18T00:00:00.000Z",
+      "end_date": "2026-03-18T00:00:00.000Z",
+      "justification": "?",
+      "change_jira_id": "https://tools.hmcts.net/jira/browse/DMP-5423",
+      "stay_on_late": "?",
+      "body": "### Change or Jira reference\n\nhttps://tools.hmcts.net/jira/browse/DMP-5423\n\n### Justification for exclusion?\n\nTesting\n\n### Business area\n\nCross-Cutting\n\n### Team/Application Name\n\nDarts\n\n### Environment\n\nTest / Perftest\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n18-03-2026\n\n### Skip shutdown end date\n\n18-03-2026\n\n### Do you need this exclusion past 11pm?\n\nNo\n\n### Review date\n\n18-03-2026",
+      "cost": "£23.01"
+    },
     {
       "id": 1334,
       "title": "Skip AAT shutdown",
@@ -70,14 +93,15 @@
     },
     {
       "id": 1331,
-      "title": "Enable DARTS demo to stay up until completion of SIT cycle 7",
-      "status": "auto-approved",
+      "title": "Enable DARTS demo to stay up until completion of SIT cycle 7 - ❌",
+      "status": "cancelled",
       "created_at": "2026-03-17T10:09:46.000Z",
-      "updated_at": "2026-03-17T10:10:46.000Z",
+      "updated_at": "2026-03-18T10:31:59.000Z",
       "html_url": "https://github.com/hmcts/auto-shutdown/issues/1331",
       "user": "karen-hedges",
       "labels": [
-        "auto-approved"
+        "auto-approved",
+        "cancel"
       ],
       "business_area": "Cross-Cutting",
       "team_name": "Darts",
@@ -180,14 +204,15 @@
     },
     {
       "id": 1326,
-      "title": "Enable DARTS demo to be up until 27th May",
-      "status": "auto-approved",
+      "title": "Enable DARTS demo to be up until 27th May - ❌",
+      "status": "cancelled",
       "created_at": "2026-03-11T12:17:20.000Z",
-      "updated_at": "2026-03-11T12:25:14.000Z",
+      "updated_at": "2026-03-18T10:28:03.000Z",
       "html_url": "https://github.com/hmcts/auto-shutdown/issues/1326",
       "user": "karen-hedges",
       "labels": [
-        "auto-approved"
+        "auto-approved",
+        "cancel"
       ],
       "business_area": "Cross-Cutting",
       "team_name": "Darts",
@@ -334,14 +359,15 @@
     },
     {
       "id": 1318,
-      "title": "Keep demo alive whilst DARTS SIT cycle 7 is on-going",
-      "status": "auto-approved",
+      "title": "Keep demo alive whilst DARTS SIT cycle 7 is on-going - ❌",
+      "status": "cancelled",
       "created_at": "2026-03-04T16:31:15.000Z",
-      "updated_at": "2026-03-04T16:37:50.000Z",
+      "updated_at": "2026-03-18T10:31:44.000Z",
       "html_url": "https://github.com/hmcts/auto-shutdown/issues/1318",
       "user": "karen-hedges",
       "labels": [
-        "auto-approved"
+        "auto-approved",
+        "cancel"
       ],
       "business_area": "Cross-Cutting",
       "team_name": "Darts",
@@ -356,14 +382,15 @@
     },
     {
       "id": 1317,
-      "title": "Keep up DARTS demo environment",
-      "status": "auto-approved",
+      "title": "Keep up DARTS demo environment - ❌",
+      "status": "cancelled",
       "created_at": "2026-03-04T15:43:47.000Z",
-      "updated_at": "2026-03-04T16:22:28.000Z",
+      "updated_at": "2026-03-18T11:11:33.000Z",
       "html_url": "https://github.com/hmcts/auto-shutdown/issues/1317",
       "user": "karen-hedges",
       "labels": [
-        "auto-approved"
+        "auto-approved",
+        "cancel"
       ],
       "business_area": "Cross-Cutting",
       "team_name": "Darts",
@@ -1081,28 +1108,6 @@
       "stay_on_late": "?",
       "body": "### Change or Jira reference\n\nhttps://tools.hmcts.net/jira/browse/SSCSCI-2334\n\n### Justification for exclusion?\n\nNeed env to test an Urgent P2 fix\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nSSCS\n\n### Environment\n\nDemo\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n22-01-2026\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n22-04-2026",
       "cost": "£68.71"
-    },
-    {
-      "id": 1282,
-      "title": "Skip auto shutdown for QA",
-      "status": "auto-approved",
-      "created_at": "2026-01-21T10:43:07.000Z",
-      "updated_at": "2026-01-21T10:44:04.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1282",
-      "user": "MarcusHMCTS",
-      "labels": [
-        "auto-approved"
-      ],
-      "business_area": "CFT",
-      "team_name": "Probate",
-      "environment": "AAT / Staging",
-      "start_date": "2026-01-21T00:00:00.000Z",
-      "end_date": null,
-      "justification": "?",
-      "change_jira_id": "DTSPB-4864",
-      "stay_on_late": "?",
-      "body": "### Change or Jira reference\n\nDTSPB-4864\n\n### Justification for exclusion?\n\nNeed to test the automation test script for Playwright migration and the test in local are failing due to slowness in AAT during business hours\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nProbate\n\n### Environment\n\nAAT / Staging\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n21-01-2026\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n21-04-2026",
-      "cost": "£96.08"
     }
   ]
 }
