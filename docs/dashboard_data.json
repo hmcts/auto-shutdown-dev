@@ -1,7 +1,51 @@
 {
-  "last_updated": "2026-03-23T07:30:59.718Z",
+  "last_updated": "2026-03-24T07:25:00.246Z",
   "total_issues": 50,
   "data": [
+    {
+      "id": 1338,
+      "title": "ES upgrade",
+      "status": "auto-approved",
+      "created_at": "2026-03-23T13:36:49.000Z",
+      "updated_at": "2026-03-23T13:37:59.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1338",
+      "user": "rapolaskaseliscgi",
+      "labels": [
+        "auto-approved"
+      ],
+      "business_area": "CFT",
+      "team_name": "CCD",
+      "environment": "PTL, Preview / Dev, AAT / Staging",
+      "start_date": "2026-03-27T00:00:00.000Z",
+      "end_date": "2026-03-30T00:00:00.000Z",
+      "justification": "?",
+      "change_jira_id": "https://tools.hmcts.net/jira/browse/CCD-6367",
+      "stay_on_late": "?",
+      "body": "### Change or Jira reference\n\nhttps://tools.hmcts.net/jira/browse/CCD-6367\n\n### Justification for exclusion?\n\nES7 is out of support and needs to be upgraded to version 9\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nCCD\n\n### Environment\n\nPTL, Preview / Dev, AAT / Staging\n\n### Do you require a Bastion host to be powered on?\n\n- [x] Bastion host required?\n\n### Skip shutdown start date\n\n27-03-2026\n\n### Skip shutdown end date\n\n30-03-2026\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n30-06-2026",
+      "cost": "£3,425.44"
+    },
+    {
+      "id": 1337,
+      "title": "PRL C100 Policy Changes Release Implementation Plan",
+      "status": "auto-approved",
+      "created_at": "2026-03-23T13:19:52.000Z",
+      "updated_at": "2026-03-23T13:21:02.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1337",
+      "user": "SomeshRA",
+      "labels": [
+        "auto-approved"
+      ],
+      "business_area": "CFT",
+      "team_name": "Private Law",
+      "environment": "AAT / Staging, PTL, Preview / Dev",
+      "start_date": "2026-03-25T00:00:00.000Z",
+      "end_date": null,
+      "justification": "?",
+      "change_jira_id": "https://tools.hmcts.net/confluence/spaces/RSTR/pages/1953046950/2nd+Attempt+PRL+C100+Policy+Changes+Release+Implementation+Plan",
+      "stay_on_late": "?",
+      "body": "### Change or Jira reference\n\nhttps://tools.hmcts.net/confluence/spaces/RSTR/pages/1953046950/2nd+Attempt+PRL+C100+Policy+Changes+Release+Implementation+Plan\n\n### Justification for exclusion?\n\nOut of hours deployment\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPrivate Law\n\n### Environment\n\nAAT / Staging, PTL, Preview / Dev\n\n### Do you require a Bastion host to be powered on?\n\n- [x] Bastion host required?\n\n### Skip shutdown start date\n\n25 Mar 2026 \n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n26 Mar 2026",
+      "cost": "£343.88"
+    },
     {
       "id": 1336,
       "title": "Enable DARTS demo to be available for longer for SIT cycle 7",
@@ -1064,50 +1108,6 @@
       "stay_on_late": "?",
       "body": "### Change or Jira reference\n\nhttps://tools.hmcts.net/jira/browse/DMP-5382\n\n### Justification for exclusion?\n\nTo performance test an automated task, darts test environment must be kept running overnight\n\n### Business area\n\nCross-Cutting\n\n### Team/Application Name\n\nDARTS\n\n### Environment\n\nTest / Perftest\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n27-01-2026\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n30-01-2026",
       "cost": "£24.82"
-    },
-    {
-      "id": 1285,
-      "title": "EXUI - Out of hours release - passport.js",
-      "status": "auto-approved",
-      "created_at": "2026-01-26T15:10:47.000Z",
-      "updated_at": "2026-01-26T15:12:21.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1285",
-      "user": "gregs-cgi",
-      "labels": [
-        "auto-approved"
-      ],
-      "business_area": "CFT",
-      "team_name": "Expert UI",
-      "environment": "Preview / Dev, AAT / Staging, PTL, Sandbox, Test / Perftest, ITHC, Demo",
-      "start_date": "2026-02-04T00:00:00.000Z",
-      "end_date": null,
-      "justification": "?",
-      "change_jira_id": "EXUI-3660",
-      "stay_on_late": "?",
-      "body": "### Change or Jira reference\n\nEXUI-3660\n\n### Justification for exclusion?\n\nOut of hours deployment involving shuttering live systems\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nExpert UI\n\n### Environment\n\nPreview / Dev, AAT / Staging, PTL, Sandbox, Test / Perftest, ITHC, Demo\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n04-02-2026\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n05-02-2026",
-      "cost": "£599.61"
-    },
-    {
-      "id": 1284,
-      "title": "Darts SIT Cycle 7 Testing",
-      "status": "auto-approved",
-      "created_at": "2026-01-23T14:23:04.000Z",
-      "updated_at": "2026-01-23T14:24:17.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1284",
-      "user": "npv0",
-      "labels": [
-        "auto-approved"
-      ],
-      "business_area": "Cross-Cutting",
-      "team_name": "Darts",
-      "environment": "Demo",
-      "start_date": "2026-01-26T00:00:00.000Z",
-      "end_date": "2026-01-28T00:00:00.000Z",
-      "justification": "?",
-      "change_jira_id": "DMP-5379",
-      "stay_on_late": "?",
-      "body": "### Change or Jira reference\n\nDMP-5379\n\n### Justification for exclusion?\n\nTesting\n\n### Business area\n\nCross-Cutting\n\n### Team/Application Name\n\nDarts\n\n### Environment\n\nDemo\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n26-01-2026\n\n### Skip shutdown end date\n\n28-01-2026\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n26-01-2026",
-      "cost": "£63.97"
     }
   ]
 }
