@@ -2,7 +2,7 @@ name: aks-auto-start
 on:
   workflow_dispatch:
   schedule:
-    - cron: "11 5 * * 1-5" # Every weekday at 6:11am BST // bucket 2
+    - cron: "*/10 14-16 * * *" # Every 10 minutes between 2 and 4pm
 
 env:
   DEV_ENV: ${{ secrets.DEV_ENV }}
