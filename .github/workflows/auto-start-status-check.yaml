@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   pull_request:
   schedule:
-    - cron: "*/10 14-16 * * *" # Every 10 minutes between 2 and 4pm
+    - cron: "30 7 * * 1-5" # Every weekday at 7:30am GMT
 env:
   GH_TOKEN: ${{ secrets.PLATFORM_USER_TOKEN }}
   SLACK_TOKEN: ${{ secrets.AUTO_SHUTDOWN_STATUS_APP_OAUTH_TOKEN }}
