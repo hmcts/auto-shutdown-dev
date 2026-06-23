@@ -18,10 +18,10 @@ jobs:
     steps:
       #Allows workflow to access repo
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: '0'
-          token: ${{ env.GH_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.head_ref }}
 
       - name: Get the date
@@ -35,7 +35,7 @@ jobs:
       - uses: JasonEtco/create-an-issue@v2
         id: create-issue
         env:
-          GITHUB_TOKEN: ${{ env.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TITLE: 'PR-${{ github.event.pull_request.number }}'
           JUSTIFICATION: 'Development'
           PULL_REQUEST: 'PR-${{ github.event.pull_request.number }}'
