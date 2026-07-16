@@ -1,7 +1,51 @@
 {
-  "last_updated": "2026-07-15T06:41:13.251Z",
+  "last_updated": "2026-07-16T06:45:36.336Z",
   "total_issues": 50,
   "data": [
+    {
+      "id": 1452,
+      "title": "Skip env shutdown",
+      "status": "auto-approved",
+      "created_at": "2026-07-15T17:41:33.000Z",
+      "updated_at": "2026-07-15T17:42:27.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1452",
+      "user": "DLCullen1",
+      "labels": [
+        "auto-approved"
+      ],
+      "business_area": "CFT",
+      "team_name": "Performance",
+      "environment": "Test / Perftest",
+      "start_date": "2026-07-15T00:00:00.000Z",
+      "end_date": null,
+      "justification": "for exclusion?",
+      "change_jira_id": "n/a",
+      "stay_on_late": "",
+      "body": "### Change or Jira reference\n\nn/a\n\n### Justification for exclusion?\n\nPerformance test preparation\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPerformance\n\n### Environment\n\nTest / Perftest\n\n### Do you require a Bastion host to be powered on?\n\n- [x] Bastion host required?\n\n### Skip shutdown start date\n\n15-07-2026\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nNo\n\n### Review date\n\n15-01-2027",
+      "cost": "£109.57"
+    },
+    {
+      "id": 1451,
+      "title": "Skip auto shutdown of AAT for SSCS Confidentiality field update release",
+      "status": "auto-approved",
+      "created_at": "2026-07-15T14:01:14.000Z",
+      "updated_at": "2026-07-15T14:02:25.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1451",
+      "user": "nitinprabhuhmcts",
+      "labels": [
+        "auto-approved"
+      ],
+      "business_area": "CFT",
+      "team_name": "SSCS",
+      "environment": "AAT / Staging",
+      "start_date": "2026-07-15T00:00:00.000Z",
+      "end_date": "2026-07-15T00:00:00.000Z",
+      "justification": "for exclusion?",
+      "change_jira_id": "https://tools.hmcts.net/jira/browse/SSCSCI-2664",
+      "stay_on_late": "",
+      "body": "### Change or Jira reference\n\nhttps://tools.hmcts.net/jira/browse/SSCSCI-2664\n\n### Justification for exclusion?\n\nNeed to merge PR which runs functional tests on AAT hence need AAT up and running\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nSSCS\n\n### Environment\n\nAAT / Staging\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n15-07-2026\n\n### Skip shutdown end date\n\n15-07-2026\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n16-07-2026",
+      "cost": "£100.64"
+    },
     {
       "id": 1450,
       "title": "Prevent Shutdown for ES Testing",
@@ -1065,50 +1109,6 @@
       "stay_on_late": "",
       "body": "### Change or Jira reference\n\nFor devs teams to work over the weekend\n\n### Justification for exclusion?\n\nFor possessions Dev/ QA to work over the weekend.\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPossessions\n\n### Environment\n\nAAT / Staging, PTL, Preview / Dev\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n08-05-2026\n\n### Skip shutdown end date\n\n10-05-2026\n\n### Do you need this exclusion past 11pm?\n\nNo\n\n### Review date\n\n08-05-2026",
       "cost": "£3,381.97"
-    },
-    {
-      "id": 1388,
-      "title": "Upgrading DB storage on am-role-assignment-service-postgres-db-v15-prod which is currently at 89.9%",
-      "status": "auto-approved",
-      "created_at": "2026-05-05T11:31:25.000Z",
-      "updated_at": "2026-05-05T11:32:31.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1388",
-      "user": "SabinaHMCTS",
-      "labels": [
-        "auto-approved"
-      ],
-      "business_area": "CFT",
-      "team_name": "Access Management",
-      "environment": "PTL, Preview / Dev, Test / Perftest, AAT / Staging, Demo, ITHC, Sandbox",
-      "start_date": "2026-05-06T00:00:00.000Z",
-      "end_date": null,
-      "justification": "for exclusion?",
-      "change_jira_id": "https://tools.hmcts.net/jira/browse/DTSAM-1268",
-      "stay_on_late": "",
-      "body": "### Change or Jira reference\n\nhttps://tools.hmcts.net/jira/browse/DTSAM-1268\n\n### Justification for exclusion?\n\na release is to be carried out today in prod to upgrade the db storage and we will need to run jenkins pipelines on prod and lower environments from 8pm to 11 pm\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nAccess Management\n\n### Environment\n\nPTL, Preview / Dev, Test / Perftest, AAT / Staging, Demo, ITHC, Sandbox\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n06-05-2026\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nNo\n\n### Review date\n\n08-05-2029",
-      "cost": "£554.2"
-    },
-    {
-      "id": 1387,
-      "title": "Keep demo open for PRL BAT",
-      "status": "auto-approved",
-      "created_at": "2026-05-01T15:05:40.000Z",
-      "updated_at": "2026-05-01T15:06:51.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1387",
-      "user": "sanjayparekh-hmcts",
-      "labels": [
-        "auto-approved"
-      ],
-      "business_area": "CFT",
-      "team_name": "Private Law",
-      "environment": "Demo",
-      "start_date": "2026-05-01T00:00:00.000Z",
-      "end_date": "2026-05-02T00:00:00.000Z",
-      "justification": "for exclusion?",
-      "change_jira_id": "https://tools.hmcts.net/jira/browse/FPVTL-2429",
-      "stay_on_late": "",
-      "body": "### Change or Jira reference\n\nhttps://tools.hmcts.net/jira/browse/FPVTL-2429\n\n### Justification for exclusion?\n\nTesting for pre-NRO deliverable\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPrivate Law\n\n### Environment\n\nDemo\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n01-05-2026\n\n### Skip shutdown end date\n\n02-05-2026\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n05-05-2026",
-      "cost": "£428.26"
     }
   ]
 }
