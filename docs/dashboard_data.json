@@ -1,7 +1,51 @@
 {
-  "last_updated": "2026-07-29T06:50:32.353Z",
+  "last_updated": "2026-07-30T06:49:14.229Z",
   "total_issues": 50,
   "data": [
+    {
+      "id": 1469,
+      "title": "Court fines release auto shutdown exemption",
+      "status": "auto-approved",
+      "created_at": "2026-07-29T13:43:49.000Z",
+      "updated_at": "2026-07-29T13:44:44.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1469",
+      "user": "DavidTMann",
+      "labels": [
+        "auto-approved"
+      ],
+      "business_area": "Cross-Cutting",
+      "team_name": "Court fines",
+      "environment": "AAT / Staging, Preview / Dev, PTL",
+      "start_date": "2026-08-07T00:00:00.000Z",
+      "end_date": "2026-08-09T00:00:00.000Z",
+      "justification": "for exclusion?",
+      "change_jira_id": "https://hmcts.haloitsm.com/ticket?id=193322&showalltickettypes=1",
+      "stay_on_late": "",
+      "body": "### Change or Jira reference\n\nhttps://hmcts.haloitsm.com/ticket?id=193322&showalltickettypes=1\n\n### Justification for exclusion?\n\nCourt Fines Barclaycard release is taking place out of hours during the planned maintenance window from Friday 31 July 2026 into Saturday 1 August 2026. Pre-prod environments need to remain available overnight for release preparation, deployment verification, smoke testing and rollback validation if required.\n\n### Business area\n\nCross-Cutting\n\n### Team/Application Name\n\nCourt fines\n\n### Environment\n\nAAT / Staging, Preview / Dev, PTL\n\n### Do you require a Bastion host to be powered on?\n\n- [x] Bastion host required?\n\n### Skip shutdown start date\n\n07-08-2026\n\n### Skip shutdown end date\n\n09-08-2026\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n10-08-2026",
+      "cost": "£427.98"
+    },
+    {
+      "id": 1468,
+      "title": "Disable auto-shutdown for FPLA for OOH migration",
+      "status": "auto-approved",
+      "created_at": "2026-07-29T10:00:49.000Z",
+      "updated_at": "2026-07-29T10:01:39.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1468",
+      "user": "chak-shing-lo-justice",
+      "labels": [
+        "auto-approved"
+      ],
+      "business_area": "CFT",
+      "team_name": "Family Public Law",
+      "environment": "AAT / Staging, Preview / Dev, PTL",
+      "start_date": "2026-07-30T00:00:00.000Z",
+      "end_date": "2026-07-30T00:00:00.000Z",
+      "justification": "for exclusion?",
+      "change_jira_id": "https://tools.hmcts.net/jira/browse/DFPL-2421",
+      "stay_on_late": "",
+      "body": "### Change or Jira reference\n\nhttps://tools.hmcts.net/jira/browse/DFPL-2421\n\n### Justification for exclusion?\n\nNeeded so that we can run our pipelines in the event of rollback OOH\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nFamily Public Law\n\n### Environment\n\nAAT / Staging, Preview / Dev, PTL\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n30-07-2026\n\n### Skip shutdown end date\n\n30-07-2026\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n30-07-2026",
+      "cost": "£353.7"
+    },
     {
       "id": 1466,
       "title": "Prevent Shutdown for ES Testing",
@@ -114,14 +158,15 @@
     },
     {
       "id": 1461,
-      "title": "Court fines release auto shutdown exemption",
-      "status": "auto-approved",
+      "title": "Court fines release auto shutdown exemption - ❌",
+      "status": "cancelled",
       "created_at": "2026-07-24T09:32:04.000Z",
-      "updated_at": "2026-07-24T09:32:49.000Z",
+      "updated_at": "2026-07-29T13:40:51.000Z",
       "html_url": "https://github.com/hmcts/auto-shutdown/issues/1461",
       "user": "DavidTMann",
       "labels": [
-        "auto-approved"
+        "auto-approved",
+        "cancel"
       ],
       "business_area": "Cross-Cutting",
       "team_name": "Court fines",
@@ -1064,50 +1109,6 @@
       "stay_on_late": "",
       "body": "### Change or Jira reference\n\nhttps://tools.hmcts.net/jira/browse/DMP-5448\n\n### Justification for exclusion?\n\nSIT Cycle7\n\n### Business area\n\nCross-Cutting\n\n### Team/Application Name\n\nDARTS\n\n### Environment\n\nAAT / Staging\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n15-05-2026\n\n### Skip shutdown end date\n\n15-05-2026\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n31-05-2026",
       "cost": "£24.82"
-    },
-    {
-      "id": 1404,
-      "title": "Keep Darts Demo Active",
-      "status": "auto-approved",
-      "created_at": "2026-05-15T05:57:24.000Z",
-      "updated_at": "2026-05-15T05:58:13.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1404",
-      "user": "KyriLouca",
-      "labels": [
-        "auto-approved"
-      ],
-      "business_area": "Cross-Cutting",
-      "team_name": "DARTS",
-      "environment": "Demo",
-      "start_date": "2026-05-15T00:00:00.000Z",
-      "end_date": "2026-05-15T00:00:00.000Z",
-      "justification": "for exclusion?",
-      "change_jira_id": "https://tools.hmcts.net/jira/browse/DMP-5448",
-      "stay_on_late": "",
-      "body": "### Change or Jira reference\n\nhttps://tools.hmcts.net/jira/browse/DMP-5448\n\n### Justification for exclusion?\n\nSIT Cycle 7\n\n### Business area\n\nCross-Cutting\n\n### Team/Application Name\n\nDARTS\n\n### Environment\n\nDemo\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n15/05/2026\n\n### Skip shutdown end date\n\n15/05/2026\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n31-05-2026",
-      "cost": "£24.24"
-    },
-    {
-      "id": 1403,
-      "title": "Don't shutdown perfTest",
-      "status": "auto-approved",
-      "created_at": "2026-05-14T18:07:27.000Z",
-      "updated_at": "2026-05-14T18:08:17.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1403",
-      "user": "yogeshruperaihmcts",
-      "labels": [
-        "auto-approved"
-      ],
-      "business_area": "CFT",
-      "team_name": "performance team",
-      "environment": "Test / Perftest",
-      "start_date": "2026-05-14T00:00:00.000Z",
-      "end_date": null,
-      "justification": "for exclusion?",
-      "change_jira_id": "Performance testing for PRL Pathfinder release",
-      "stay_on_late": "",
-      "body": "### Change or Jira reference\n\nPerformance testing for PRL Pathfinder release\n\n### Justification for exclusion?\n\nPerformance testing for PRL Pathfinder release\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nperformance team\n\n### Environment\n\nTest / Perftest\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n14-05-2026\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nNo\n\n### Review date\n\n16-05-2026",
-      "cost": "£100.74"
     }
   ]
 }
