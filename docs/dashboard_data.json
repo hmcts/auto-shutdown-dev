@@ -1,7 +1,95 @@
 {
-  "last_updated": "2026-09-29T06:05:28.189Z",
+  "last_updated": "2026-09-30T06:05:18.864Z",
   "total_issues": 50,
   "data": [
+    {
+      "id": 1542,
+      "title": "Keep Jenkins Up",
+      "status": "auto-approved",
+      "created_at": "2026-09-29T19:19:51.000Z",
+      "updated_at": "2026-09-29T19:20:33.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1542",
+      "user": "stephenokeefe",
+      "labels": [
+        "auto-approved"
+      ],
+      "business_area": "Cross-Cutting",
+      "team_name": "DARTS",
+      "environment": "PTL",
+      "start_date": "2026-09-29T00:00:00.000Z",
+      "end_date": null,
+      "justification": "for exclusion?",
+      "change_jira_id": "218530",
+      "stay_on_late": "",
+      "body": "### Change or Jira reference\n\n218530\n\n### Justification for exclusion?\n\nKeep Jenkins up for release. Build taking longer than expected\n\n### Business area\n\nCross-Cutting\n\n### Team/Application Name\n\nDARTS\n\n### Environment\n\nPTL\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n29-09-2026\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nNo\n\n### Review date\n\n30-09-2026",
+      "cost": "£1.16"
+    },
+    {
+      "id": 1541,
+      "title": "Keep up darts staging",
+      "status": "auto-approved",
+      "created_at": "2026-09-29T18:14:15.000Z",
+      "updated_at": "2026-09-29T18:15:07.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1541",
+      "user": "stephenokeefe",
+      "labels": [
+        "auto-approved"
+      ],
+      "business_area": "Cross-Cutting",
+      "team_name": "DARTS",
+      "environment": "Preview / Dev",
+      "start_date": "2026-09-29T00:00:00.000Z",
+      "end_date": null,
+      "justification": "for exclusion?",
+      "change_jira_id": "CHG-0218530",
+      "stay_on_late": "",
+      "body": "### Change or Jira reference\n\nCHG-0218530\n\n### Justification for exclusion?\n\nPRS taking longer than usual to build for release\n\n### Business area\n\nCross-Cutting\n\n### Team/Application Name\n\nDARTS\n\n### Environment\n\nPreview / Dev\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n29-09-2026\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nNo\n\n### Review date\n\n30-09-2026",
+      "cost": "£17.14"
+    },
+    {
+      "id": 1540,
+      "title": "Keep up darts staging",
+      "status": "auto-approved",
+      "created_at": "2026-09-29T18:12:52.000Z",
+      "updated_at": "2026-09-29T18:13:48.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1540",
+      "user": "stephenokeefe",
+      "labels": [
+        "auto-approved"
+      ],
+      "business_area": "Cross-Cutting",
+      "team_name": "DARTS",
+      "environment": "AAT / Staging",
+      "start_date": "2026-09-29T00:00:00.000Z",
+      "end_date": null,
+      "justification": "for exclusion?",
+      "change_jira_id": "CHG-0218530",
+      "stay_on_late": "",
+      "body": "### Change or Jira reference\n\nCHG-0218530\n\n### Justification for exclusion?\n\nPR taking longer to build than usual for a release\n\n### Business area\n\nCross-Cutting\n\n### Team/Application Name\n\nDARTS\n\n### Environment\n\nAAT / Staging\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n29-09-2026\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nNo\n\n### Review date\n\n30-09-2026",
+      "cost": "£24.66"
+    },
+    {
+      "id": 1539,
+      "title": "Skip shutdown in AAT to allow first run of PRM schedules to complete.",
+      "status": "auto-approved",
+      "created_at": "2026-09-29T16:28:10.000Z",
+      "updated_at": "2026-09-29T16:29:04.000Z",
+      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1539",
+      "user": "mattnayler",
+      "labels": [
+        "auto-approved"
+      ],
+      "business_area": "CFT",
+      "team_name": "RD/AM / ORM/PRM",
+      "environment": "AAT / Staging",
+      "start_date": "2026-09-29T00:00:00.000Z",
+      "end_date": null,
+      "justification": "for exclusion?",
+      "change_jira_id": "DTSAM-1448",
+      "stay_on_late": "",
+      "body": "### Change or Jira reference\n\nDTSAM-1448\n\n### Justification for exclusion?\n\nFirst run of PRM Schedule 6 will take time to complete\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nRD/AM / ORM/PRM\n\n### Environment\n\nAAT / Staging\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n29-09-2026\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nNo\n\n### Review date\n\n29-09-2026",
+      "cost": "£96.06"
+    },
     {
       "id": 1538,
       "title": "Keep the perftest env up for tonight",
@@ -1018,94 +1106,6 @@
       "stay_on_late": "",
       "body": "### Change or Jira reference\n\nn/a\n\n### Justification for exclusion?\n\nTest environment maintenance\n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPerformance\n\n### Environment\n\nTest / Perftest\n\n### Do you require a Bastion host to be powered on?\n\n- [x] Bastion host required?\n\n### Skip shutdown start date\n\n13-08-2026\n\n### Skip shutdown end date\n\n_No response_\n\n### Do you need this exclusion past 11pm?\n\nYes\n\n### Review date\n\n13-08-2027",
       "cost": "£103.62"
-    },
-    {
-      "id": 1486,
-      "title": "https://tools.hmcts.net/jira/browse/HDPI-7321",
-      "status": "auto-approved",
-      "created_at": "2026-08-11T16:31:47.000Z",
-      "updated_at": "2026-08-11T16:32:34.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1486",
-      "user": "arun-hmcts",
-      "labels": [
-        "auto-approved"
-      ],
-      "business_area": "CFT",
-      "team_name": "Possession Claim Service",
-      "environment": "Test / Perftest",
-      "start_date": "2026-08-11T00:00:00.000Z",
-      "end_date": "2026-08-15T00:00:00.000Z",
-      "justification": "for exclusion?",
-      "change_jira_id": "https://tools.hmcts.net/jira/browse/HDPI-7321",
-      "stay_on_late": "",
-      "body": "### Change or Jira reference\n\nhttps://tools.hmcts.net/jira/browse/HDPI-7321\n\n### Justification for exclusion?\n\nPCS is going live on 15th Sep , QA need the access to perf test \n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPossession Claim Service\n\n### Environment\n\nTest / Perftest\n\n### Do you require a Bastion host to be powered on?\n\n- [x] Bastion host required?\n\n### Skip shutdown start date\n\n11-08-2026\n\n### Skip shutdown end date\n\n15-08-2026\n\n### Do you need this exclusion past 11pm?\n\nNo\n\n### Review date\n\n15-08-2026",
-      "cost": "£953.53"
-    },
-    {
-      "id": 1485,
-      "title": "https://tools.hmcts.net/jira/browse/HDPI-7321",
-      "status": "auto-approved",
-      "created_at": "2026-08-11T16:26:50.000Z",
-      "updated_at": "2026-08-11T16:28:14.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1485",
-      "user": "arun-hmcts",
-      "labels": [
-        "auto-approved"
-      ],
-      "business_area": "CFT",
-      "team_name": "Possession Claim Service",
-      "environment": "PTL",
-      "start_date": "2026-08-11T00:00:00.000Z",
-      "end_date": "2026-08-15T00:00:00.000Z",
-      "justification": "for exclusion?",
-      "change_jira_id": "https://tools.hmcts.net/jira/browse/HDPI-7321",
-      "stay_on_late": "",
-      "body": "### Change or Jira reference\n\nhttps://tools.hmcts.net/jira/browse/HDPI-7321\n\n### Justification for exclusion?\n\nPossession Claim Service going live on 15 the , we need server up and running \n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPossession Claim Service\n\n### Environment\n\nPTL\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n11-08-2026\n\n### Skip shutdown end date\n\n15-08-2026\n\n### Do you need this exclusion past 11pm?\n\nNo\n\n### Review date\n\n15-08-2026",
-      "cost": "£54.79"
-    },
-    {
-      "id": 1484,
-      "title": "https://tools.hmcts.net/jira/browse/HDPI-7321",
-      "status": "auto-approved",
-      "created_at": "2026-08-11T16:24:06.000Z",
-      "updated_at": "2026-08-11T16:24:52.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1484",
-      "user": "arun-hmcts",
-      "labels": [
-        "auto-approved"
-      ],
-      "business_area": "CFT",
-      "team_name": "Possession Claim Service",
-      "environment": "Preview / Dev",
-      "start_date": "2026-08-11T00:00:00.000Z",
-      "end_date": "2026-08-15T00:00:00.000Z",
-      "justification": "for exclusion?",
-      "change_jira_id": "Group Access Functionality",
-      "stay_on_late": "",
-      "body": "### Change or Jira reference\n\nGroup Access Functionality\n\n### Justification for exclusion?\n\nPossession Claim service going live on 15th Sep , so we need to have server up and running \n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPossession Claim Service\n\n### Environment\n\nPreview / Dev\n\n### Do you require a Bastion host to be powered on?\n\n- [x] Bastion host required?\n\n### Skip shutdown start date\n\n11-08-2026\n\n### Skip shutdown end date\n\n15-08-2026\n\n### Do you need this exclusion past 11pm?\n\nNo\n\n### Review date\n\n15-08-2026",
-      "cost": "£1,628.56"
-    },
-    {
-      "id": 1483,
-      "title": "HDPI-7321",
-      "status": "auto-approved",
-      "created_at": "2026-08-11T16:18:49.000Z",
-      "updated_at": "2026-08-11T16:19:38.000Z",
-      "html_url": "https://github.com/hmcts/auto-shutdown/issues/1483",
-      "user": "arun-hmcts",
-      "labels": [
-        "auto-approved"
-      ],
-      "business_area": "CFT",
-      "team_name": "PCS",
-      "environment": "AAT / Staging",
-      "start_date": "2026-08-11T00:00:00.000Z",
-      "end_date": "2026-08-15T00:00:00.000Z",
-      "justification": "for exclusion?",
-      "change_jira_id": "Group Access",
-      "stay_on_late": "",
-      "body": "### Change or Jira reference\n\nGroup Access \n\n### Justification for exclusion?\n\nPossession Claim  application is going live in September 15 . QA team is working overtime as agreed with business \n\n### Business area\n\nCFT\n\n### Team/Application Name\n\nPCS\n\n### Environment\n\nAAT / Staging\n\n### Do you require a Bastion host to be powered on?\n\n- [ ] Bastion host required?\n\n### Skip shutdown start date\n\n11/08/2026\n\n### Skip shutdown end date\n\n15/08/2026\n\n### Do you need this exclusion past 11pm?\n\nNo\n\n### Review date\n\n15/08/2026",
-      "cost": "£894.18"
     }
   ]
 }
